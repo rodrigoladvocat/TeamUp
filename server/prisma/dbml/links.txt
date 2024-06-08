@@ -1,0 +1,2 @@
+[Tutorial] https://notiz.dev/blog/prisma-dbml-generator
+[Convert .dbml into .png] https://dbdiagram.io/d

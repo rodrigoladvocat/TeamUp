@@ -1,0 +1,75 @@
+//// ------------------------------------------------------
+//// THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+//// ------------------------------------------------------
+
+Table User {
+  id Int [pk, increment]
+  name String [not null]
+  email String [unique, not null]
+  password String [not null]
+  imgUrl String [not null]
+  isManager Boolean [not null]
+  role String [not null]
+  age Int [not null]
+  telephone String [not null]
+  cpf String [not null]
+  street String [not null]
+  number String [not null]
+  city String [not null]
+  state String [not null]
+  zipCode String [not null]
+  evaluationsGiven Evaluation [not null]
+  evaluationsReceived Evaluation [not null]
+}
+
+Table Cycle {
+  id Int [pk, increment]
+  initialDate DateTime [not null]
+  finalDate DateTime [not null]
+  lastUpdated DateTime [not null]
+  evaluations Evaluation [not null]
+}
+
+Table Criteria {
+  id Int [pk, increment]
+  ownershipMentalityGrade Int [not null]
+  ownershipMentalityComment String [not null]
+  learningAgilityGrade Int [not null]
+  learningAgilityComment String [not null]
+  resilienceAdversityGrade Int [not null]
+  resilienceAdversityComment String [not null]
+  teamworkGrade Int [not null]
+  teamworkComment String [not null]
+  outOfTheBoxThinkingBehavioralGrade Int [not null]
+  outOfTheBoxThinkingBehavioralComment String [not null]
+  deliveringQualityGrade Int [not null]
+  deliveringQualityComment String [not null]
+  meetingDeadlinesGrade Int [not null]
+  meetingDeadlinesComment String [not null]
+  doingMoreWithLessGrade Int [not null]
+  doingMoreWithLessComment String [not null]
+  outOfTheBoxThinkingExecutionGrade Int [not null]
+  outOfTheBoxThinkingExecutionComment String [not null]
+  evaluations Evaluation [not null]
+}
+
+Table Evaluation {
+  id Int [pk, increment]
+  evaluatorUserId Int [not null]
+  evaluatedUserId Int [not null]
+  cycleId Int [not null]
+  criteriaId Int [not null]
+  isTuning Boolean [not null]
+  evaluator User [not null]
+  evaluated User [not null]
+  cycle Cycle [not null]
+  criteria Criteria [not null]
+}
+
+Ref: Evaluation.evaluatorUserId > User.id
+
+Ref: Evaluation.evaluatedUserId > User.id
+
+Ref: Evaluation.cycleId > Cycle.id
+
+Ref: Evaluation.criteriaId > Criteria.id

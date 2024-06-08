@@ -1,0 +1,118 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+generator dbml {
+  provider = "prisma-dbml-generator"
+}
+
+model User {
+  id        Int     @default(autoincrement()) @id
+  name      String
+  email     String  @unique
+  password  String
+  imgUrl    String
+  isManager Boolean
+  role      String
+  age       Int
+  telephone String
+  cpf       String
+  street    String
+  number    String
+  city      String
+  state     String
+  zipCode   String
+  evaluationsGiven    Evaluation[] @relation("Evaluator")
+  evaluationsReceived Evaluation[] @relation("Evaluated")
+}
+
+model Cycle {
+  id          Int     @default(autoincrement()) @id
+  initialDate DateTime
+  finalDate   DateTime
+  lastUpdated DateTime
+
+  evaluations Evaluation[]
+}
+
+model Criteria {
+  id          Int     @default(autoincrement()) @id
+
+  ownershipMentalityGrade   Int
+  ownershipMentalityComment String
+  
+  learningAgilityGrade   Int
+  learningAgilityComment String
+
+  resilienceAdversityGrade   Int
+  resilienceAdversityComment String
+
+  teamworkGrade   Int
+  teamworkComment String
+
+  outOfTheBoxThinkingBehavioralGrade   Int
+  outOfTheBoxThinkingBehavioralComment String
+
+  deliveringQualityGrade   Int
+  deliveringQualityComment String
+
+  meetingDeadlinesGrade   Int
+  meetingDeadlinesComment String
+
+  doingMoreWithLessGrade   Int
+  doingMoreWithLessComment String
+
+  outOfTheBoxThinkingExecutionGrade   Int
+  outOfTheBoxThinkingExecutionComment String
+
+  evaluations Evaluation[]
+}
+
+// Simplificando essas 3 tabelas (SelfEvaluation, OthersEvaluation, Tuning) em 
+// apenas 1 (Evaluation) para reduzir a complexidade na hora de chamar o prisma.
+// model SelfEvaluation {
+//   id          Int     @default(autoincrement()) @id
+//   userId      Int
+//   cycleId     Int
+//   criteriaId  Int
+// }
+
+// model OthersEvaluation {
+//   id          Int     @default(autoincrement()) @id
+//   evaluatorUserId Int
+//   evaluatedUserId Int
+//   cycleId     Int
+//   criteriaId  Int
+// }
+// model Tuning {
+//   id                 Int @default(autoincrement()) @id
+//   collaboratorUserId Int
+//   managerUserId      Int
+//   cycleId            Int
+//   criteriaId         Int
+// }
+
+model Evaluation {
+  id              Int @default(autoincrement()) @id
+  evaluatorUserId Int
+  evaluatedUserId Int
+  cycleId         Int
+  criteriaId      Int
+  isTuning        Boolean // TODO: Ver se precisa dessa coluna; pode ser que verificar "evaluatorUserId é id de um manager ?" seja suficiente
+  
+  evaluator User @relation("Evaluator", fields: [evaluatorUserId], references: [id])
+  evaluated User @relation("Evaluated", fields: [evaluatedUserId], references: [id])
+  cycle     Cycle @relation(fields: [cycleId], references: [id])
+  criteria  Criteria @relation(fields: [criteriaId], references: [id])
+}
