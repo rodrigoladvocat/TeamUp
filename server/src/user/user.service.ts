@@ -25,7 +25,13 @@ export class UserService {
 
     async getByRole(role: string) {
         return await this.prisma.user.findMany({
-            where: { role } 
+            where: { role }
+        });
+    }
+
+    async getCollaborators() {
+        return await this.prisma.user.findMany({
+            where: { role: {not: "Manager"}}
         });
     }
 }
