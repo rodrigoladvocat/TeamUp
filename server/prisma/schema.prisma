@@ -27,14 +27,20 @@ model User {
   role      String
   age       Int
   telephone String
-  cpf       String
+  cpf       String  @unique
   street    String
   number    String
   city      String
   state     String
   zipCode   String
-  evaluationsGiven    Evaluation[] @relation("Evaluator")
-  evaluationsReceived Evaluation[] @relation("Evaluated")
+
+  selfEvaluation       SelfEvaluation[] 
+
+  othersEvaluator      OthersEvaluation [] @relation("OthersEvaluator")
+  othersEvaluated      OthersEvaluation [] @relation("OthersEvaluated")
+
+  tuningEvaluator      Tuning []           @relation("TuningEvaluator")
+  tuningEvaluated      Tuning []           @relation("TuningEvaluated")
 }
 
 model Cycle {
@@ -43,15 +49,19 @@ model Cycle {
   finalDate   DateTime
   lastUpdated DateTime
 
-  evaluations Evaluation[]
+  selfEvaluation    SelfEvaluation[]
+  othersEvaluation  OthersEvaluation []
+  tuning            Tuning []
 }
 
-model Criteria {
+model SelfEvaluation {
   id          Int     @default(autoincrement()) @id
+  userId      Int
+  cycleId     Int
 
   ownershipMentalityGrade   Int
   ownershipMentalityComment String
-  
+
   learningAgilityGrade   Int
   learningAgilityComment String
 
@@ -76,43 +86,31 @@ model Criteria {
   outOfTheBoxThinkingExecutionGrade   Int
   outOfTheBoxThinkingExecutionComment String
 
-  evaluations Evaluation[]
+  user      User @relation(fields: [userId], references: [id])
+  cycle     Cycle @relation(fields: [cycleId], references: [id]) 
 }
 
-// Simplificando essas 3 tabelas (SelfEvaluation, OthersEvaluation, Tuning) em 
-// apenas 1 (Evaluation) para reduzir a complexidade na hora de chamar o prisma.
-// model SelfEvaluation {
-//   id          Int     @default(autoincrement()) @id
-//   userId      Int
-//   cycleId     Int
-//   criteriaId  Int
-// }
-
-// model OthersEvaluation {
-//   id          Int     @default(autoincrement()) @id
-//   evaluatorUserId Int
-//   evaluatedUserId Int
-//   cycleId     Int
-//   criteriaId  Int
-// }
-// model Tuning {
-//   id                 Int @default(autoincrement()) @id
-//   collaboratorUserId Int
-//   managerUserId      Int
-//   cycleId            Int
-//   criteriaId         Int
-// }
-
-model Evaluation {
-  id              Int @default(autoincrement()) @id
+model OthersEvaluation {
+  id          Int     @default(autoincrement()) @id
   evaluatorUserId Int
   evaluatedUserId Int
-  cycleId         Int
-  criteriaId      Int
-  isTuning        Boolean // TODO: Ver se precisa dessa coluna; pode ser que verificar "evaluatorUserId é id de um manager ?" seja suficiente
+  cycleId     Int
   
-  evaluator User @relation("Evaluator", fields: [evaluatorUserId], references: [id])
-  evaluated User @relation("Evaluated", fields: [evaluatedUserId], references: [id])
+  grade       Int
+  comment     String
+
+  evaluator User @relation("OthersEvaluator", fields: [evaluatorUserId], references: [id])
+  evaluated User @relation("OthersEvaluated", fields: [evaluatedUserId], references: [id])
   cycle     Cycle @relation(fields: [cycleId], references: [id])
-  criteria  Criteria @relation(fields: [criteriaId], references: [id])
+}
+
+model Tuning {
+  id                 Int @default(autoincrement()) @id
+  collaboratorUserId Int
+  managerUserId      Int
+  cycleId            Int
+
+  evaluator User @relation("TuningEvaluator", fields: [managerUserId], references: [id])
+  evaluated User @relation("TuningEvaluated", fields: [collaboratorUserId], references: [id])
+  cycle     Cycle @relation(fields: [cycleId], references: [id])
 }

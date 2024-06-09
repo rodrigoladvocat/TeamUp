@@ -12,14 +12,17 @@ Table User {
   role String [not null]
   age Int [not null]
   telephone String [not null]
-  cpf String [not null]
+  cpf String [unique, not null]
   street String [not null]
   number String [not null]
   city String [not null]
   state String [not null]
   zipCode String [not null]
-  evaluationsGiven Evaluation [not null]
-  evaluationsReceived Evaluation [not null]
+  selfEvaluation SelfEvaluation [not null]
+  othersEvaluator OthersEvaluation [not null]
+  othersEvaluated OthersEvaluation [not null]
+  tuningEvaluator Tuning [not null]
+  tuningEvaluated Tuning [not null]
 }
 
 Table Cycle {
@@ -27,11 +30,15 @@ Table Cycle {
   initialDate DateTime [not null]
   finalDate DateTime [not null]
   lastUpdated DateTime [not null]
-  evaluations Evaluation [not null]
+  selfEvaluation SelfEvaluation [not null]
+  othersEvaluation OthersEvaluation [not null]
+  tuning Tuning [not null]
 }
 
-Table Criteria {
+Table SelfEvaluation {
   id Int [pk, increment]
+  userId Int [not null]
+  cycleId Int [not null]
   ownershipMentalityGrade Int [not null]
   ownershipMentalityComment String [not null]
   learningAgilityGrade Int [not null]
@@ -50,26 +57,44 @@ Table Criteria {
   doingMoreWithLessComment String [not null]
   outOfTheBoxThinkingExecutionGrade Int [not null]
   outOfTheBoxThinkingExecutionComment String [not null]
-  evaluations Evaluation [not null]
+  user User [not null]
+  cycle Cycle [not null]
 }
 
-Table Evaluation {
+Table OthersEvaluation {
   id Int [pk, increment]
   evaluatorUserId Int [not null]
   evaluatedUserId Int [not null]
   cycleId Int [not null]
-  criteriaId Int [not null]
-  isTuning Boolean [not null]
+  grade Int [not null]
+  comment String [not null]
   evaluator User [not null]
   evaluated User [not null]
   cycle Cycle [not null]
-  criteria Criteria [not null]
 }
 
-Ref: Evaluation.evaluatorUserId > User.id
+Table Tuning {
+  id Int [pk, increment]
+  collaboratorUserId Int [not null]
+  managerUserId Int [not null]
+  cycleId Int [not null]
+  evaluator User [not null]
+  evaluated User [not null]
+  cycle Cycle [not null]
+}
 
-Ref: Evaluation.evaluatedUserId > User.id
+Ref: SelfEvaluation.userId > User.id
 
-Ref: Evaluation.cycleId > Cycle.id
+Ref: SelfEvaluation.cycleId > Cycle.id
 
-Ref: Evaluation.criteriaId > Criteria.id
+Ref: OthersEvaluation.evaluatorUserId > User.id
+
+Ref: OthersEvaluation.evaluatedUserId > User.id
+
+Ref: OthersEvaluation.cycleId > Cycle.id
+
+Ref: Tuning.managerUserId > User.id
+
+Ref: Tuning.collaboratorUserId > User.id
+
+Ref: Tuning.cycleId > Cycle.id
