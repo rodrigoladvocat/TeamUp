@@ -34,5 +34,7 @@ export class UserController {
     async getCollaborators(): Promise<User[]> {
         return await this.userService.getCollaborators();
     }
+
+    // are there any features left?
 }
 

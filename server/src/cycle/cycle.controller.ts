@@ -28,4 +28,6 @@ export class CycleController {
     async getById(@Param('id') id: number): Promise<Cycle> {
         return await this.cycleService.getById(+id);
     }
+
+    // are there any features left?
 }
