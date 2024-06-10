@@ -22,6 +22,13 @@ export class SelfevaluationService {
         });
     }
 
+    async findByUser(userId: number): Promise<SelfEvaluation[]> {
+            return await this.prisma.selfEvaluation.findMany({
+                where: {userId: userId},
+                include: { user:{select: {name: true } }, cycle: true }
+            });
+        }
+
     async createSelfEvaluation(data: SelfevaluationDto): Promise<SelfEvaluation> {
         return await this.prisma.selfEvaluation.create({
             data

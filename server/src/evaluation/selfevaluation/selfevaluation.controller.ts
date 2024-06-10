@@ -20,6 +20,11 @@ export class SelfevaluationController {
         return this.selfevaluationService.findUserEval(+userId, +cycleId);
     }
 
+    @Get(':userId')
+    async findByUser(@Param('userId') userId: number): Promise<SelfEvaluation[]> {
+        return this.selfevaluationService.findByUser(+userId);
+    }
+
     @Post()
     async createSelfEvaluation(@Body() data: SelfevaluationDto): Promise<SelfEvaluation> {
         return this.selfevaluationService.createSelfEvaluation(data);

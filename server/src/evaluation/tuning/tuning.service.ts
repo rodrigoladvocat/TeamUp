@@ -21,4 +21,12 @@ export class TuningService {
             include: { evaluator: true, evaluated: true }
         });
     }
+
+    // get tunings by user through all cycles
+    async findByUser(userId: number) {
+        return await this.prisma.tuning.findMany({
+            where: { collaboratorUserId: userId },
+            include: { evaluator: true, evaluated: true }
+        });
+    }
 }

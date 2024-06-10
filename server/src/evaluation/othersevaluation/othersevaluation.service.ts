@@ -43,4 +43,13 @@ export class OthersevaluationService {
             data
         });
     }
+
+    async findByUserInCycle(evaluatedUserId: number, cycleId: number){
+        return await this.prisma.othersEvaluation.findMany({
+            where: {
+                evaluatedUserId: evaluatedUserId,
+                cycleId: cycleId
+            }
+        });
+    }
 }

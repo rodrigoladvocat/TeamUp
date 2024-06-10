@@ -18,9 +18,16 @@ export class OthersevaluationController {
         return await this.othersevaluationService.findAll();
     }
 
+    // finding by the evaluatorId + evaluatedId + cycleId => getting a specific evaluation
     @Get(':evaluatorId/:evaluatedId/:cycleId')
     async findEvaluation(@Param('evaluatorId') evaluatorId: number, @Param('evaluatedId') evaluatedId: number, @Param('cycleId') cycleId: number){
         return await this.othersevaluationService.findEvaluation(+evaluatorId, +evaluatedId, +cycleId);
+    }
+
+    // finding by the evaluatedId + cycleId => getting all evaluations of a user in a cycle
+    @Get(':evaluatedId/:cycleId')
+    async findByUserInCyle(@Param('evaluatedId') evaluatedId: number, @Param('cycleId') cycleId: number){
+        return await this.othersevaluationService.findByUserInCycle(+evaluatedId, +cycleId);
     }
 
     @Patch()

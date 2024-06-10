@@ -22,4 +22,9 @@ export class TuningController {
     async findOne(@Param('userId') userId: number, @Param('cycleId') cycleId: number) {
         return this.tuningService.findOne(+userId, +cycleId);
     }
+
+    @Get(':userId')
+    async findByUser(@Param('userId') userId: number) {
+        return this.tuningService.findByUser(+userId);
+    }
 }
