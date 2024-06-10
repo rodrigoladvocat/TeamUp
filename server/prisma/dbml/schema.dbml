@@ -27,7 +27,7 @@ Table User {
 
 Table Cycle {
   id Int [pk, increment]
-  initialDate DateTime [not null]
+  initialDate DateTime [default: `now()`, not null]
   finalDate DateTime [not null]
   lastUpdated DateTime [not null]
   selfEvaluation SelfEvaluation [not null]

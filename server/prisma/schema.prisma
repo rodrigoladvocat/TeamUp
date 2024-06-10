@@ -23,7 +23,7 @@ model User {
   email     String  @unique
   password  String
   imgUrl    String
-  isManager Boolean
+  isManager Boolean // may be redundant*
   role      String
   age       Int
   telephone String
@@ -44,8 +44,8 @@ model User {
 }
 
 model Cycle {
-  id          Int     @default(autoincrement()) @id
-  initialDate DateTime
+  id          Int      @default(autoincrement()) @id
+  initialDate DateTime @default(now())
   finalDate   DateTime
   lastUpdated DateTime
 
