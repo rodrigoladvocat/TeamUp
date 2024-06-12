@@ -1,5 +1,7 @@
-export const criteria = [
+export const selfEvaluations = [
   {
+    userId: 1,
+    cycleId: 1,
     ownershipMentalityGrade: 5,
     ownershipMentalityComment: "Excellent ownership mentality",
     learningAgilityGrade: 4,
@@ -19,5 +21,5 @@ export const criteria = [
     outOfTheBoxThinkingExecutionGrade: 4,
     outOfTheBoxThinkingExecutionComment: "Innovative execution"
   }
-  // Adicione mais critérios conforme necessário
+  // Adicione mais autoavaliações conforme necessário
 ];
