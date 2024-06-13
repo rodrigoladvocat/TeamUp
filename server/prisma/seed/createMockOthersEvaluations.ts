@@ -1,17 +1,17 @@
-export const evaluations = [
+export const othersEvaluations = [
   {
     evaluatorUserId: 1,
     evaluatedUserId: 2,
     cycleId: 1,
-    criteriaId: 1,
-    isTuning: false
+    grade: 4,
+    comment: "Strong performance overall"
   },
   {
     evaluatorUserId: 2,
     evaluatedUserId: 1,
     cycleId: 1,
-    criteriaId: 1,
-    isTuning: true
+    grade: 5,
+    comment: "Excellent work!"
   }
   // Adicione mais avaliações conforme necessário
 ];
