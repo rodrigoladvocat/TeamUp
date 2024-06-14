@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { CycleService } from './cycle.service';
+import { CycleService } from '../cycle.service';
 
 describe('CycleService', () => {
   let service: CycleService;
