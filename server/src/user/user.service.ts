@@ -1,29 +1,59 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../database/prisma.service';
-import { UserDto } from './dto/user.dto';
+import { CreateUserDto } from './dto/create-user.dto';
 import { User } from '@prisma/client';
 
 @Injectable()
 export class UserService {
-    constructor(private prisma: PrismaService) {}
+    constructor(private prisma: PrismaService) { }
 
-    async create(data: UserDto): Promise<User> {
-        return await this.prisma.user.create({ data });
+    async create(createUserDto: CreateUserDto): Promise<User> {
+        const { password: unprotectedPassword } = createUserDto;
+
+        // TODO: secure password
+        const encriptedPassword = unprotectedPassword;
+
+        const newUser = await this.prisma.user.create({
+            data: {
+                ...createUserDto,
+                password: encriptedPassword,
+            }
+        });
+
+        return newUser;
     }
 
-    async findAll(): Promise<User[]>{
+
+    async findAll(): Promise<User[]> {
         return await this.prisma.user.findMany();
     }
 
+
+    async getById(id: number): Promise<User> {
+        const found = await this.prisma.user.findUnique({
+            where: {
+                id: id
+            }
+        });
+
+        if (!found) {
+            throw new NotFoundException("User not found.");
+        }
+
+        return found;
+    }
+
+
     async getByName(name: string): Promise<User[]> {
         return await this.prisma.user.findMany({
-            where: { 
+            where: {
                 name: {
                     contains: name
-            } 
-        }
+                }
+            }
         });
     }
+
 
     async getByRole(role: string): Promise<User[]> {
         return await this.prisma.user.findMany({
@@ -31,9 +61,12 @@ export class UserService {
         });
     }
 
+
     async getCollaborators(): Promise<User[]> {
         return await this.prisma.user.findMany({
-            where: { role: {not: "Manager"}}
+            where: {
+                isManager: false
+            }
         });
     }
 }
