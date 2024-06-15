@@ -16,6 +16,7 @@ export class UserController {
     @Post()
     @ApiOperation({ summary: 'Create user' })
     @ApiResponse({ status: 201, description: 'The user has been successfully created.' })
+    @ApiResponse({ status: 409, description: 'Repeated data. Email is already in use.' })
     @ApiResponse({ status: 400, description: 'Bad Request. Stopped by some validator.' })
     async create(@Body(applyBodyValidation) createUserDto: CreateUserDto): Promise<User> {
         return await this.userService.create(createUserDto);
