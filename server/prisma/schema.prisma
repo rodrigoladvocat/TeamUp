@@ -109,6 +109,7 @@ model Tuning {
   collaboratorUserId Int
   managerUserId      Int
   cycleId            Int
+  grade              Int
 
   evaluator User @relation("TuningEvaluator", fields: [managerUserId], references: [id])
   evaluated User @relation("TuningEvaluated", fields: [collaboratorUserId], references: [id])

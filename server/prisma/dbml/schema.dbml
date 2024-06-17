@@ -78,6 +78,7 @@ Table Tuning {
   collaboratorUserId Int [not null]
   managerUserId Int [not null]
   cycleId Int [not null]
+  grade Int [not null]
   evaluator User [not null]
   evaluated User [not null]
   cycle Cycle [not null]

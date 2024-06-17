@@ -17,6 +17,7 @@ export class CycleService {
 
         return await this.prisma.cycle.create({
             data: {
+                // initialDate and lastUpdated are set to the current date automatically
                 initialDate: new Date(),
                 finalDate: createCycleDto.finalDate,
                 lastUpdated: new Date(),

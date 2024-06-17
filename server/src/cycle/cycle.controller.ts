@@ -45,4 +45,6 @@ export class CycleController {
     async getById(@Param('id', applyIdValidation) id: number): Promise<Cycle> {
         return await this.cycleService.getById(+id);
     }
+
+    // are there any features left?
 }
