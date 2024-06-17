@@ -8,17 +8,17 @@ import img3 from "../../../assets/img3.svg";
 import star from "../../../assets/star.svg";
 import flag from "../../../assets/flag.svg";
 
-// import { VictoryPie, VictoryAnimation, VictoryLabel } from "victory";
+import { VictoryPie, VictoryAnimation, VictoryLabel } from "victory";
 
-// import {
-//   AreaChart,
-//   Area,
-//   XAxis,
-//   YAxis,
-//   CartesianGrid,
-//   Tooltip,
-//   ResponsiveContainer,
-// } from "recharts";
+import {
+  AreaChart,
+  Area,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+} from "recharts";
 
 const data = [
   {
