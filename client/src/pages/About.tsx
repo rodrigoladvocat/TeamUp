@@ -9,7 +9,9 @@ const About = () => {
   setMenu(3);
   return (
     <div className="flex">
-      <Menu></Menu>
+      <div>
+        <Menu></Menu>
+      </div>
       <div className="min-h-screen bg-gray-900 text-white">
         <div className="flex">
           <aside></aside>

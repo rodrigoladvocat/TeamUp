@@ -1,4 +1,4 @@
-import homeIcon from "../assets/homeIcon.svg";
+import icons from "../assets/icons";
 import logo from "../assets/logo.svg";
 import traco from "../assets/traco.svg";
 import { NavLink } from "react-router-dom";
@@ -8,10 +8,10 @@ export function Menu() {
   const { menu, setMenu } = useMenu();
 
   const menuItems = [
-    { path: "/", label: "Página inicial", icon: { homeIcon } },
-    { path: "/notas", label: "Notas" },
-    { path: "/avaliacoes", label: "Avaliações" },
-    { path: "/about", label: "Sobre a plataforma" },
+    { path: "/", label: "Página inicial", icon: icons.home },
+    { path: "/notas", label: "Notas", icon: icons.grades },
+    { path: "/avaliacoes", label: "Avaliações", icon: icons.clipboard },
+    { path: "/about", label: "Sobre a plataforma", icon: icons.monitor },
   ];
 
   return (
@@ -28,12 +28,12 @@ export function Menu() {
                 <li
                   className={`mb-6 flex text-[16px] py-5 px-8 ${
                     menu === index
-                      ? "text-black bg-[#A28BFE] rounded-[16px]"
-                      : "text-white  hover:text-[#A28BFE]"
+                      ? "text-black bg-[#A28BFE] rounded-[16px] stroke-cyan-500"
+                      : "text-white  hover:text-primary"
                   }`}
                   onClick={() => setMenu(index)}
                 >
-                  <img src={homeIcon} className="text-black" alt="icon" />
+                  <div>{item.icon}</div>
                   <div className="pl-2">{item.label}</div>
                 </li>
               </NavLink>
@@ -43,7 +43,7 @@ export function Menu() {
       </div>
       <div>
         <li className="flex text-[20px] text-white hover:text-[#A28BFE] py-5 px-8">
-          <img src={homeIcon} className="text-black"></img>
+          {icons.logout}
           <div className="pl-2">Sair</div>
         </li>
         <div className="flex flex-col justify-center items-center">
