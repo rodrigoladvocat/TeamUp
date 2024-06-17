@@ -8,8 +8,7 @@ import img3 from "../../../assets/img3.svg";
 import star from "../../../assets/star.svg";
 import flag from "../../../assets/flag.svg";
 
-import { Menu } from "../../../components/Menu";
-import { useMenu } from "../../../context/MenuContext";
+import { VictoryPie, VictoryAnimation, VictoryLabel } from "victory";
 
 import {
   AreaChart,
@@ -89,6 +88,90 @@ const CustomDot = (props: any) => {
   return <circle cx={cx} cy={cy} r={5} stroke="none" fill="#CCBFFF" />;
 };
 
+interface AppState {
+  percent: number;
+  data: { x: number; y: number }[];
+}
+
+function App() {
+  const [state, setState] = React.useState<AppState>({
+    percent: 25,
+    data: getData(0),
+  });
+
+  React.useEffect(() => {
+    const setStateInterval = window.setInterval(() => {
+      let percent = 25;
+      percent += Math.random() * 25;
+      percent = percent > 100 ? 0 : percent;
+      setState({
+        percent,
+        data: getData(percent),
+      });
+    }, 2000);
+
+    return () => {
+      window.clearInterval(setStateInterval);
+    };
+  }, []);
+
+  return (
+    <div>
+      <svg viewBox="45 50 310 310" width="100%" height="100%">
+        <VictoryPie
+          standalone={false}
+          animate={{ duration: 1000 }}
+          width={400}
+          height={400}
+          data={state.data}
+          innerRadius={120}
+          cornerRadius={25}
+          labels={() => null}
+          style={{
+            data: {
+              fill: ({ datum }) => {
+                const color = datum.y > 30 ? "#A28BFE" : "red";
+                return datum.x === 1 ? color : "black";
+              },
+            },
+          }}
+        />
+        <VictoryAnimation duration={1000} data={state}>
+          {(newProps) => {
+            return (
+              <>
+                <VictoryLabel
+                  textAnchor="middle"
+                  verticalAnchor="middle"
+                  x={200}
+                  y={180}
+                  text={`${Math.round(newProps.percent)}%`}
+                  style={{ fontSize: 80, fill: "#FFFFFF", fontWeight: 800 }}
+                />
+                <VictoryLabel
+                  textAnchor="middle"
+                  verticalAnchor="middle"
+                  x={195}
+                  y={230}
+                  text="Concluída"
+                  style={{ fontSize: 30, fill: "#FFFFFF" }}
+                />
+              </>
+            );
+          }}
+        </VictoryAnimation>
+      </svg>
+    </div>
+  );
+}
+
+function getData(percent: number) {
+  return [
+    { x: 1, y: percent },
+    { x: 2, y: 100 - percent },
+  ];
+}
+
 const HomePage: React.FC = () => {
   return (
     <div className="min-h-screen bg-gray-900 text-white">
@@ -133,15 +216,14 @@ const HomePage: React.FC = () => {
                 </p>
               </div>
             </div>
-            <div className="ml-auto bg-content-background p-4 rounded-2xl  w-[18.125rem]">
-              <h2 className="text-16 mb-4">Progresso de avaliações</h2>
+            <div className="ml-auto bg-content-background pt-4 pl-4 pr-4 rounded-2xl  w-[18.125rem]">
+              <h2 className="text-16 mb-4">Avaliações entregues</h2>
               <div className="flex justify-center items-center">
                 <div className="w-32 h-32">
-                  <div className="relative pt-1">
-                    <p className="text-center mt-2">75% Concluída</p>
-                  </div>
+                  <App />
                 </div>
               </div>
+              <p className="text-12">Ciclo avaliativo 2023.2</p>
             </div>
           </div>
           <div className="mb-6  w-[64.25rem]">
