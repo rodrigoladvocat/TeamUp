@@ -6,7 +6,7 @@ const Home = () => {
   setMenu(0);
 
   return (
-    <div className="w-full">
+    <div>
       <Menu></Menu>
     </div>
   );
