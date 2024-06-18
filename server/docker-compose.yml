@@ -1,0 +1,16 @@
+services:
+
+  teamUp_server_service:
+    build:
+      context: ./
+    image: teste-tag:latest
+    ports:
+      - 3000:3000
+    container_name: TeamUp_server_monolith_api
+    networks:
+      - TeamUp_net
+
+
+networks:
+  TeamUp_net:
+    driver: "bridge"
