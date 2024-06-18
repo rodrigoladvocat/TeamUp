@@ -1,14 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../database/prisma.service';
-import { OthersevaluationDto } from './dto/create-othersevaluation.dto';
+import { CreateOthersevaluationDto } from './dto/create-others-evaluation.dto';
 
 @Injectable()
 export class OthersevaluationService {
     constructor(private prisma: PrismaService) { }
 
-    async create(data: OthersevaluationDto) {
+    async create(createOthersevaluationDto: CreateOthersevaluationDto) {
         return await this.prisma.othersEvaluation.create({
-            data
+            data: createOthersevaluationDto
         });
     }
 
@@ -33,14 +33,14 @@ export class OthersevaluationService {
         });
     }
 
-    async update(data: OthersevaluationDto) {
+    async update(createOthersevaluationDto: CreateOthersevaluationDto) {
         return await this.prisma.othersEvaluation.updateMany({
             where: {
-                evaluatorUserId: data.evaluatorUserId,
-                evaluatedUserId: data.evaluatedUserId,
-                cycleId: data.cycleId
+                evaluatorUserId: createOthersevaluationDto.evaluatorUserId,
+                evaluatedUserId: createOthersevaluationDto.evaluatedUserId,
+                cycleId: createOthersevaluationDto.cycleId
             },
-            data
+            data: createOthersevaluationDto
         });
     }
 

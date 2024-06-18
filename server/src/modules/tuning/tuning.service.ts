@@ -1,14 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../database/prisma.service';
-import { TuningDto } from './dto/create-tuning.dto';
+import { CreateTuningDto } from './dto/create-tuning.dto';
 
 @Injectable()
 export class TuningService {
     constructor(private prisma: PrismaService) { }
 
-    async create(data: TuningDto) {
+    async create(createTuningDto: CreateTuningDto) {
         return await this.prisma.tuning.create({
-            data
+            data: createTuningDto
         })
     }
 

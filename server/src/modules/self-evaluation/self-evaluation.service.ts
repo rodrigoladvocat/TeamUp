@@ -1,7 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { Prisma, SelfEvaluation } from '@prisma/client';
 import { PrismaService } from '../../database/prisma.service';
-import { SelfevaluationDto } from './dto/create-selfevaluation.dto';
+import { CreateSelfEvaluationDto } from './dto/create-self-evaluation.dto';
+import { UpdateSelfEvaluationDto } from './dto/update-self-evaluation.dto';
 
 @Injectable()
 export class SelfevaluationService {
@@ -18,28 +19,45 @@ export class SelfevaluationService {
                 userId: userId,
                 cycleId: cycleId
             },
-            include: { user: { select: { name: true } }, cycle: true },
+            include: {
+                user: {
+                    select: {
+                        name: true
+                    }
+                },
+                cycle: true
+            },
         });
     }
 
     async findByUser(userId: number): Promise<SelfEvaluation[]> {
         return await this.prisma.selfEvaluation.findMany({
             where: { userId: userId },
-            include: { user: { select: { name: true } }, cycle: true }
+            include: {
+                user: {
+                    select: {
+                        name: true
+                    }
+                },
+                cycle: true
+            }
         });
     }
 
-    async createSelfEvaluation(data: SelfevaluationDto): Promise<SelfEvaluation> {
+    async createSelfEvaluation(createSelfEvaluationDto: CreateSelfEvaluationDto): Promise<SelfEvaluation> {
         return await this.prisma.selfEvaluation.create({
-            data
+            data: createSelfEvaluationDto
         }
         );
     }
 
-    async updateSelfEvaluation(data: SelfevaluationDto) {
+    async updateSelfEvaluation(updateSelfEvaluationDto: UpdateSelfEvaluationDto): Promise<Prisma.BatchPayload> {
         return await this.prisma.selfEvaluation.updateMany({
-            where: { userId: data.userId, cycleId: data.cycleId },
-            data: data
+            where: {
+                userId: updateSelfEvaluationDto.userId,
+                cycleId: updateSelfEvaluationDto.cycleId
+            },
+            data: updateSelfEvaluationDto
         })
     }
 }

@@ -10,21 +10,21 @@ import {
     Min,
 } from 'class-validator';
 
-export class CreateTuningDto {
-    @ApiProperty({ description: 'User (collaborator) id', example: 1 })
+export class CreateOthersevaluationDto {
+    @ApiProperty({ description: 'User id', example: 1 })
     @IsNotEmpty()
     @IsNumber()
-    collaboratorUserId: number
+    evaluatorUserId: number;
 
-    @ApiProperty({ description: 'User (manager) id', example: 2 })
+    @ApiProperty({ description: 'User id', example: 2 })
     @IsNotEmpty()
     @IsNumber()
-    managerUserId: number
+    evaluatedUserId: number;
 
     @ApiProperty({ description: 'Cycle id', example: 1 })
     @IsNotEmpty()
     @IsNumber()
-    cycleId: number
+    cycleId: number;
 
     @ApiProperty({
         description: 'Overall grade for the experience of working toghether.',
@@ -36,5 +36,14 @@ export class CreateTuningDto {
     @IsNumber({ allowNaN: false, allowInfinity: false })
     @Min(0)
     @Max(5)
-    grade: number
+    grade: number;
+
+    @ApiProperty({
+        description: 'An comment describing an aspect or something about the experience of working toghether.',
+        maxLength: 255,
+        example: 'vazio'
+    })
+    @IsNotEmpty()
+    @IsString()
+    comment: string;
 }
