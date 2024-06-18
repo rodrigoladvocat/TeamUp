@@ -3,6 +3,7 @@ import "./App.css";
 import Home from "./pages/collaborator/homepage/HomePage";
 import About from "./pages/About";
 import { MenuProvider } from "./context/MenuContext";
+import Login from "./pages/Login";
 
 function App() {
   return (
@@ -10,6 +11,7 @@ function App() {
       <MenuProvider>
         <BrowserRouter>
           <Routes>
+            <Route path="/login" element={<Login />} />
             <Route path="/" element={<Home />} />
             <Route path="/notas" />
             <Route path="/avaliacoes" />
