@@ -41,7 +41,7 @@ export class UserController {
     }
 
 
-    @Get(':name')
+    @Get('name/:name')  // <- fixed to 'name/:name' to not conflict with 'id' route
     @ApiOperation({ summary: 'Get user by name' })
     @ApiResponse({ status: 200, description: 'Return array of user filtered by name.' })
     async getByName(@Param('name') name: string): Promise<User[]> {

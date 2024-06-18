@@ -4,7 +4,6 @@ import { IsEmail, IsNotEmpty, IsString, IsBoolean, MinLength, IsNumber, IsPhoneN
 export class CreateUserDto {
     @ApiProperty({ description: 'Username.', example: 'Fulano da Silva' })
     @IsNotEmpty()
-    @IsEmail()
     @IsString()
     name: string
 

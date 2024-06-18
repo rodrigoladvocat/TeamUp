@@ -9,7 +9,7 @@ export class CycleService {
 
     async create(createCycleDto: CreateCycleDto): Promise<Cycle> {
         const initialDate = new Date();
-        const finalDate = createCycleDto.finalDate;
+        const finalDate = new Date(createCycleDto.finalDate);   // finalDate is received as a string
 
         if (finalDate <= initialDate) {
             throw new BadRequestException('The end date must be later than the start date.');
@@ -18,9 +18,9 @@ export class CycleService {
         return await this.prisma.cycle.create({
             data: {
                 // initialDate and lastUpdated are set to the current date automatically
-                initialDate: new Date(),
-                finalDate: createCycleDto.finalDate,
-                lastUpdated: new Date(),
+                initialDate: initialDate,
+                finalDate: finalDate,
+                lastUpdated: initialDate,
             }
         });
     }
