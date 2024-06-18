@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../database/prisma.service';
 import { CreateOthersevaluationDto } from './dto/create-others-evaluation.dto';
+import { UpdateOthersevaluationDto } from './dto/update-others-evaluation.dto';
 
 @Injectable()
 export class OthersevaluationService {
@@ -12,6 +13,7 @@ export class OthersevaluationService {
         });
     }
 
+
     async findAll() {
         return await this.prisma.othersEvaluation.findMany({
             include: {
@@ -22,7 +24,7 @@ export class OthersevaluationService {
         });
     }
 
-    // finding by the evaluatorId + evaluatedId + cycleId
+
     async findEvaluation(evaluatorUserId: number, evaluatedUserId: number, cycleId: number) {
         return await this.prisma.othersEvaluation.findFirst({
             where: {
@@ -33,16 +35,18 @@ export class OthersevaluationService {
         });
     }
 
-    async update(createOthersevaluationDto: CreateOthersevaluationDto) {
+
+    async update(updateOthersevaluationDto: UpdateOthersevaluationDto) {
         return await this.prisma.othersEvaluation.updateMany({
             where: {
-                evaluatorUserId: createOthersevaluationDto.evaluatorUserId,
-                evaluatedUserId: createOthersevaluationDto.evaluatedUserId,
-                cycleId: createOthersevaluationDto.cycleId
+                evaluatorUserId: updateOthersevaluationDto.evaluatorUserId,
+                evaluatedUserId: updateOthersevaluationDto.evaluatedUserId,
+                cycleId: updateOthersevaluationDto.cycleId
             },
-            data: createOthersevaluationDto
+            data: updateOthersevaluationDto
         });
     }
+
 
     async findByUserInCycle(evaluatedUserId: number, cycleId: number) {
         return await this.prisma.othersEvaluation.findMany({

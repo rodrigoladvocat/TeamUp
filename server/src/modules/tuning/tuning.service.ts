@@ -12,9 +12,11 @@ export class TuningService {
         })
     }
 
+
     async findAll() {
         return await this.prisma.tuning.findMany();
     }
+
 
     async findOne(userId: number, cycleId: number) {
         return await this.prisma.tuning.findFirst({
@@ -23,7 +25,7 @@ export class TuningService {
         });
     }
 
-    // get tunings by user through all cycles
+
     async findByUser(userId: number) {
         return await this.prisma.tuning.findMany({
             where: { collaboratorUserId: userId },

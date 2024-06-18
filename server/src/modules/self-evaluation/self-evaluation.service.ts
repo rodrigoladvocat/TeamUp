@@ -13,6 +13,7 @@ export class SelfevaluationService {
         return await this.prisma.selfEvaluation.findMany();
     }
 
+
     async findUserEval(userId: number, cycleId: number): Promise<SelfEvaluation> {
         return await this.prisma.selfEvaluation.findFirst({
             where: {
@@ -30,6 +31,7 @@ export class SelfevaluationService {
         });
     }
 
+
     async findByUser(userId: number): Promise<SelfEvaluation[]> {
         return await this.prisma.selfEvaluation.findMany({
             where: { userId: userId },
@@ -44,12 +46,14 @@ export class SelfevaluationService {
         });
     }
 
+
     async createSelfEvaluation(createSelfEvaluationDto: CreateSelfEvaluationDto): Promise<SelfEvaluation> {
         return await this.prisma.selfEvaluation.create({
             data: createSelfEvaluationDto
         }
         );
     }
+
 
     async updateSelfEvaluation(updateSelfEvaluationDto: UpdateSelfEvaluationDto): Promise<Prisma.BatchPayload> {
         return await this.prisma.selfEvaluation.updateMany({
