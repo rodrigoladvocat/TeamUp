@@ -1,5 +1,8 @@
-export const selfEvaluations = [
+import { SelfEvaluation } from "@prisma/client";
+
+export const selfEvaluations: SelfEvaluation[] = [
   {
+    id: 1,
     userId: 1,
     cycleId: 1,
     ownershipMentalityGrade: 5,
@@ -19,7 +22,7 @@ export const selfEvaluations = [
     doingMoreWithLessGrade: 3,
     doingMoreWithLessComment: "Efficient with resources",
     outOfTheBoxThinkingExecutionGrade: 4,
-    outOfTheBoxThinkingExecutionComment: "Innovative execution"
+    outOfTheBoxThinkingExecutionComment: "Innovative execution",
   }
   // Adicione mais autoavaliações conforme necessário
 ];

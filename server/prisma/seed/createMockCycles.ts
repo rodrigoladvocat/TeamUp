@@ -1,4 +1,6 @@
-export const cycles = [
+import { Cycle } from "@prisma/client";
+
+export const cycles: Cycle[] = [
   {
     id: 1,
     initialDate: new Date("2023-01-01"),
