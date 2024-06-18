@@ -1,13 +1,24 @@
-import React from 'react';
-import HomePage from './pages/collaborator/homepage/HomePage';
-import './App.css';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import "./App.css";
+import Home from "./pages/collaborator/homepage/HomePage";
+import About from "./pages/About";
+import { MenuProvider } from "./context/MenuContext";
 
-const App: React.FC = () => {
+function App() {
   return (
-    <div className="App">
-      <HomePage />
-    </div>
+    <>
+      <MenuProvider>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/notas" />
+            <Route path="/avaliacoes" />
+            <Route path="/about" element={<About/>}/>
+          </Routes>
+        </BrowserRouter>
+      </MenuProvider>
+    </>
   );
-};
+}
 
 export default App;

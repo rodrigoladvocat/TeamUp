@@ -10,6 +10,8 @@ export default {
     colors: {
       'primary': '#A28BFE',
       'text': '#FFFFFF',
+      'white': '#FFFFFF',
+      'black': '#000',
       'general-background': '#121212',
       'content-background': '#201F1F',
       'dark-zebra': '#383446',
