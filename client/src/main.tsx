@@ -1,10 +1,24 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import App from './App.tsx'
-import './index.css'
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Home from "./pages/collaborator/homepage/HomePage";
+import About from "./pages/About";
+import VisualizeComponent from "./pages/VisualizeComponent";
+import { MenuProvider } from "./context/MenuContext";
+import './global.css';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <App />
+    <MenuProvider>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/notas" />
+            <Route path="/avaliacoes" />
+            <Route path="/about" element={<About/>}/>
+            <Route path="/dev" element={<VisualizeComponent />} />
+          </Routes>
+        </BrowserRouter>
+      </MenuProvider>
   </React.StrictMode>,
 )
