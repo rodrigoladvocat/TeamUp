@@ -8,7 +8,7 @@ const About = () => {
   const { setMenu } = useMenu();
   setMenu(3);
   return (
-    <div className="flex">
+    <div className="flex max-w-[1440px]">
       <div>
         <Menu></Menu>
       </div>
