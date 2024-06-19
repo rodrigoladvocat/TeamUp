@@ -1,6 +1,3 @@
-
-
-
 interface Props {}
 
 export default function VisualizeComponent({}: Props): JSX.Element {
