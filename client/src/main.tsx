@@ -6,12 +6,14 @@ import About from "./pages/About";
 import VisualizeComponent from "./pages/VisualizeComponent";
 import { MenuProvider } from "./context/MenuContext";
 import './global.css';
+import Login from './pages/Login';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <MenuProvider>
         <BrowserRouter>
           <Routes>
+            <Route path="/login" element={<Login />} />
             <Route path="/" element={<Home />} />
             <Route path="/notas" />
             <Route path="/avaliacoes" />
