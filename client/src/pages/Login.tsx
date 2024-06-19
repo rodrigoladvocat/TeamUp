@@ -13,7 +13,7 @@ const Login = () => {
   return (
     <div className="flex flex-row justify-between w-screen h-screen p-5">
         <div
-        className="w-2/5 rounded-[32px] justify-between justify-items-start flex flex-col px-5 py-10 justify-between"
+        className="w-[55%] rounded-[32px] justify-between justify-items-start flex flex-col px-5 py-10 justify-between"
         style={{
           backgroundImage: `url(${background})`,
           backgroundSize: "cover",
@@ -33,7 +33,7 @@ const Login = () => {
         </div>
         <div className="text-left text-[32px]">TeamUp!</div>
       </div>
-      <div className="w-3/5 pl-48 pr-56">
+      <div className="w-1/2 pl-24 pr-28">
         <div className="text-left text-[40px] font-bold text-primary py-24">
           Login
         </div>
@@ -70,9 +70,9 @@ const Login = () => {
               
             </div>
             <div className="flex flex-row justify-end pb-24">
-              <a><div className="text-right text-[#787878] hover:text-primary cursor-pointer underline">Esqueci a senha</div></a>
+              <a><div className="text-right text-[#787878] text-[20px] hover:text-primary cursor-pointer underline">Esqueci a senha</div></a>
             </div>
-            <button className="bg-[#A28BFE] text-black mx-8">Entrar</button>
+            <button className="bg-[#A28BFE] text-black mx-8 px-14 py-5 text-[20px] rounded-[16px]">Entrar</button>
           </form>
         </div>
       </div>
