@@ -1,0 +1,35 @@
+import { useState } from "react";
+
+export default function CardeDeNota(): JSX.Element {
+  const [selected, setSelected] = useState(-1);
+
+  const notas = [
+    { nota: "1", label: "Preciso melhorar" },
+    { nota: "2", label: "Razoável" },
+    { nota: "3", label: "Boa" },
+    { nota: "4", label: "Muito boa" },
+    { nota: "5", label: "Excelente" },
+  ];
+  return (
+    <div className="snap-center self-center items-center origin-center place-self-center justify-self-center w-full">
+      {/* Coloque o componente aqui para visualizar */}
+      <div className="flex w-full flex-row justify-center ">
+        {notas.map((item, index) => (
+          <div
+            className={`rounded-[12px] cursor-pointer mr-5 basis-48 flex-row ${
+              selected === index
+                ? "text-white bg-[#A28BFE] "
+                : "border-[#555] border-[1px] hover:border-primary text-[#acacac] hover:text-[#D5A7FF]"
+            }`}
+            onClick={() => setSelected(index)}
+          >
+            <div className="p-5">
+              <div className="text-[24px] font-bold">{item.nota}</div>
+              <div className="text-[16px] text-center ">{item.label}</div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
