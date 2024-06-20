@@ -1,20 +1,17 @@
-import { Menu } from "../components/Menu";
-import { useMenu } from "../context/MenuContext";
 import img_evaluation from "../assets/img_evaluation.svg";
 import img_historic from "../assets/img_historic.svg";
 import img_performance_analysis from "../assets/img_performance_analysis.svg";
+import { Menu } from "../components/Menu";
 
 const About = () => {
-  const { setMenu } = useMenu();
-  setMenu(3);
   return (
-    <div className="flex max-w-[1440px]">
-      <div>
-        <Menu></Menu>
-      </div>
-      <div className="min-h-screen bg-gray-900 text-white">
+      <div className="flex w-full p-6 min-h-screen bg-gray-900 text-white">
         <div className="flex">
-          <aside></aside>
+          <aside>
+            <div>
+              <Menu></Menu>
+            </div>
+          </aside>
 
           <main className="flex-1 p-6 bg-general-background h-[920px]">
             <header className="flex justify-between items-center mb-6">
@@ -110,7 +107,6 @@ const About = () => {
           </main>
         </div>
       </div>
-    </div>
   );
 };
 
