@@ -4,7 +4,7 @@
 interface Props {
   value: string;
   name: string;
-  checked: boolean;
+  checked?: boolean;
   onChange: (value: string) => void;
 }
 
