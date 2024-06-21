@@ -18,6 +18,7 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import ProgressBar from "../../../components/ProgressBar";
+import Header from "../../../components/Header";
 
 const data = [
   {
@@ -96,19 +97,9 @@ const HomePage: React.FC = () => {
         </aside>
 
         <main className="flex-1 p-6 bg-general-background h-[920px]">
-          <header className="flex justify-between items-center mb-6">
-            <h1 className="text-32 text-purple-text font-bold">
-              Página inicial
-            </h1>
-            <div className="flex items-center">
-              <img
-                src="/profile.jpg"
-                alt="Profile"
-                className="w-10 h-10 rounded-full mr-2"
-              />
-              <span>Pedro Almeida</span>
-            </div>
-          </header>
+
+          <Header userName="Pedro Almeida" profileImage="/profile.jpg" title="Página inicial"/>
+          
           <div className="flex mb-6">
             <div className="col-span-2 bg-content-background p-4 pl-5 rounded-2xl w-[45rem]">
               <p className="text-28 text-purple-text font-bold text-left">

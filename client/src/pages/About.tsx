@@ -1,6 +1,7 @@
 import img_evaluation from "../assets/img_evaluation.svg";
 import img_historic from "../assets/img_historic.svg";
 import img_performance_analysis from "../assets/img_performance_analysis.svg";
+import Header from "../components/Header";
 import { Menu } from "../components/Menu";
 
 const About = () => {
@@ -14,19 +15,9 @@ const About = () => {
           </aside>
 
           <main className="flex-1 p-6 bg-general-background h-[920px]">
-            <header className="flex justify-between items-center mb-6">
-              <h1 className="text-32 text-purple-text font-poppins">
-                Sobre a plataforma
-              </h1>
-              <div className="flex items-center">
-                <img
-                  src="/profile.jpg"
-                  alt="Profile"
-                  className="w-10 h-10 rounded-full mr-2"
-                />
-                <span>Pedro Almeida</span>
-              </div>
-            </header>
+            
+          <Header userName="Pedro Almeida" profileImage="/profile.jpg" title="Sobre a Plataforma"/>
+
             <div className="flex-1 bg-content-background h-[830px]">
               <div className="flex-1 bg-content-background p-8 pt-4 pb-2 ">
                 <div className="text-left text-32 text-purple-text font-poppins">
