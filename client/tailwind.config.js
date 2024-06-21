@@ -15,6 +15,7 @@ export default {
       'general-background': '#121212',
       'content-background': '#201F1F',
       'dark-zebra': '#383446',
+      'light-zebra': '#3F3F3F',
       'purple-text': '#A28BFE',
     },
     fontSize: {
