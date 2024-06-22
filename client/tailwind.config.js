@@ -17,6 +17,8 @@ export default {
       'dark-zebra': '#383446',
       'light-zebra': '#3F3F3F',
       'purple-text': '#A28BFE',
+      'green': '#7DDA58',
+      'red': '#FF6B6B',
     },
     fontSize: {
       '32': '2rem',

@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/collaborator/homepage/HomePage";
+import ManagerHome from "./pages/manager/homepage/HomePage";
 import About from "./pages/About";
 import VisualizeComponent from "./pages/VisualizeComponent";
 import { MenuProvider } from "./context/MenuContext";
@@ -15,6 +16,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
           <Routes>
             <Route path="/login" element={<Login />} />
             <Route path="/" element={<Home />} />
+            <Route path="/manager" element={<ManagerHome />} /> // Updated component name
             <Route path="/notas" />
             <Route path="/avaliacoes" />
             <Route path="/about" element={<About/>}/>
