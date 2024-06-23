@@ -1,4 +1,6 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule, RequestMethod } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
+import { JwtModule } from '@nestjs/jwt';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { PrismaModule } from './database/prisma.module';
@@ -7,6 +9,7 @@ import { CycleModule } from './modules/cycle/cycle.module';
 import { TuningModule } from './modules/tuning/tuning.module';
 import { SelfevaluationModule } from './modules/self-evaluation/self-evaluation.module';
 import { OthersevaluationModule } from './modules/others-evaluation/others-evaluation.module';
+import { ApiTokenCheckMiddleware } from './common/api-token-check.middleware';
 
 @Module({
   imports: [
@@ -15,9 +18,21 @@ import { OthersevaluationModule } from './modules/others-evaluation/others-evalu
     CycleModule,
     SelfevaluationModule,
     OthersevaluationModule,
-    TuningModule
+    TuningModule,
+    ConfigModule.forRoot({ isGlobal: true }),
+    JwtModule.register({ secret: process.env.JWT_SECRET, global: true }),
   ],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule { }
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer
+      .apply(ApiTokenCheckMiddleware)
+      .exclude(
+        { path: '/user/login', method: RequestMethod.POST },
+        { path: '/user/create', method: RequestMethod.POST },
+      )
+      .forRoutes({ path: '*', method: RequestMethod.ALL })
+  }
+}

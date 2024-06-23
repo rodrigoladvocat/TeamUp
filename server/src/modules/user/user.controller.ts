@@ -7,11 +7,13 @@ import {
   ParseIntPipe,
   ValidationPipe,
   HttpStatus,
+  HttpCode
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { User } from '@prisma/client';
+import { LoginUserDto } from './dto/login-user.dto';
 
 const applyIdValidation = new ParseIntPipe({
   errorHttpStatusCode: HttpStatus.BAD_REQUEST,
@@ -23,7 +25,7 @@ const applyBodyValidation = new ValidationPipe({
 @ApiTags('User Controller')
 @Controller('user')
 export class UserController {
-  constructor(private userService: UserService) {}
+  constructor(private userService: UserService) { }
 
   @Post()
   @ApiOperation({ summary: 'Create user' })
@@ -94,5 +96,18 @@ export class UserController {
     return await this.userService.getCollaborators();
   }
 
-  // are there any features left?
+
+  @Post('login')
+  @ApiOperation({ summary: 'Authenticate user.' })
+  @ApiResponse({
+    status: 200,
+    description: 'Return user data and token'
+  })
+  @ApiResponse({ status: 401, description: "Email or password doesn't match." })
+  @HttpCode(200)
+  async login(
+    @Body(applyBodyValidation) credentials: LoginUserDto
+  ): Promise<{ user: User; token: string }> {
+    return await this.userService.login(credentials);
+  }
 }
