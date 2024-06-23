@@ -23,13 +23,12 @@ export class ApiTokenCheckMiddleware implements NestMiddleware {
 
     try {
       const payload = this.jwtService.verify(token);
+      next();
     }
     catch(err){
       throw new UnauthorizedException('Invalid token');
     }
     // const { userId, email } = payload;
-
-    next();
   }
 
 }
