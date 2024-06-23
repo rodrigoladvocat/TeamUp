@@ -1,12 +1,17 @@
-import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
+import { ConflictException, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
 import { PrismaService } from '../../database/prisma.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { User } from '@prisma/client';
-import { hash as bcryptHash } from 'bcrypt';
+import { hash as bcryptHash, compare as bcryptCompare } from 'bcrypt';
+import { LoginUserDto } from './dto/login-user.dto';
 
 @Injectable()
 export class UserService {
-    constructor(private prisma: PrismaService) { }
+    constructor(
+        private prisma: PrismaService,
+        private readonly jwtService: JwtService
+    ) { }
 
     async create(createUserDto: CreateUserDto): Promise<User> {
         const { password: unprotectedPassword, email, cpf } = createUserDto;
@@ -82,4 +87,32 @@ export class UserService {
             }
         });
     }
+
+
+    async login({ email, password }: LoginUserDto): Promise<{ user: User; token: string }> {
+
+        const found = await this.prisma.user.findUnique({
+            where: {
+                email: email
+            }
+        });
+
+        if (!found) {
+            throw new UnauthorizedException("Email or password doesn't match.");
+        }
+
+        const isCorrectPassword = await bcryptCompare(password, found.password);
+
+        if (!isCorrectPassword) {
+            throw new UnauthorizedException("Email or password doesn't match.");
+        }
+
+        const payload = { userId: found.id, userName: found.name, email: found.email };
+        const token = this.jwtService.sign(payload);
+
+        return {
+            user: { ...found, password: "***" },
+            token: token
+        };
+    };
 }
