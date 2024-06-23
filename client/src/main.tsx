@@ -9,6 +9,8 @@ import { MenuProvider } from "./context/MenuContext";
 import './global.css';
 import Login from './pages/Login';
 
+// ideal to merge both homepages into same route
+
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <MenuProvider>
@@ -16,7 +18,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
           <Routes>
             <Route path="/login" element={<Login />} />
             <Route path="/" element={<Home />} />
-            <Route path="/manager" element={<ManagerHome />} /> // Updated component name
+            <Route path="/manager" element={<ManagerHome />} /> 
             <Route path="/notas" />
             <Route path="/avaliacoes" />
             <Route path="/about" element={<About/>}/>

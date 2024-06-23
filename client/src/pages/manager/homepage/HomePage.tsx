@@ -4,10 +4,21 @@ import ProgressBar from "../../../components/ProgressBar";
 
 import flag from "../../../assets/flag.svg";
 import vector from "../../../assets/vector.svg";
+import vector_horizontal from "../../../assets/vector_horizontal.svg";
+import concept_icons from "../../../assets/concept_icons";
 
 // Request grades and users from the backend
 
-const HomePage: React.FC = () => {
+// to pass into the HomePage component
+interface HomePageProps {
+  userName: string;
+  profileImage: string;
+  title: string;
+
+  // TODO: add more props if necessary
+}
+
+const HomePage: React.FC = ( /* pass in the props */ ) => {
     return (
             <div className="flex w-full p-6 min-h-screen bg-gray-900 text-white">
       <div className="flex">
@@ -52,7 +63,7 @@ const HomePage: React.FC = () => {
             </div>
           </div>
 
-          <div className="flex mb-6 w-[64.25rem] h-[290px] col-span-2 bg-content-background pl-5 pr-4 rounded-2xl">
+          <div className="flex align-center mb-6 w-[64.25rem] h-[290px] bg-content-background pl-5 pr-4 rounded-2xl">
             <div className="flex-1">
                 <h2 className="text-20 text-purple-text font-bold text-left mt-3">
                     Análise
@@ -82,7 +93,10 @@ const HomePage: React.FC = () => {
                     </ul>
                 </div>
             </div>
-            <img src={vector} alt="vector" />
+
+            <div>
+              <img src={vector} alt="vector" className="my-5"/>
+            </div>
             
             <div className="flex-1 flex justify-center items-center">
                 <div className="ml-8 mt-5 w-[400px]">
@@ -112,12 +126,60 @@ const HomePage: React.FC = () => {
             
             </div>
 
-            <div className="flex mb-6 w-[64.25rem] h-[290px] col-span-2 bg-content-background pl-5 rounded-2xl">
-            
+            <div className="flex mb-6 w-[64.25rem] h-[290px] bg-content-background pl-5 rounded-2xl">
+              <div className="flex-1">
+                <div className="mt-3">
+                  <h2 className="text-20 text-purple-text font-bold text-left">
+                      Conceitos
+                  </h2>
+                </div>
+
+                <div className="flex-1 text-left">
+                  <p>Referentes ao ciclo avaliativo 2023.1</p>
+                </div>
+
+                <div className="flex-1 flex flex-row mt-3">
+                  <div className="">
+                    {concept_icons.excepcional}
+                  </div>
+
+                  <div className="flex-2 my-4 mx-4">
+                    <img src={vector_horizontal} alt="vector" />
+                  </div>
+                </div>
+
+                <div className="flex-1 flex flex-row mt-4">
+                    <div className="">
+                      {concept_icons.muito_bom}
+                    </div>
+
+                    <div className="flex-2 my-4 mx-4">
+                      <img src={vector_horizontal} alt="vector" />
+                    </div>
+                </div>
+
+                <div className="flex-1 flex flex-row mt-4">
+                  <div className="">
+                    {concept_icons.fez_o_basico}
+                  </div>
+
+                    <div className="flex-2 my-4 mx-4">
+                      <img src={vector_horizontal} alt="vector" />
+                    </div>
+                </div>
+
+                <div className="flex-1 flex flex-row items-center mt-4">
+                  <div className="">
+                    {concept_icons.preciso_melhorar}
+                  </div>
+
+                    <div className="flex-2 my-4 mx-4">
+                      <img src={vector_horizontal} alt="vector" />
+                    </div>
+                </div>
+
+              </div>  
             </div>
-
-          
-
         </main>
       </div>
     </div>
