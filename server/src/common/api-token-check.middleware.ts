@@ -17,11 +17,16 @@ export class ApiTokenCheckMiddleware implements NestMiddleware {
 
     if (!token) {
       throw new UnauthorizedException(
-        "Unauthorized access (must send a valid token in 'authorization' header"
+        "Unauthorized access (must send a valid token in 'jwt' header)"
       );
     }
 
-    const payload = this.jwtService.verify(token);
+    try {
+      const payload = this.jwtService.verify(token);
+    }
+    catch(err){
+      throw new UnauthorizedException('Invalid token');
+    }
     // const { userId, email } = payload;
 
     next();
