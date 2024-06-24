@@ -19,6 +19,7 @@ import {
 } from "recharts";
 import ProgressBar from "../../../components/ProgressBar";
 import Header from "../../../components/Header";
+import { useMenu } from "../../../context/MenuContext";
 
 const data = [
   {
@@ -89,6 +90,9 @@ const CustomDot = (props: any) => {
 };
 
 const HomePage: React.FC = () => {
+  const { setMenu } = useMenu();
+  setMenu(0);
+
   return (
     <div className="flex w-full p-6 min-h-screen bg-gray-900 text-white">
       <div className="flex">

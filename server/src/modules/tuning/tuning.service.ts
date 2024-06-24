@@ -32,4 +32,11 @@ export class TuningService {
             include: { evaluator: true, evaluated: true }
         });
     }
+
+    async findByCycleId(cycleId: number) {
+        return await this.prisma.tuning.findMany({
+            where: { cycleId: cycleId },
+            include: { evaluator: true, evaluated: true }
+        });
+    }
 }

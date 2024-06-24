@@ -23,6 +23,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
           <Route path="*" element={<ErrorPage />} />
           <Route path="/" element={<Login />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/manager" element={<ManagerHome />} /> {/* TODO registerPage */}
           <Route path="/home" element={
             <RedirectByUserType
               managerPage={ManagerHome} // TODO substituir por HomeManagerPage

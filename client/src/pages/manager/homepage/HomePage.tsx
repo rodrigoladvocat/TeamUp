@@ -1,24 +1,78 @@
 import Header from "../../../components/Header";
 import { Menu } from "../../../components/Menu";
+import { useMenu } from "../../../context/MenuContext";
+
 import ProgressBar from "../../../components/ProgressBar";
 
 import flag from "../../../assets/flag.svg";
 import vector from "../../../assets/vector.svg";
 import vector_horizontal from "../../../assets/vector_horizontal.svg";
 import concept_icons from "../../../assets/concept_icons";
+import { useState, useEffect } from "react";
 
+import { profilePictureSequence } from "../../../components/ProfilePictureSequence";
+
+import { getTuningByCycleId } from "../../../utils/getTuningByCycleId";
+import { getLastCycle } from "../../../utils/getLastCycle";
 // Request grades and users from the backend
 
-// to pass into the HomePage component
-interface HomePageProps {
-  userName: string;
-  profileImage: string;
-  title: string;
+const HomePage: React.FC = () => {
+    const { setMenu } = useMenu();
+    setMenu(0);
 
-  // TODO: add more props if necessary
-}
+    const [ cycleId, setCycleId ] = useState<number>(-1);
+    const [ tuningData, setTuningData ] = useState<string[]>([]);
+    const [ picturesArrayExcepcional, setPicturesArrayExcepcional ] = useState<string[]>([]);
+    const [ picturesArrayMuitoBom, setPicturesArrayMuitoBom ] = useState<string[]>([]);
+    const [ picturesArrayFezOBasico, setPicturesArrayFezOBasico ] = useState<string[]>([]);
+    const [ picturesArrayPrecisoMelhorar, setPicturesArrayPrecisoMelhorar ] = useState<string[]>([]);
 
-const HomePage: React.FC = ( /* pass in the props */ ) => {
+    useEffect(() => {
+      getLastCycle().then((id) => {
+        setCycleId(id);
+      });
+    }, []); // runs once when the component is mounted
+    
+    useEffect(() => {
+      if (cycleId !== -1) { // if a cycleId was found
+        getTuningByCycleId(cycleId).then((data) => {
+          setTuningData(data);
+        });
+      }
+    }, [cycleId]); // runs when cycleId changes => guarantees that this happens after the first useEffect
+
+    useEffect(() => {
+
+      // Populate picturesArrays whenever tuningData changes
+      let _picturesArrayExcepcional: any[] = [];
+
+      let _picturesArrayMuitoBom: any[] = [];
+
+      let _picturesArrayFezOBasico: any[] = [];
+
+      let _picturesArrayPrecisoMelhorar: any[] = [];
+
+      tuningData.forEach((tuning: any) => {
+        if (tuning.grade >= 4) {
+          _picturesArrayExcepcional.push(tuning.evaluated.imgUrl);
+        }
+        else if (tuning.grade === 3) {
+          _picturesArrayMuitoBom.push(tuning.evaluated.imgUrl);
+        }
+        else if (tuning.grade === 2) {
+          _picturesArrayFezOBasico.push(tuning.evaluated.imgUrl);
+        }
+        else {
+          _picturesArrayPrecisoMelhorar.push(tuning.evaluated.imgUrl);
+      }})
+
+      setPicturesArrayExcepcional(_picturesArrayExcepcional);
+      setPicturesArrayMuitoBom(_picturesArrayMuitoBom);
+      setPicturesArrayFezOBasico(_picturesArrayFezOBasico);
+      setPicturesArrayPrecisoMelhorar(_picturesArrayPrecisoMelhorar);
+
+    }, [tuningData]);
+
     return (
             <div className="flex w-full p-6 min-h-screen bg-gray-900 text-white">
       <div className="flex">
@@ -146,6 +200,8 @@ const HomePage: React.FC = ( /* pass in the props */ ) => {
                   <div className="flex-2 my-4 mx-4">
                     <img src={vector_horizontal} alt="vector" />
                   </div>
+
+                  {profilePictureSequence(picturesArrayExcepcional)}
                 </div>
 
                 <div className="flex-1 flex flex-row mt-4">
@@ -156,6 +212,8 @@ const HomePage: React.FC = ( /* pass in the props */ ) => {
                     <div className="flex-2 my-4 mx-4">
                       <img src={vector_horizontal} alt="vector" />
                     </div>
+
+                    {profilePictureSequence(picturesArrayMuitoBom)}
                 </div>
 
                 <div className="flex-1 flex flex-row mt-4">
@@ -166,6 +224,8 @@ const HomePage: React.FC = ( /* pass in the props */ ) => {
                     <div className="flex-2 my-4 mx-4">
                       <img src={vector_horizontal} alt="vector" />
                     </div>
+
+                    {profilePictureSequence(picturesArrayFezOBasico)}
                 </div>
 
                 <div className="flex-1 flex flex-row items-center mt-4">
@@ -176,6 +236,8 @@ const HomePage: React.FC = ( /* pass in the props */ ) => {
                     <div className="flex-2 my-4 mx-4">
                       <img src={vector_horizontal} alt="vector" />
                     </div>
+
+                    {profilePictureSequence(picturesArrayPrecisoMelhorar)}
                 </div>
 
               </div>  
