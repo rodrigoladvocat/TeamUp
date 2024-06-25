@@ -6,82 +6,77 @@ import {
   YAxis,
   CartesianGrid,
   Tooltip,
-  Legend,
   ResponsiveContainer 
 } from 'recharts';
 
+import arrow from "../assets/arrow-down-circle.svg";
+
 interface AccordionProps {
   title: string;
-  content: string;
 }
 
 const data = [
   {
-    name: '2020.1',
+    cicle: '2020.1',
     uv: 5,
     pv: 1,
-    amt: 2400,
   },
   {
-    name: '2020.2',
+    cicle: '2020.2',
     uv: 4,
     pv: 2,
-    amt: 2210,
   },
   {
-    name: '2021.1',
+    cicle: '2021.1',
     uv: 2,
     pv: 3,
-    amt: 2290,
   },
   {
-    name: '2021.2',
+    cicle: '2021.2',
     uv: 3,
     pv: 4,
-    amt: 2000,
   },
   {
-    name: '2022.1',
+    cicle: '2022.1',
     uv: 1,
     pv: 5,
-    amt: 2181,
   },
   {
-    name: '2022.2',
+    cicle: '2022.2',
     uv: 3,
     pv: 1,
-    amt: 2500,
   },
-
 ];
 
-const Accordion: React.FC<AccordionProps> = ({ title, content }) => {
+const Accordion: React.FC<AccordionProps> = ({ title }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
     <div className="rounded-2xl w-[28rem] bg-content-background overflow-hidden transition-all duration-500" style={{ height: isOpen ? '296px' : '4.5rem' }}>
-      <button
-        className="h-[4.5rem] rounded-2xl w-full bg-content-background flex justify-between items-center p-4 focus:outline-none"
-        onClick={() => setIsOpen(!isOpen)}
-      >
-        <span className="text-20 text-purple-text font-bold">{title}</span>
-        <svg
-          className={`w-6 h-6 transition-transform duration-200 ${isOpen ? 'transform rotate-180' : ''}`}
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="2"
-            d="M19 9l-7 7-7-7"
+      <div className="h-[4.5rem] rounded-2xl w-full bg-content-background flex flex-col">
+        <div className="w-full flex justify-between items-center p-4">
+          <span className="text-20 text-purple-text font-bold">{title}</span>
+          <img
+            src={arrow}
+            onClick={() => setIsOpen(!isOpen)}
+            className={`cursor-pointer w-6 h-6 transition-transform duration-200 ${isOpen ? 'transform rotate-180' : ''}`}
+            alt="arrow"
           />
-        </svg>
-      </button>
+        </div>
+        <div className="w-full flex justify-center">
+          <div className='w-11/12 h-px bg-gray'></div>
+        </div>
+      </div>
       {isOpen && (
-        <div className="">
+        <div>
+          <div className='pl-12 flex items-center'>
+            <div className='w-9 h-0.5 bg-[#8884d8] mr-1'></div>
+            <span className='text-12'>Nota da autoavaliação</span>
+          </div>
+          <div className='pl-12 flex items-center'>
+            <div className='w-9 h-0.5 bg-[#82ca9d] mr-1'></div>
+            <span className='text-12'>Nota recebida pelo gestor</span>
+          </div>
           <ResponsiveContainer width="100%" height={200}>
             <LineChart
               width={500}
@@ -95,12 +90,11 @@ const Accordion: React.FC<AccordionProps> = ({ title, content }) => {
               }}
             >
               <CartesianGrid />
-              <XAxis dataKey="name" />
+              <XAxis dataKey="cicle" />
               <YAxis domain={[1, 1, 5]} />
               <Tooltip />
-              <Legend height={1} verticalAlign="top" align="center" />
-              <Line type="monotone" dataKey="pv" stroke="#8884d8" activeDot={{ r: 8 }} />
-              <Line type="monotone" dataKey="uv" stroke="#82ca9d" />
+              <Line type="monotone" dataKey="pv" stroke="#8884d8" strokeWidth={1.5} />
+              <Line type="monotone" dataKey="uv" stroke="#82ca9d" strokeWidth={1.5} />
             </LineChart>
           </ResponsiveContainer>
         </div>

@@ -220,7 +220,7 @@ const HomePage: React.FC = () => {
                   </ResponsiveContainer>
                 </div>
               </div>
-              <Accordion title="1. Sentimento de dono" content="This is the content for the first accordion item."/>                      
+              <Accordion title="1. Sentimento de dono" />                      
             </div>
           </div>
         </main>
