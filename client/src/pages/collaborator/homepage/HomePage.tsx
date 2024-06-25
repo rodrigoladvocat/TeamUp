@@ -17,8 +17,11 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from "recharts";
+
 import ProgressBar from "../../../components/ProgressBar";
 import Header from "../../../components/Header";
+import Accordion from "../../../components/Accordion";
+
 
 const data = [
   {
@@ -217,6 +220,7 @@ const HomePage: React.FC = () => {
                   </ResponsiveContainer>
                 </div>
               </div>
+              <Accordion title="1. Sentimento de dono" content="This is the content for the first accordion item."/>                      
             </div>
           </div>
         </main>
