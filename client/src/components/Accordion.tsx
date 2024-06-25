@@ -11,40 +11,42 @@ import {
 
 import arrow from "../assets/arrow-down-circle.svg";
 
+// TODO: criar props para as notas
 interface AccordionProps {
   title: string;
 }
 
 const data = [
   {
+    // pv = autoavaliação ; uv = avaliação do gestor
     cicle: '2020.1',
-    uv: 5,
     pv: 1,
+    uv: 5,
   },
   {
     cicle: '2020.2',
-    uv: 4,
     pv: 2,
+    uv: 4,
   },
   {
     cicle: '2021.1',
-    uv: 2,
     pv: 3,
+    uv: 2,
   },
   {
     cicle: '2021.2',
-    uv: 3,
     pv: 4,
+    uv: 3,
   },
   {
     cicle: '2022.1',
-    uv: 1,
     pv: 5,
+    uv: 1,
   },
   {
     cicle: '2022.2',
-    uv: 3,
     pv: 1,
+    uv: 3,
   },
 ];
 
