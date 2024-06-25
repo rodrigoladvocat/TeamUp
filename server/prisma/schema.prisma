@@ -45,6 +45,7 @@ model User {
 
 model Cycle {
   id          Int      @default(autoincrement()) @id
+  cycleName   String
   initialDate DateTime @default(now())
   finalDate   DateTime
   lastUpdated DateTime

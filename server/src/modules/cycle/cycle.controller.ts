@@ -30,6 +30,14 @@ export class CycleController {
         return await this.cycleService.getLatest();
     }
 
+    @Get('last')
+    @ApiOperation({ summary: 'Get last cycle' })
+    @ApiResponse({ status: 200, description: 'Return cycle by filtering the second to last final date.' })
+    @ApiResponse({ status: 204, description: 'No cycles found. Cycle table must have one or less cycles.' })
+    async getSTlast(): Promise<Cycle> {
+        return await this.cycleService.getLast();
+    }
+
 
     @Get()
     @ApiOperation({ summary: 'Get all cycles' })

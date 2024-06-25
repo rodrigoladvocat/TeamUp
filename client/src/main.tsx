@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from './pages/Login';
 import Home from "./pages/collaborator/homepage/HomePage";
+import ManagerHome from "./pages/manager/homepage/HomePage";
 import About from "./pages/About";
 import ErrorPage from './pages/ErrorPage';
 import VisualizeComponent from "./pages/VisualizeComponent";
@@ -10,6 +11,8 @@ import { MenuProvider } from "./context/MenuContext";
 import { RedirectByUserType } from './utils/RedirectByUserType';
 import './global.css';
 import { AuthProvider } from './context/AuthContext';
+
+// ideal to merge both homepages into same route
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
@@ -20,9 +23,10 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
           <Route path="*" element={<ErrorPage />} />
           <Route path="/" element={<Login />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/manager" element={<ManagerHome />} /> {/* TODO registerPage */}
           <Route path="/home" element={
             <RedirectByUserType
-              managerPage={ErrorPage} // TODO substituir por HomeManagerPage
+              managerPage={ManagerHome} // TODO substituir por HomeManagerPage
               collaboratorPage={Home}
             />
           } />

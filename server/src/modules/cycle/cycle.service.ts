@@ -16,6 +16,7 @@ export class CycleService {
   async create(createCycleDto: CreateCycleDto): Promise<Cycle> {
     const initialDate = new Date();
     const finalDate = new Date(createCycleDto.finalDate); // createCycleDto.finalDate is a string
+    const cycleName = createCycleDto.cycleName;
 
     if (finalDate <= initialDate) {
       // now two dates are being compared
@@ -27,6 +28,7 @@ export class CycleService {
     return await this.prisma.cycle.create({
       data: {
         // initialDate and lastUpdated are set to the current date automatically
+        cycleName: cycleName,
         initialDate: initialDate,
         finalDate: createCycleDto.finalDate,
         lastUpdated: initialDate,
@@ -39,6 +41,21 @@ export class CycleService {
       orderBy: {
         finalDate: 'desc',
       },
+    });
+
+    if (!found) {
+      throw new HttpException('No cycles found.', HttpStatus.NO_CONTENT);
+    }
+
+    return found;
+  }
+
+  async getLast(): Promise<Cycle> {
+    const found = await this.prisma.cycle.findFirst({
+      orderBy: {
+        finalDate: 'desc',
+      },
+      skip: 1,
     });
 
     if (!found) {

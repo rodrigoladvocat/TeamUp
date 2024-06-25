@@ -25,14 +25,16 @@ import { ApiTokenCheckMiddleware } from './common/api-token-check.middleware';
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule implements NestModule {
-  configure(consumer: MiddlewareConsumer) {
-    consumer
-      .apply(ApiTokenCheckMiddleware)
-      .exclude(
-        { path: '/user/login', method: RequestMethod.POST },
-        { path: '/user/create', method: RequestMethod.POST },
-      )
-      .forRoutes({ path: '*', method: RequestMethod.ALL })
-  }
-}
+// export class AppModule implements NestModule {
+//   configure(consumer: MiddlewareConsumer) {
+//     consumer
+//       .apply(ApiTokenCheckMiddleware)
+//       .exclude(
+//         { path: '/user/login', method: RequestMethod.POST },
+//         { path: '/user/create', method: RequestMethod.POST },
+//       )
+//       .forRoutes({ path: '*', method: RequestMethod.ALL })
+//   }
+// }
+
+export class AppModule{}
