@@ -110,7 +110,18 @@ model Tuning {
   collaboratorUserId Int
   managerUserId      Int
   cycleId            Int
-  grade              Int
+
+  ownershipMentalityGrade   Int
+  learningAgilityGrade   Int
+  resilienceAdversityGrade   Int
+  teamworkGrade   Int
+  outOfTheBoxThinkingBehavioralGrade   Int
+  deliveringQualityGrade   Int
+  meetingDeadlinesGrade   Int
+  doingMoreWithLessGrade   Int
+  outOfTheBoxThinkingExecutionGrade   Int
+
+  grade              Float
 
   evaluator User @relation("TuningEvaluator", fields: [managerUserId], references: [id])
   evaluated User @relation("TuningEvaluated", fields: [collaboratorUserId], references: [id])

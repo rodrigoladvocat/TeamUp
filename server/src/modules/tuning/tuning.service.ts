@@ -7,8 +7,28 @@ export class TuningService {
     constructor(private prisma: PrismaService) { }
 
     async create(createTuningDto: CreateTuningDto) {
+
+        const grade = () => {
+            let i = 0;
+            let sum = 0;
+            for (var exp in createTuningDto) {
+                if (i > 2) {
+                    sum += createTuningDto[exp];
+                }
+                i++;
+            }
+
+            return (sum / (i - 3));
+        }
+
+        const data = {
+            ...createTuningDto,
+            grade: grade()
+            
+        }
+        
         return await this.prisma.tuning.create({
-            data: createTuningDto
+            data: data
         })
     }
 
