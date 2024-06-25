@@ -19,6 +19,7 @@ export default {
       'purple-text': '#A28BFE',
       'green': '#7DDA58',
       'red': '#FF6B6B',
+      'gray': '#414141',
     },
     fontSize: {
       '32': '2rem',
