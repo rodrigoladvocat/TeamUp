@@ -27,7 +27,7 @@ export class CreateTuningDto {
     cycleId: number
 
     @ApiProperty({
-        description: 'Overall grade for the experience of working toghether.',
+        description: 'Grade for Ownership Mentality (1-5)',
         minimum: 1,
         maximum: 5,
         example: 4
@@ -36,5 +36,106 @@ export class CreateTuningDto {
     @IsNumber({ allowNaN: false, allowInfinity: false })
     @Min(0)
     @Max(5)
-    grade: number
+    ownershipMentalityGrade: number;
+
+    @ApiProperty({
+        description: 'Grade for Learning Agility (1-5)',
+        minimum: 1,
+        maximum: 5,
+        example: 4
+    })
+    @IsNotEmpty()
+    @IsNumber({ allowNaN: false, allowInfinity: false })
+    @Min(0)
+    @Max(5)
+    learningAgilityGrade: number;
+
+    @ApiProperty({
+        description: 'Grade for Resilience to Adversity (1-5)',
+        minimum: 1,
+        maximum: 5,
+        example: 4
+    })
+    @IsNotEmpty()
+    @IsNumber({ allowNaN: false, allowInfinity: false })
+    @Min(0)
+    @Max(5)
+    resilienceAdversityGrade: number;
+
+    @ApiProperty({
+        description: 'Grade for Teamwork (1-5)',
+        minimum: 1,
+        maximum: 5,
+        example: 4
+    })
+    @IsNotEmpty()
+    @IsNumber({ allowNaN: false, allowInfinity: false })
+    @Min(0)
+    @Max(5)
+    teamworkGrade: number;
+
+
+    @ApiProperty({
+        description: 'Grade for Out-of-the-Box Thinking (Behavioral Aspect) (1-5)',
+        minimum: 1,
+        maximum: 5,
+        example: 4
+    })
+    @IsNotEmpty()
+    @IsNumber({ allowNaN: false, allowInfinity: false })
+    @Min(0)
+    @Max(5)
+    outOfTheBoxThinkingBehavioralGrade: number;
+
+
+    @ApiProperty({
+        description: 'Grade for Delivering Quality (1-5)',
+        minimum: 1,
+        maximum: 5,
+        example: 4
+    })
+    @IsNotEmpty()
+    @IsNumber({ allowNaN: false, allowInfinity: false })
+    @Min(0)
+    @Max(5)
+    deliveringQualityGrade: number;
+
+
+    @ApiProperty({
+        description: 'Grade for Meeting Dealines (1-5)',
+        minimum: 1,
+        maximum: 5,
+        example: 4
+    })
+    @IsNotEmpty()
+    @IsNumber({ allowNaN: false, allowInfinity: false })
+    @Min(0)
+    @Max(5)
+    meetingDeadlinesGrade: number;
+
+
+    @ApiProperty({
+        description: 'Grade for Doing More with Less (1-5)',
+        minimum: 1,
+        maximum: 5,
+        example: 4
+    })
+    @IsNotEmpty()
+    @IsNumber({ allowNaN: false, allowInfinity: false })
+    @Min(0)
+    @Max(5)
+    doingMoreWithLessGrade: number;
+
+    @ApiProperty({
+        description: 'Grade for Out-of-the-Box Thinking (Execution Aspect) (1-5)',
+        minimum: 1,
+        maximum: 5,
+        example: 4
+    })
+    @IsNotEmpty()
+    @IsNumber({ allowNaN: false, allowInfinity: false })
+    @Min(0)
+    @Max(5)
+    outOfTheBoxThinkingExecutionGrade: number;
+
 }
