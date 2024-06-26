@@ -1,9 +1,20 @@
-// import { useUser } from '@/hooks/UseUser';
-// import { Navigate, Outlet } from 'react-router-dom';
+import { useAuth } from '../hooks/AuthUser';
+import { Navigate } from 'react-router-dom';
 
-export function RedirectByUserType() {
-  // const { isManager } = useUser(); // TODO - preencher isManager chamando o contexto (contexto chama a API diretamente)
-  
-  // return isManager ? /*Componente com página do manager*/ : /* Componente com página do colaborador */ />;
-  return <div>Under Maintenace</div>;
+interface Props {
+  collaboratorPage: React.ComponentType;
+  managerPage: React.ComponentType;
+}
+
+export function RedirectByUserType({
+  collaboratorPage: CollaboratorPage, 
+  managerPage: ManagerPage
+}: Props) {
+  const { user } = useAuth();
+
+  if (!user) {
+    return <Navigate to='/login' />;
+  }
+
+  return user.isManager ? <ManagerPage/> : <CollaboratorPage/>;
 }

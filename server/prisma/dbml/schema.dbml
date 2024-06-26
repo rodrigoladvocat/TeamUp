@@ -27,6 +27,7 @@ Table User {
 
 Table Cycle {
   id Int [pk, increment]
+  cycleName String [not null]
   initialDate DateTime [default: `now()`, not null]
   finalDate DateTime [not null]
   lastUpdated DateTime [not null]

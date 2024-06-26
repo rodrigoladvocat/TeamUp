@@ -41,6 +41,14 @@ export class TuningController {
         return this.tuningService.findOne(+userId, +cycleId);
     }
 
+    @Get('gettuning/cycle/:cycleId')
+    @ApiOperation({ summary: 'Get tuning-evaluations by cycleId.' })
+    @ApiResponse({ status: 200, description: 'Return all tuning-evaluations filtered by cycleId.' })
+    @ApiResponse({ status: 400, description: 'Bad Request. Stopped by some validator.' })
+    async findByCycle(@Param('cycleId', applyIdValidation) cycleId: number): Promise<Tuning[]> {
+        return this.tuningService.findByCycleId(+cycleId);
+    }
+
 
     @Get(':userId')
     @ApiOperation({ summary: 'Get tuning-evaluations by (userId, cycleId).' })
