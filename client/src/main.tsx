@@ -11,6 +11,7 @@ import { MenuProvider } from "./context/MenuContext";
 import { RedirectByUserType } from './utils/RedirectByUserType';
 import './global.css';
 import { AuthProvider } from './context/AuthContext';
+import ProfilePage from './pages/ProfilePage';
 
 // ideal to merge both homepages into same route
 
@@ -54,7 +55,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
               collaboratorPage={ErrorPage} // TODO substituir por OthersEvaluationCollaboratorPage
             />
           } />
-          <Route path="/profile/:id" element={<ErrorPage/>}/> {/* TODO profilePage (usar id da URL no useEffect para acessar rota GET user by id do backend */}
+          <Route path="/profile/:id" element={<ProfilePage/>}/> {/* TODO profilePage (usar id da URL no useEffect para acessar rota GET user by id do backend */}
           <Route path="/about" element={<About/>}/>
           <Route path="/dev" element={<VisualizeComponent />} />
         </Routes>

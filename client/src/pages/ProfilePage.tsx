@@ -1,11 +1,8 @@
-import SearchBar from "@/components/SearchBar";
-
 import { useEffect, useState } from "react";
-import { getCollaboratorsByName } from "@/utils/getCollaboratorsByName";
-import Card from "@/components/Card";
-import { SearchBarProvider, useSearchBar } from "@/context/SearchBarContext";
+import { getCollaboratorsById } from "@/utils/getCollaboratorsById";
 import { Menu } from "@/components/Menu";
 import Header from "@/components/Header";
+import { useParams } from "react-router-dom";
 
 interface CollaboratorProps {
   name: string;
@@ -15,22 +12,31 @@ interface CollaboratorProps {
   id: string;
   telephone: string;
   email: string;
-  adress: string;
+  street: string;
+  state: string;
   cpf: string;
 }
 
 const Profile = () => {
-  const user: CollaboratorProps = {
-    name: "Fulana da Silva",
-    role: "developer",
-    imageSrc: "TODO - put default image", // Replace with the actual default image URL
-    age: 20,
-    id: "2",
-    telephone: "08191234-1234",
-    email: "fulana@gmail.com",
-    adress: "Rua Inexistente",
-    cpf: "22222222222",
-  };
+  const { id } = useParams<{ id?: string }>();
+  const [user, setUser] = useState<CollaboratorProps | null>(null);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const userData = await getCollaboratorsById(id);
+        setUser(userData);
+      } catch (error) {
+        console.error("Error fetching user:", error);
+      }
+    };
+
+    fetchUser();
+  }, [id]); // Fetch data whenever id changes
+
+  if (!user) {
+    return <div>Loading...</div>; // Add a loading state or indicator
+  }
 
   return (
     <div className="flex flex-1 p-6 min-h-screen bg-gray-900 text-white">
@@ -114,7 +120,7 @@ const Profile = () => {
                   <input
                     type="text"
                     className="w-full pl-6 pr-12 py-2 rounded-xl read-only:bg-[#333] placeholder-white border-0 outline-none"
-                    placeholder={user.adress}
+                    placeholder={user.street + ", " + user.state}
                     readOnly
                   />
                 </div>
