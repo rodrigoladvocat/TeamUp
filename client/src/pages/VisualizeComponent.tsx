@@ -1,8 +1,6 @@
-
-import { Button } from "@/components/ui/button";
-import SearchBar from "@/components/SearchBar";
 import { TooltipProvider, TooltipTrigger, TooltipContent, Tooltip } from "@radix-ui/react-tooltip";
 import {InfoIcon} from 'lucide-react'; // buscar icones do lucide pode ser bem útil
+import GradeManagerPage  from "./manager/GradesManagerPage/GradesManagerPage";
 
 interface Props {}
 
@@ -25,13 +23,11 @@ function TooltipDemo() {
 }
 
 export default function VisualizeComponent({}: Props): JSX.Element {
- 
-
 
   return (
-    <div className="snap-center self-center items-center origin-center place-self-center justify-self-center">
-      {/* Coloque o componente aqui para visualizar */}
-      {<SearchBar/>}
-    </div>
+    // <div className="snap-center self-center items-center origin-center place-self-center justify-self-center">
+    //   {/* Coloque o componente aqui para visualizar */}
+    // </div>
+    <GradeManagerPage/>
   );
 };

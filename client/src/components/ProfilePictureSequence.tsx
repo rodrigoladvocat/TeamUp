@@ -17,6 +17,7 @@ export function circleIcon (imgUrl: string) {
 export function profilePictureSequence(pictures: string[]) {
 
     return (
+        // if pictures array is empty, return a default message
         <div className="flex-1 flex flex-row justify-center">
             {pictures.map((picture, index) => {
                 return (

@@ -1,13 +1,22 @@
-import React from 'react';
+import React, { useState } from 'react';
 import '../global.css';
+import { useSearchBar } from '@/context/SearchBarContext';
 
 const SearchBar: React.FC = () => {
+  const { search, setSearch } = useSearchBar();
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearch(e.target.value);
+  }
+
   return (
     <div className="relative w-full max-w-xs">
       <input 
         type="text" 
         placeholder="Buscar por colaborador" 
-        className="w-full pl-6 pr-12 py-2 rounded-xl border border-purple-text focus:outline-none"
+        value={search}
+        onChange={handleChange}
+        className="w-full pl-6 pr-12 py-3 rounded-xl border border-purple-text focus:outline-none"
       />
       <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
         <svg 

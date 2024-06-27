@@ -77,7 +77,7 @@ button:focus-visible {
 }
 
 .placeholder-purple::placeholder {
-  color: #646cff;
+  color: #646cff; 
 }
 
 @media (prefers-color-scheme: light) {
