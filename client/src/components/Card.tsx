@@ -1,4 +1,5 @@
 import React from 'react';
+import defaultProfileImage from '../assets/default_profile_image.png';
 
 interface CardProps {
   imageSrc: string;
@@ -9,16 +10,22 @@ interface CardProps {
 
 const Card: React.FC<CardProps> = ({ imageSrc, name, role, email }) => {
   return (
-    <div className="font-poppins w-[203px] h-[213px] rounded-[16px] shadow-lg bg-green">
-      <div className="h-[127px] w-[127px] mx-auto">
-        <img src={imageSrc} alt={name} className="h-full object-cover rounded-full" />
-      </div>
-      <div className="text-center mt-2">
-        <div className="flex-1 mb-2">
-            <div className="text-16 max-w-md">{name}</div>
-            <div className="text-purple-text text-14 text-base">{role}</div>
+    <div className="font-poppins w-[256px] h-[310px] rounded-[16px] shadow-xl bg-gray overflow-hidden">
+      <div className="flex flex-col w-full p-5 mt-2">
+        <div className="flex-1 h-[127px] w-[127px] mx-auto">
+          <img src={imageSrc} 
+            alt={name} 
+            className="h-full object-cover rounded-full" 
+            onError={(e) => {
+              e.currentTarget.src = defaultProfileImage;
+            }}
+            />
         </div>
-        <p className="text-14">{email}</p>
+        <div className="flex-1 text-center mt-8">
+          <div className="text-20 max-w-md font-bold">{name}</div>
+          <div className="text-purple-text text-16 font-medium text-base my-2">{role}</div>
+          <div className="text-16 font-medium">{email}</div>
+        </div>
       </div>
     </div>
   );

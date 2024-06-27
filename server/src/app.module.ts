@@ -20,7 +20,8 @@ import { ApiTokenCheckMiddleware } from './common/api-token-check.middleware';
     OthersevaluationModule,
     TuningModule,
     ConfigModule.forRoot({ isGlobal: true }),
-    JwtModule.register({ secret: process.env.JWT_SECRET, global: true }),
+    JwtModule.register({ secret: "!@34Th9!Jk8f9wo34L&$fdjeiw2349&fnn22kfv!flrO2vci2Kf@9Jkds#loSvn38P0", // add secret key to .env file
+                         global: true }),
   ],
   controllers: [AppController],
   providers: [AppService],

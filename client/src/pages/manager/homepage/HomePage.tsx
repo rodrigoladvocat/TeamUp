@@ -82,7 +82,7 @@ const HomePage: React.FC = () => {
 
         <main className="flex-1 p-6 bg-general-background h-[920px]">
 
-          <Header userName="Pedro Almeida" profileImage="/profile.jpg" title="Página inicial"/>
+          <Header userName="Pedro Almeida" subtitle="teste subtitulo" profileImage="/profile.jpg" title="Página inicial"/>
           
           <div className="flex mb-6">
             <div className="col-span-2 bg-content-background p-4 pl-5 rounded-2xl w-[45rem]">

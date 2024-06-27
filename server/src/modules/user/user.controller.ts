@@ -86,11 +86,21 @@ export class UserController {
     return await this.userService.getByRole(role);
   }
 
-  @Get('collaborators/find')
-  @ApiOperation({ summary: 'Get all users that are collaborators' })
+  @Get('collaborators/find/:name')
+  @ApiOperation({ summary: 'Get collaborators by name' })
   @ApiResponse({
     status: 200,
-    description: 'Return all users that are collaborators.',
+    description: 'Return array of collaborators filtered by name',
+  })
+  async getCollaboratorsByName(@Param('name') name: string): Promise<User[]> {
+    return await this.userService.getCollaboratorsByName(name);
+  }
+
+  @Get('collaborators/find/')
+  @ApiOperation({ summary: 'Get collaborators by name' })
+  @ApiResponse({
+    status: 200,
+    description: 'Return array of collaborators filtered by name',
   })
   async getCollaborators(): Promise<User[]> {
     return await this.userService.getCollaborators();
