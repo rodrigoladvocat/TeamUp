@@ -35,7 +35,7 @@ const Profile = () => {
   }, [id]); // Fetch data whenever id changes
 
   if (!user) {
-    return <div>Loading...</div>; // Add a loading state or indicator
+    return <div></div>; // Add a loading state or indicator
   }
 
   return (
