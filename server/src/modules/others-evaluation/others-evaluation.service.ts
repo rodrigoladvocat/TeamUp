@@ -43,7 +43,7 @@ export class OthersevaluationService {
                 evaluatedUserId: updateOthersevaluationDto.evaluatedUserId,
                 cycleId: updateOthersevaluationDto.cycleId
             },
-            data: updateOthersevaluationDto
+            data: { ...updateOthersevaluationDto, lastUpdated: new Date() }
         });
     }
 
