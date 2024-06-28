@@ -28,7 +28,7 @@ export default function GradeForm({profileUrl, name, role, onChange}: Props): JS
   return (
     <div className="flex flex-col min-w-fit">
       <UserDisplay profileUrl={profileUrl} name={name} role={role}>
-        <GradePicker onChange={handleSelectGrade}></GradePicker>
+        <GradePicker onChange={handleSelectGrade} type={'circles'}></GradePicker>
       </UserDisplay>
       
       <textarea rows={5}
