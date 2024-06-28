@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { getCollaboratorsById } from "@/utils/getCollaboratorsById";
 import { Menu } from "@/components/Menu";
-import Header from "@/components/Header";
 import { Link, useParams } from "react-router-dom";
 import arrowBack from "../assets/arrow-back-circle.svg";
 
@@ -17,6 +16,7 @@ interface CollaboratorProps {
   state: string;
   cpf: string;
   bio: string;
+  admissionDate: Date;
 }
 
 const Profile = () => {
@@ -27,7 +27,10 @@ const Profile = () => {
     const fetchUser = async () => {
       try {
         const userData = await getCollaboratorsById(id);
-        setUser(userData);
+        const formattedDate = new Date(
+          userData.admissionDate
+        ).toLocaleDateString("pt-BR");
+        setUser({ ...userData, admissionDate: formattedDate });
       } catch (error) {
         console.error("Error fetching user:", error);
       }
@@ -37,7 +40,17 @@ const Profile = () => {
   }, [id]); // Fetch data whenever id changes
 
   if (!user) {
-    return <div></div>; // Add a loading state or indicator
+    return (
+      <div className="flex flex-1 p-6 min-h-screen bg-gray-900 text-white">
+        <div className="flex flex-1">
+          <aside>
+            <div>
+              <Menu></Menu>
+            </div>
+          </aside>
+        </div>
+      </div>
+    );
   }
 
   return (
@@ -92,7 +105,7 @@ const Profile = () => {
                   <span className="text-primary text-16">
                     Data de admissão:{" "}
                   </span>
-                  <span>20/08/2020</span>
+                  <span>{user.admissionDate}</span>
                 </div>
                 <div className="pt-24 text-primary text-16">
                   Status do colaborador:
