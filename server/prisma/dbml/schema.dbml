@@ -60,6 +60,7 @@ Table SelfEvaluation {
   doingMoreWithLessComment String [not null]
   outOfTheBoxThinkingExecutionGrade Int [not null]
   outOfTheBoxThinkingExecutionComment String [not null]
+  lastUpdated DateTime [default: `now()`, not null]
   user User [not null]
   cycle Cycle [not null]
 }
@@ -71,6 +72,7 @@ Table OthersEvaluation {
   cycleId Int [not null]
   grade Int [not null]
   comment String [not null]
+  lastUpdated DateTime [default: `now()`, not null]
   evaluator User [not null]
   evaluated User [not null]
   cycle Cycle [not null]
@@ -91,6 +93,7 @@ Table Tuning {
   doingMoreWithLessGrade Int [not null]
   outOfTheBoxThinkingExecutionGrade Int [not null]
   grade Float [not null]
+  lastUpdated DateTime [default: `now()`, not null]
   evaluator User [not null]
   evaluated User [not null]
   cycle Cycle [not null]

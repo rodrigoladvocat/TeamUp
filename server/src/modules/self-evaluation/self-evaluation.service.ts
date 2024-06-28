@@ -61,7 +61,7 @@ export class SelfevaluationService {
                 userId: updateSelfEvaluationDto.userId,
                 cycleId: updateSelfEvaluationDto.cycleId
             },
-            data: updateSelfEvaluationDto
+            data: { ...updateSelfEvaluationDto, lastUpdated: new Date() }
         })
     }
 }
