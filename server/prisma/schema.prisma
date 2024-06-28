@@ -34,6 +34,7 @@ model User {
   state     String
   zipCode   String
   bio       String @default("Just a TeamUp user")
+  admissionDate DateTime @default(now())
 
   selfEvaluation       SelfEvaluation[] 
 
@@ -43,6 +44,7 @@ model User {
   tuningEvaluator      Tuning []           @relation("TuningEvaluator")
   tuningEvaluated      Tuning []           @relation("TuningEvaluated")
 }
+
 
 model Cycle {
   id          Int      @default(autoincrement()) @id
