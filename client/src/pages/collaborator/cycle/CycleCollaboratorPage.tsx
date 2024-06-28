@@ -133,7 +133,7 @@ const Page = () => {
                         </Button>
                       </div>
                       <div className="flex-1 flex items-center justify-center text-[#D3C8FF]">
-                        <p>{autoEval !== null ? DateFormat(new Date(autoEval.lastUpdated)) : "----"}</p>
+                        <p>{autoEval !== null ? DateFormat(autoEval.lastUpdated) : "----"}</p>
                       </div>
                       <div className="flex-1 flex items-center justify-center">
                         <span className="inline-block px-2 py-1 text-sm font-medium text-yellow-900 rounded-md">
