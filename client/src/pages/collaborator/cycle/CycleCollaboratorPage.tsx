@@ -22,7 +22,7 @@ const Page = () => {
             
           <Header userName="Pedro Almeida" subtitle="*data de inicio e fim do ciclo atual" profileImage="/profile.jpg" title="Sobre a Plataforma"/>
 
-            <div className="flex flex-col flex-1 p-6 gap-[3rem]">
+            <div className="flex flex-col flex-1 p-6 gap-[3.5rem]">
                 <p>
                     Escolha o tipo de avaliação que deseja realizar, lembrando que é necessário que todos os colaboradores realizem ambas as avaliações, que ficam abertas e sujeitas a edição até o final do ciclo avaliativo.
                 </p>
@@ -52,7 +52,7 @@ const Page = () => {
                     </div>
                 </div>
 
-                <div className="p-6 rounded-xl border border-purple-text">
+                <div className="p-6 rounded-xl border border-purple-text mt-5">
                   <div className="text-purple-text text-[20px] font-bold ml-[5.5rem]">
                     Ciclo avaliativo 2023.2
                   </div>
