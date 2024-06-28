@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { getCollaboratorsById } from "@/utils/getCollaboratorsById";
 import { Menu } from "@/components/Menu";
 import Header from "@/components/Header";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import arrowBack from "../assets/arrow-back-circle.svg";
 
 interface CollaboratorProps {
@@ -53,9 +53,11 @@ const Profile = () => {
           <header className="flex justify-between items-center mb-3">
             <h1 className="text-32 text-left text-purple-text font-bold">
               <div className="flex flex-row">
-                <div className="pr-2">
-                  <img src={arrowBack} alt="Arrow Back" />
-                </div>
+                <Link to={"/dev"}>
+                  <div className="pr-2 pt-1">
+                    <img src={arrowBack} alt="Arrow Back" />
+                  </div>
+                </Link>
                 <div>
                   <div className="flex-1">Colaboradores</div>
                   <div className="flex-1 mt-1 text-white text-20 font-poppins font-normal flex flex-row">
