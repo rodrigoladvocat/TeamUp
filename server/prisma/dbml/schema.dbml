@@ -59,6 +59,7 @@ Table SelfEvaluation {
   outOfTheBoxThinkingExecutionGrade Int [not null]
   outOfTheBoxThinkingExecutionComment String [not null]
   lastUpdated DateTime [default: `now()`, not null]
+  isFinalized Boolean [not null, default: false]
   user User [not null]
   cycle Cycle [not null]
 }
@@ -71,6 +72,7 @@ Table OthersEvaluation {
   grade Int [not null]
   comment String [not null]
   lastUpdated DateTime [default: `now()`, not null]
+  isFinalized Boolean [not null, default: false]
   evaluator User [not null]
   evaluated User [not null]
   cycle Cycle [not null]
