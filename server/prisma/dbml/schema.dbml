@@ -18,6 +18,7 @@ Table User {
   city String [not null]
   state String [not null]
   zipCode String [not null]
+  bio String [not null, default: 'Just a TeamUp user']
   selfEvaluation SelfEvaluation [not null]
   othersEvaluator OthersEvaluation [not null]
   othersEvaluated OthersEvaluation [not null]

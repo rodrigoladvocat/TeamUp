@@ -15,6 +15,7 @@ interface CollaboratorProps {
   street: string;
   state: string;
   cpf: string;
+  bio: string;
 }
 
 const Profile = () => {
@@ -62,12 +63,7 @@ const Profile = () => {
                   <div className="text-left text-purple-text font-bold text-20">
                     Sobre mim
                   </div>
-                  <div className="text-left text-16 w-full">
-                    Sou João Silva, Designer de Produtos na Visagio, com mais de
-                    cinco anos de experiência. Crio soluções intuitivas e
-                    atraentes, liderando projetos do início ao fim. Sou
-                    apaixonado por novas tecnologias e tendências de design.
-                  </div>
+                  <div className="text-left text-16 w-full">{user.bio}</div>
                 </div>
                 <div>
                   <div className="text-left text-purple-text font-bold text-20 py-3">

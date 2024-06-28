@@ -92,4 +92,9 @@ export class CreateUserDto {
   @IsNotEmpty()
   @IsPostalCode('BR')
   zipCode: string;
+
+  @ApiProperty({ description: 'User bio', example: 'A user who loves to use TeamUp' })
+  @IsNotEmpty()
+  @IsString()
+  bio: string;
 }

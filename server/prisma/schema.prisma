@@ -33,6 +33,7 @@ model User {
   city      String
   state     String
   zipCode   String
+  bio       String @default("Just a TeamUp user")
 
   selfEvaluation       SelfEvaluation[] 
 

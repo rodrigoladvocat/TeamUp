@@ -17,7 +17,8 @@ export const validCreateUserDto: CreateUserDto = {
   city: "Recife",
   state: "Brasil",
   number: "123",
-  zipCode: "123456-789"
+  zipCode: "123456-789",
+  bio: "Sou João Silva, Designer de Produtos na Visagio, com mais de cinco anos de experiência. Crio soluções intuitivas e atraentes, liderando projetos do início ao fim. Sou apaixonado por novas tecnologias e tendências de design."
 };
 
 export const validCreatedUserResponse = {
