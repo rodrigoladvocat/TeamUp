@@ -11,6 +11,7 @@ import { MenuProvider } from "./context/MenuContext";
 import { RedirectByUserType } from './utils/RedirectByUserType';
 import './global.css';
 import { AuthProvider } from './context/AuthContext';
+import CycleCollaboratorPage from './pages/collaborator/cycle/CycleCollaboratorPage';
 
 // ideal to merge both homepages into same route
 
@@ -23,7 +24,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
           <Route path="*" element={<ErrorPage />} />
           <Route path="/" element={<Login />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/manager" element={<ManagerHome />} /> {/* TODO registerPage */}
+          <Route path="/cycle" element={<CycleCollaboratorPage />} /> {/* TODO registerPage */}
           <Route path="/home" element={
             <RedirectByUserType
               managerPage={ManagerHome} // TODO substituir por HomeManagerPage
