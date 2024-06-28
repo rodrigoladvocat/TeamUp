@@ -27,6 +27,5 @@ export default function ProfilePictureSequence({pictures}: Props) {
         )
       })}
     </div>
-  );
-
+  )
 }

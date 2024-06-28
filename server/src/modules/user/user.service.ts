@@ -80,6 +80,17 @@ export class UserService {
     }
 
 
+    async getCollaboratorsByName(name: string): Promise<User[]> {
+        return await this.prisma.user.findMany({
+            where: {
+                isManager: false,
+                name: {
+                    contains: name
+                }
+            }
+        });
+    }
+
     async getCollaborators(): Promise<User[]> {
         return await this.prisma.user.findMany({
             where: {

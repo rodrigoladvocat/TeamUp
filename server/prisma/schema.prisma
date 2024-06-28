@@ -87,6 +87,8 @@ model SelfEvaluation {
   outOfTheBoxThinkingExecutionGrade   Int
   outOfTheBoxThinkingExecutionComment String
 
+  lastUpdated        DateTime      @default(now())
+
   user      User @relation(fields: [userId], references: [id])
   cycle     Cycle @relation(fields: [cycleId], references: [id]) 
 }
@@ -99,6 +101,8 @@ model OthersEvaluation {
   
   grade       Int
   comment     String
+
+  lastUpdated        DateTime      @default(now())
 
   evaluator User @relation("OthersEvaluator", fields: [evaluatorUserId], references: [id])
   evaluated User @relation("OthersEvaluated", fields: [evaluatedUserId], references: [id])
@@ -122,6 +126,8 @@ model Tuning {
   outOfTheBoxThinkingExecutionGrade   Int
 
   grade              Float
+
+  lastUpdated        DateTime      @default(now())
 
   evaluator User @relation("TuningEvaluator", fields: [managerUserId], references: [id])
   evaluated User @relation("TuningEvaluated", fields: [collaboratorUserId], references: [id])
