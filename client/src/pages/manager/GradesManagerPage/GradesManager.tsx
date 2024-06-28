@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { getCollaboratorsByName } from "@/utils/getCollaboratorsByName";
 import Card from "@/components/Card";
 import { SearchBarProvider, useSearchBar } from "@/context/SearchBarContext";
+import { useAuth } from "@/hooks/AuthUser";
 
 interface CollaboratorProps {
     name: string;
@@ -36,6 +37,7 @@ const About = () => {
             });
 
             setCollaborators(append_array);
+
         });
 
     }, [search]);

@@ -30,6 +30,7 @@ const HomePage: React.FC = () => {
       getLastCycle().then((id) => {
         setCycleId(id);
       });
+      
     }, []); // runs once when the component is mounted
     
     useEffect(() => {

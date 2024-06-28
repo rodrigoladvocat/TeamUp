@@ -52,7 +52,7 @@ export class SelfEvaluationController {
     @ApiResponse({ status: 400, description: 'Bad Request. Stopped by some validator.' })
     async createSelfEvaluation(
         @Body(applyBodyValidation) createSelfEvaluationDto: CreateSelfEvaluationDto
-    ): Promise<SelfEvaluation> {
+    ){
         return this.selfevaluationService.createSelfEvaluation(createSelfEvaluationDto);
     }
 

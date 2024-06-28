@@ -89,6 +89,8 @@ model SelfEvaluation {
 
   lastUpdated        DateTime      @default(now())
 
+  isFinalized        Boolean       @default(false)
+
   user      User @relation(fields: [userId], references: [id])
   cycle     Cycle @relation(fields: [cycleId], references: [id]) 
 }
@@ -103,6 +105,8 @@ model OthersEvaluation {
   comment     String
 
   lastUpdated        DateTime      @default(now())
+
+  isFinalized        Boolean       @default(false)
 
   evaluator User @relation("OthersEvaluator", fields: [evaluatorUserId], references: [id])
   evaluated User @relation("OthersEvaluated", fields: [evaluatedUserId], references: [id])
