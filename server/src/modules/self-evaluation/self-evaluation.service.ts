@@ -47,7 +47,25 @@ export class SelfevaluationService {
     }
 
 
-    async createSelfEvaluation(createSelfEvaluationDto: CreateSelfEvaluationDto): Promise<SelfEvaluation> {
+    async createSelfEvaluation(createSelfEvaluationDto: CreateSelfEvaluationDto) {
+        const found = await this.prisma.selfEvaluation.findFirst({
+            where: {
+                userId: createSelfEvaluationDto.userId,
+                cycleId: createSelfEvaluationDto.cycleId
+            }
+        });
+
+        // prevents from creating a new self evaluation if it already exists
+        if (found){
+            return await this.prisma.selfEvaluation.updateMany({
+                where: {
+                    userId: createSelfEvaluationDto.userId,
+                    cycleId: createSelfEvaluationDto.cycleId
+                },
+                data: createSelfEvaluationDto
+            })
+        }
+        
         return await this.prisma.selfEvaluation.create({
             data: createSelfEvaluationDto
         }

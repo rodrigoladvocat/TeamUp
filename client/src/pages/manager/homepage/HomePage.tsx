@@ -14,6 +14,7 @@ import { profilePictureSequence } from "../../../components/ProfilePictureSequen
 
 import { getTuningByCycleId } from "../../../utils/getTuningByCycleId";
 import { getLastCycle } from "../../../utils/getLastCycle";
+import { useAuth } from "@/hooks/AuthUser";
 // Request grades and users from the backend
 
 const HomePage: React.FC = () => {
@@ -26,11 +27,13 @@ const HomePage: React.FC = () => {
     const [ picturesArrayMuitoBom, setPicturesArrayMuitoBom ] = useState<string[]>([]);
     const [ picturesArrayFezOBasico, setPicturesArrayFezOBasico ] = useState<string[]>([]);
     const [ picturesArrayPrecisoMelhorar, setPicturesArrayPrecisoMelhorar ] = useState<string[]>([]);
+    const {user} = useAuth();
 
     useEffect(() => {
       getLastCycle().then((id) => {
         setCycleId(id);
       });
+      
     }, []); // runs once when the component is mounted
     
     useEffect(() => {

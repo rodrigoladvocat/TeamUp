@@ -36,6 +36,12 @@ export class OthersevaluationService {
     }
 
 
+    async evaluatorGetsOthersEval(evaluatorUserId: number, cycleId: number) {
+        return await this.prisma.othersEvaluation.findMany({
+            where: { evaluatorUserId: evaluatorUserId, cycleId: cycleId }
+        });
+    }
+
     async update(updateOthersevaluationDto: UpdateOthersevaluationDto) {
         return await this.prisma.othersEvaluation.updateMany({
             where: {

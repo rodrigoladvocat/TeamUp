@@ -37,10 +37,10 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
               collaboratorPage={ErrorPage} // TODO substituir por GradesCollaboratorPage
             />
           } />
-          <Route path="/cycle" element={
+          <Route path="/avaliacoes" element={
             <RedirectByUserType
-              managerPage={ErrorPage} // TODO substituir por CycleManagerPage
-              collaboratorPage={ErrorPage} // TODO substituir por CycleCollaboratorPage
+              managerPage={CycleCollaboratorPage} // TODO substituir por CycleManagerPage
+              collaboratorPage={CycleCollaboratorPage} // TODO substituir por CycleCollaboratorPage
             />
           } />
           <Route path="/self-evaluation" element={
