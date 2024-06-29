@@ -10,11 +10,9 @@ import vector_horizontal from "../../../assets/vector_horizontal.svg";
 import concept_icons from "../../../assets/concept_icons";
 import { useState, useEffect } from "react";
 
-import { profilePictureSequence } from "../../../components/ProfilePictureSequence";
-
 import { getTuningByCycleId } from "../../../utils/getTuningByCycleId";
 import { getLastCycle } from "../../../utils/getLastCycle";
-
+import ProfilePictureSequence from "../../../components/ProfilePictureSequence";
 // Request grades and users from the backend
 
 const HomePage: React.FC = () => {
@@ -215,7 +213,7 @@ const HomePage: React.FC = () => {
                     <img src={vector_horizontal} alt="vector" />
                   </div>
 
-                  {profilePictureSequence(picturesArrayExcepcional)}
+                  <ProfilePictureSequence pictures={picturesArrayExcepcional}/>
                 </div>
 
                 <div className="flex-1 flex flex-row mt-4">
@@ -227,7 +225,7 @@ const HomePage: React.FC = () => {
                       <img src={vector_horizontal} alt="vector" />
                     </div>
 
-                    {profilePictureSequence(picturesArrayMuitoBom)}
+                    <ProfilePictureSequence pictures={picturesArrayMuitoBom}/>
                 </div>
 
                 <div className="flex-1 flex flex-row mt-4">
@@ -239,7 +237,7 @@ const HomePage: React.FC = () => {
                       <img src={vector_horizontal} alt="vector" />
                     </div>
 
-                    {profilePictureSequence(picturesArrayFezOBasico)}
+                    <ProfilePictureSequence pictures={picturesArrayFezOBasico}/>
                 </div>
 
                 <div className="flex-1 flex flex-row items-center mt-4">
@@ -251,7 +249,7 @@ const HomePage: React.FC = () => {
                       <img src={vector_horizontal} alt="vector" />
                     </div>
 
-                    {profilePictureSequence(picturesArrayPrecisoMelhorar)}
+                    <ProfilePictureSequence pictures={picturesArrayPrecisoMelhorar}/>
                 </div>
 
               </div>  
