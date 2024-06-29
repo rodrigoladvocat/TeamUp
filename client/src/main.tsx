@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from './pages/Login';
 import Home from "./pages/collaborator/homepage/HomePage";
+import Tabs from "./pages/collaborator/GradesPage/GradesPage";
 import ManagerHome from "./pages/manager/homepage/HomePage";
 import About from "./pages/About";
 import ErrorPage from './pages/ErrorPage';
@@ -22,6 +23,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
         <Routes>
           <Route path="*" element={<ErrorPage />} />
           <Route path="/" element={<Login />} />
+          <Route path="a" element={<Tabs />} />
           <Route path="/login" element={<Login />} />
           <Route path="/manager" element={<ManagerHome />} /> {/* TODO registerPage */}
           <Route path="/home" element={

@@ -54,8 +54,8 @@ const Accordion: React.FC<AccordionProps> = ({ title }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className="rounded-2xl w-[28rem] bg-content-background overflow-hidden transition-all duration-500" style={{ height: isOpen ? '296px' : '4.5rem' }}>
-      <div className="h-[4.5rem] rounded-2xl w-full bg-content-background flex flex-col">
+    <div className="rounded-2xl w-[28rem] bg-teste overflow-hidden transition-all duration-500" style={{ height: isOpen ? '296px' : '4.5rem' }}>
+      <div className="h-[4.5rem] rounded-2xl w-full bg-teste flex flex-col">
         <div className="w-full flex justify-between items-center p-4">
           <span className="text-20 text-purple-text font-bold">{title}</span>
           <img
