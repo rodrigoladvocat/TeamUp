@@ -61,7 +61,7 @@ export class CreateUserDto {
   @IsPhoneNumber('BR')
   telephone: string;
 
-  @ApiProperty({ description: 'User cpf', example: 'Some name' })
+  @ApiProperty({ description: 'User cpf', example: '123123123-12' })
   @IsNotEmpty()
   @Length(11, 11)
   cpf: string;

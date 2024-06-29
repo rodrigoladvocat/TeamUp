@@ -23,7 +23,7 @@ model User {
   email     String  @unique
   password  String
   imgUrl    String
-  isManager Boolean // may be redundant*
+  isManager Boolean
   role      String
   age       Int
   telephone String

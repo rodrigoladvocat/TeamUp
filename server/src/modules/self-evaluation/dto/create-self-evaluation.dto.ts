@@ -8,6 +8,7 @@ import {
     IsOptional,
     Max,
     Min,
+    IsBoolean,
 } from 'class-validator';
 
 export class CreateSelfEvaluationDto {
@@ -214,4 +215,12 @@ export class CreateSelfEvaluationDto {
     @IsNotEmpty()
     @IsString()
     outOfTheBoxThinkingExecutionComment: string;
+
+    @ApiProperty({
+        description: 'Stores if the evaluation is finalized',
+        example: false
+    })
+    @IsOptional()
+    @IsBoolean()
+    isFinalized: boolean;
 }
