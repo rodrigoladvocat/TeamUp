@@ -14,35 +14,42 @@ const Page = () => {
   const { user } = useAuth(); // user has to be logged in
   const [ cycle_dates_message, setcycle_dates_message ] = useState<string>("");
   const [ autoEval, setAutoEval] = useState<any>(null);                         // autoeval object or null
-  const [ othersEval, setOthersEval] = useState<any>([]);
-  const [ lastUpdatedDateEval, setLastUpdatedDateEval ] = useState<Date | null>(null);
+  const [ autoEvalLastUpdated, setAutoEvalLastUpdated] = useState<string | null>(null); // last updated date of autoeval or null
+  const [ othersEval, setOthersEval] = useState<any[]>([]);
+  const [ lastUpdatedDateEval, setLastUpdatedDateEval ] = useState<string | null>(null);
 
   setMenu(2);
 
-  const [cycle, setCycle] = useState<any>(-1); // either -1 for no cycle or the cycle object
+  const [cycle, setCycle] = useState<any>(null); // either null for no cycle or the cycle object
 
   // sets the current cycle
   useEffect(() => {
     getCurrentCycle().then( (_cycle) => {
-      setCycle(_cycle);
+      if (new Date(_cycle.finalDate) < new Date()) { // checks if the cycle is over
+        setCycle(null);
+      }
+      else{
+        setCycle(_cycle);
+      }
     })
 
   }, []);
 
   // if the cycle is found, sets the cycle_dates_message
   useEffect(() => {
-    let finalDate= new Date(cycle.finalDate);
-    let initialDate= new Date(cycle.initialDate);
 
-    if(cycle !== -1) {
-      setcycle_dates_message(`Período aberto em ${DateFormat(initialDate)} e termina em ${DateFormat(finalDate)}`);
+    if(cycle !== null) {
+      setcycle_dates_message(`Período aberto em ${DateFormat(cycle.initialDate)} e termina em ${DateFormat(cycle.finalDate)}`);
+    }
+    else {
+      setcycle_dates_message("Ciclo finalizado. Aguarde o próximo ciclo para realizar a avaliação.");
     }
 
   }, [cycle]);
 
   // if the user is logged in and the cycle is found, gets the autoeval and othersEval
   useEffect(() => {
-    if (user !== null && cycle !== -1){
+    if (user !== null && cycle !== null){
       getAutoEval(user?.id, cycle.id).then(
         (response) => {
           setAutoEval(response);
@@ -54,16 +61,31 @@ const Page = () => {
       }
     );
     }
+    else {
+      setAutoEval(null);
+      setOthersEval([]);
+    }
   }, [cycle]);
+
+  useEffect(() => {
+    if (autoEval !== null) {
+      setAutoEvalLastUpdated(autoEval.lastUpdated);
+      console.log(typeof(autoEval));
+    }
+    else {
+      setAutoEvalLastUpdated(null);
+    }
+  }, [autoEval])
 
   // gets the last updated date of the othersEval
   useEffect(() => {
-    let lastUpdatedDate: Date | null = null;
-    othersEval.forEach((evaluation: any) => {
-      if (lastUpdatedDate === null || evaluation.lastUpdated > lastUpdatedDate) {
-        lastUpdatedDate = evaluation.lastUpdated;
-      }
-    });
+    let lastUpdatedDate: string | null = null;
+    console.log(othersEval)
+    // othersEval.forEach((evaluation: any) => {
+    //   if (lastUpdatedDate === null || evaluation.lastUpdated > lastUpdatedDate) {
+    //     lastUpdatedDate = evaluation.lastUpdated;
+    //   }
+    // });
     setLastUpdatedDateEval(lastUpdatedDate);  
   }, [othersEval]);
 
@@ -109,7 +131,9 @@ const Page = () => {
                         <span> Ao apontar áreas de melhoria, forneça sugestões práticas e construtivas para o desenvolvimento do colaborador. O objetivo é ajudar na evolução profissional e pessoal.</span>
                     </div>
                 </div>
-
+              {
+              cycle !== null ?
+              
                 <div className="p-6 rounded-xl border border-purple-text mt-5">
                   <div className="text-purple-text text-[20px] font-bold ml-[5.5rem]">
                     Ciclo avaliativo {cycle ? cycle.cycleName : "cycle not found"}
@@ -133,7 +157,7 @@ const Page = () => {
                         </Button>
                       </div>
                       <div className="flex-1 flex items-center justify-center text-[#D3C8FF]">
-                        <p>{autoEval !== null ? DateFormat(autoEval.lastUpdated) : "----"}</p>
+                        <p>{autoEvalLastUpdated !== null ? DateFormat(autoEvalLastUpdated) : "----"}</p>
                       </div>
                       <div className="flex-1 flex items-center justify-center">
                         <span className="inline-block px-2 py-1 text-sm font-medium text-yellow-900 rounded-md">
@@ -158,6 +182,14 @@ const Page = () => {
                     </div>
                   </div>
                 </div>
+
+                :
+                <div className="flex flex-col justify-center p-6 rounded-xl border border-purple-text h-[18rem]">
+                  <div className="text-purple-text text-center text-32 font-bold">
+                    Ciclo avaliativo finalizado.
+                  </div>
+                </div>
+              }
             </div>
           </main>
         </div>

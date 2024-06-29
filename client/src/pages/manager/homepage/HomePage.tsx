@@ -21,25 +21,37 @@ const HomePage: React.FC = () => {
     const { setMenu } = useMenu();
     setMenu(0);
 
-    const [ cycleId, setCycleId ] = useState<number>(-1);
+    const [ cycleId, setCycleId ] = useState<number | null>(null);
+    const [cycle, setCycle] = useState<any>(null);
     const [ tuningData, setTuningData ] = useState<string[]>([]);
     const [ picturesArrayExcepcional, setPicturesArrayExcepcional ] = useState<string[]>([]);
     const [ picturesArrayMuitoBom, setPicturesArrayMuitoBom ] = useState<string[]>([]);
     const [ picturesArrayFezOBasico, setPicturesArrayFezOBasico ] = useState<string[]>([]);
     const [ picturesArrayPrecisoMelhorar, setPicturesArrayPrecisoMelhorar ] = useState<string[]>([]);
 
+
+
     useEffect(() => {
-      getLastCycle().then((id) => {
-        setCycleId(id);
+      getLastCycle().then((_cycle) => {
+        setCycle(_cycle)
+        if (_cycle !== null) {
+          setCycleId(_cycle.id);
+        }
+        else {
+          setCycleId(null);
+        }
       });
       
     }, []); // runs once when the component is mounted
     
     useEffect(() => {
-      if (cycleId !== -1) { // if a cycleId was found
+      if (cycleId !== null) { // if a cycleId was found
         getTuningByCycleId(cycleId).then((data) => {
           setTuningData(data);
         });
+      }
+      else {
+        setTuningData([]);
       }
     }, [cycleId]); // runs when cycleId changes => guarantees that this happens after the first useEffect
 
@@ -115,7 +127,7 @@ const HomePage: React.FC = () => {
                   <ProgressBar />
                 </div>
               </div>
-              <p className="text-12">Ciclo avaliativo 2023.2</p>
+              <p className="text-12">Ciclo avaliativo {cycle !== null ? cycle.cycleName : "not found"}</p>
             </div>
           </div>
 
@@ -191,7 +203,7 @@ const HomePage: React.FC = () => {
                 </div>
 
                 <div className="flex-1 text-left">
-                  <p>Referentes ao ciclo avaliativo 2023.1</p>
+                  <p>Referentes ao ciclo avaliativo {cycle !== null ? cycle.cycleName : "not found"}</p>
                 </div>
 
                 <div className="flex-1 flex flex-row mt-3">
