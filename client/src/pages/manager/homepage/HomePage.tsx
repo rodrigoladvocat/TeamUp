@@ -13,7 +13,7 @@ import { useState, useEffect } from "react";
 import { getTuningByCycleId } from "../../../utils/getTuningByCycleId";
 import { getLastCycle } from "../../../utils/getLastCycle";
 import ProfilePictureSequence from "../../../components/ProfilePictureSequence";
-// Request grades and users from the backend
+// order grades and display the 4 best and 4 worst
 
 const HomePage: React.FC = () => {
     const { setMenu } = useMenu();
@@ -68,10 +68,10 @@ const HomePage: React.FC = () => {
         if (tuning.grade >= 4) {
           _picturesArrayExcepcional.push(tuning.evaluated.imgUrl);
         }
-        else if (tuning.grade === 3) {
+        else if (tuning.grade > 3) {
           _picturesArrayMuitoBom.push(tuning.evaluated.imgUrl);
         }
-        else if (tuning.grade === 2) {
+        else if (tuning.grade > 2) {
           _picturesArrayFezOBasico.push(tuning.evaluated.imgUrl);
         }
         else {

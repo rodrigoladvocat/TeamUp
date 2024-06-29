@@ -8,15 +8,21 @@ import { useAuth } from "@/hooks/AuthUser";
 import { getAutoEval } from "@/utils/getAutoEval";
 import { evaluatorGetsOthersEval } from "@/utils/evaluatorGetsOthersEval";
 import DateFormat from "@/utils/dateformat/DateFormat";
+import TagStage from "@/components/TagStage";
+import { Tag } from "lucide-react";
 
 const Page = () => {
   const { setMenu } = useMenu();
   const { user } = useAuth(); // user has to be logged in
   const [ cycle_dates_message, setcycle_dates_message ] = useState<string>("");
+  
   const [ autoEval, setAutoEval] = useState<any>(null);                         // autoeval object or null
   const [ autoEvalLastUpdated, setAutoEvalLastUpdated] = useState<string | null>(null); // last updated date of autoeval or null
   const [ othersEval, setOthersEval] = useState<any[]>([]);
   const [ lastUpdatedDateEval, setLastUpdatedDateEval ] = useState<string | null>(null);
+
+  const [ autoEvalIsFinished, setAutoEvalIsFinished ] = useState<boolean>(false);  // checks if the autoeval is finished
+  const [ othersEvalIsFinished, setOthersEvalIsFinished ] = useState<boolean>(false); // checks if the othersEval is finished
 
   setMenu(2);
 
@@ -25,7 +31,10 @@ const Page = () => {
   // sets the current cycle
   useEffect(() => {
     getCurrentCycle().then( (_cycle) => {
-      if (new Date(_cycle.finalDate) < new Date()) { // checks if the cycle is over
+      if (_cycle === null) {
+        setCycle(null);
+      }
+      else if (new Date(_cycle.finalDate) < new Date()) { // checks if the cycle is over
         setCycle(null);
       }
       else{
@@ -35,7 +44,7 @@ const Page = () => {
 
   }, []);
 
-  // if the cycle is found, sets the cycle_dates_message
+  // sets the cycle dates message
   useEffect(() => {
 
     if(cycle !== null) {
@@ -47,7 +56,7 @@ const Page = () => {
 
   }, [cycle]);
 
-  // if the user is logged in and the cycle is found, gets the autoeval and othersEval
+  // setting the autoEval and othersEval
   useEffect(() => {
     if (user !== null && cycle !== null){
       getAutoEval(user?.id, cycle.id).then(
@@ -68,11 +77,12 @@ const Page = () => {
   }, [cycle]);
 
   useEffect(() => {
-    if (autoEval !== null) {
+    if (autoEval !== null && cycle !== null) {
       setAutoEvalLastUpdated(autoEval.lastUpdated);
-      console.log(typeof(autoEval));
+      setAutoEvalIsFinished(autoEval.isFinalized);
     }
     else {
+      setAutoEvalIsFinished(false);
       setAutoEvalLastUpdated(null);
     }
   }, [autoEval])
@@ -80,12 +90,18 @@ const Page = () => {
   // gets the last updated date of the othersEval
   useEffect(() => {
     let lastUpdatedDate: string | null = null;
-    console.log(othersEval)
-    // othersEval.forEach((evaluation: any) => {
-    //   if (lastUpdatedDate === null || evaluation.lastUpdated > lastUpdatedDate) {
-    //     lastUpdatedDate = evaluation.lastUpdated;
-    //   }
-    // });
+    let othersEvalStatus: boolean = false;
+
+    othersEval.forEach((evaluation: any) => {
+      if (lastUpdatedDate === null || new Date(evaluation.lastUpdated) > new Date(lastUpdatedDate)) {
+        lastUpdatedDate = evaluation.lastUpdated;
+        othersEvalStatus = evaluation.isFinished;
+      }
+
+      othersEvalStatus = evaluation.isFinalized;
+    });
+
+    setOthersEvalIsFinished(othersEvalStatus);
     setLastUpdatedDateEval(lastUpdatedDate);  
   }, [othersEval]);
 
@@ -160,8 +176,16 @@ const Page = () => {
                         <p>{autoEvalLastUpdated !== null ? DateFormat(autoEvalLastUpdated) : "----"}</p>
                       </div>
                       <div className="flex-1 flex items-center justify-center">
-                        <span className="inline-block px-2 py-1 text-sm font-medium text-yellow-900 rounded-md">
-                          {autoEval !== null ? "Em andamento" : "Não iniciado"}
+                        <span className="">
+                          {
+                          autoEval !== null ? 
+                            (autoEvalIsFinished 
+                              ? TagStage({stage: "Entregue"})
+                              : TagStage({stage: "Em andamento"})
+                            )
+                            : TagStage({stage: "Não iniciado"})
+                            
+                          }
                         </span>
                       </div>
                     </div>
@@ -175,8 +199,15 @@ const Page = () => {
                         <p>{lastUpdatedDateEval !== null ? DateFormat(new Date(lastUpdatedDateEval)) : "----"}</p>
                       </div>
                       <div className="flex-1 flex items-center justify-center">
-                        <span className="inline-block px-2 py-1 text-sm font-medium text-gray-900 bg-gray-500 rounded-md">
-                          {othersEval.length === 0 ? "Não iniciado" : "Em andamento"}
+                        <span className="">
+                          {
+                            (othersEval.length > 0) ?
+                              (othersEvalIsFinished 
+                                ? TagStage({stage: "Entregue"})
+                              : TagStage({stage: "Em andamento"})
+                            )
+                            : TagStage({stage: "Não iniciado"})
+                            }
                         </span>
                       </div>
                     </div>
