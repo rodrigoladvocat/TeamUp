@@ -23,6 +23,9 @@ export const selfEvaluations: SelfEvaluation[] = [
     doingMoreWithLessComment: "Efficient with resources",
     outOfTheBoxThinkingExecutionGrade: 4,
     outOfTheBoxThinkingExecutionComment: "Innovative execution",
+
+    lastUpdated: new Date(),
+    isFinalized: false
   }
   // Adicione mais autoavaliações conforme necessário
 ];

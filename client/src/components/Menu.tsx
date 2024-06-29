@@ -3,9 +3,11 @@ import logo from "../assets/logo.svg";
 import traco from "../assets/traco.svg";
 import { NavLink } from "react-router-dom";
 import { useMenu } from "../context/MenuContext";
+import { useAuth } from "@/hooks/AuthUser";
 
 export function Menu() {
   const { menu, setMenu } = useMenu();
+  const { logout } = useAuth();
 
   const menuItems = [
     { path: "/", label: "Página inicial", icon: icons.home },
@@ -44,7 +46,7 @@ export function Menu() {
       <div>
         <li className="flex text-[20px] text-white hover:text-[#A28BFE] py-5 px-8">
           {icons.logout}
-          <div className="pl-2">Sair</div>
+          <div className="pl-2" onClick={() => {logout()}}>Sair</div>
         </li>
         <div className="flex flex-col justify-center items-center">
           <img src={traco} />

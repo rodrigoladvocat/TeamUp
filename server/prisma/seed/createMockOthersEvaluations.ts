@@ -8,6 +8,8 @@ export const othersEvaluations: OthersEvaluation[] = [
     cycleId: 1,
     grade: 4,
     comment: "Strong performance overall",
+    lastUpdated: new Date(),
+    isFinalized: false
   },
   {
     id: 2,
@@ -15,7 +17,9 @@ export const othersEvaluations: OthersEvaluation[] = [
     evaluatedUserId: 1,
     cycleId: 1,
     grade: 5,
-    comment: "Excellent work!"
+    comment: "Excellent work!",
+    lastUpdated: new Date(),
+    isFinalized: false
   }
   // Adicione mais avaliações conforme necessário
 ];

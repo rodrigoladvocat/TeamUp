@@ -55,6 +55,15 @@ export class OthersEvaluationController {
         return await this.othersevaluationService.findByUserInCycle(+evaluatedId, +cycleId);
     }
 
+    @Get('others/evaluator-get/:evaluatorId/:cycleId')
+    @ApiOperation({ summary: 'Get all evaluations made by an evaluator.' })
+    async evaluatorGetsOthersEval(
+        @Param('evaluatorId', applyIdValidation) evaluatorId: number,
+        @Param('cycleId', applyIdValidation) cycleId: number
+    ): Promise<OthersEvaluation[]> {
+        return await this.othersevaluationService.evaluatorGetsOthersEval(+evaluatorId, +cycleId);
+    }
+
 
     @Patch()
     @ApiOperation({ summary: 'Update a 360 evaluation.' })
