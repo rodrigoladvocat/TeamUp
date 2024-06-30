@@ -1,20 +1,26 @@
 import React from "react";
-import Home from "../../Home";
+import { Menu } from "../../../components/Menu";
+import Tabs from "../../../components/Tabs";
 import Header from "../../../components/Header";
 import Accordion from "../../../components/Accordion";
 import { useMenu } from "../../../context/MenuContext";
 
-const Tabs: React.FC = () => {
-  const { setMenu } = useMenu();
+const GradesPage: React.FC = () => {
+  const { setMenu } = useMenu();  
   setMenu(0);
+
+  const tabLabels = ["Análise", "Histórico"];
+  
+  function handleChangeTab(newIndex: number) {
+    console.log("Selecionada a aba:", newIndex);
+  }
 
   return (
     <div className="flex w-full p-6 min-h-screen bg-gray-900 text-white">
       <div className="flex">
         <aside>
-          <Home></Home>
+          <Menu></Menu>
         </aside>
-
         <main className="flex-1 p-6 bg-general-background h-[920px]">
           <Header
             userName="Pedro Almeida"
@@ -23,7 +29,9 @@ const Tabs: React.FC = () => {
           />
 
           <div className="mb-6 w-[64.25rem] h-full">
+                <Tabs type="default" tabs={tabLabels} onChange={handleChangeTab} />
             <div className="h-[51.5rem] bg-content-background p-4 rounded-2xl mb-4 overflow-auto">
+
               <p className="text-30 text-purple-text font-bold text-left pl-[10px] mb-0">
                 Meu desempenho
               </p>
@@ -57,4 +65,4 @@ const Tabs: React.FC = () => {
   );
 };
 
-export default Tabs;
+export default GradesPage;

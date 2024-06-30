@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import LoginPage from './pages/LoginPage';
 import CollaboratorHomePage from "./pages/collaborator/homepage/CollaboratorHomePage";
+import A from "./pages/collaborator/GradesPage/GradesPage";
 import ManagerHomePage from "./pages/manager/homepage/HomePage";
 import AboutPage from "./pages/AboutPage";
 import ErrorPage from './pages/ErrorPage';
@@ -31,6 +32,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
           <Route path="/profile/:id" element={<ErrorPage/>}/> {/* TODO profilePage (usar id da URL no useEffect para acessar rota GET user by id do backend */}
           <Route path="/about" element={<AboutPage/>}/>
           <Route path="/dev" element={<VisualizeComponent />} />
+          <Route path="/a" element={<A />} />
 
           {/* 4 rotas do menu */}
           <Route path="/home" element={
