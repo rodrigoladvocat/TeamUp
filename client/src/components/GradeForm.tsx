@@ -28,11 +28,11 @@ export default function GradeForm({profileUrl, name, role, onChange}: Props): JS
   return (
     <div className="flex flex-col min-w-fit">
       <UserDisplay profileUrl={profileUrl} name={name} role={role}>
-        <GradePicker onChange={handleSelectGrade} type={'circles'}></GradePicker>
+        <GradePicker onChange={handleSelectGrade} type={'circles'} initialValueIndex={''}></GradePicker>
       </UserDisplay>
       
       <textarea rows={5}
-        className="h-40 bg-white rounded-b-2xl text-wrap text-black p-3 font-normal"
+        className="h-40 bg-white rounded-b-2xl text-wrap text-black p-3 font-normal resize-none"
         name={`Comment of ${name}`}
         placeholder="Escreva aqui um comentário sobre sua experiência de trabalho com este colaborador."
         onChange={(event) => {handleWriteOnTextArea(event.target.value)}}

@@ -1,22 +1,23 @@
+import { useAuth } from "@/hooks/AuthUser";
 import img_evaluation from "../assets/img_evaluation.svg";
 import img_historic from "../assets/img_historic.svg";
 import img_performance_analysis from "../assets/img_performance_analysis.svg";
 import Header from "../components/Header";
 import { Menu } from "../components/Menu";
 
-const About = () => {
+export default function AboutPage(): JSX.Element {
+  const { user } = useAuth();
+
   return (
-      <div className="flex w-full p-6 min-h-screen bg-gray-900 text-white">
+      <div className="flex flex-row w-screen h-screen max-h-screen p-6 bg-gray-900 text-white">
         <div className="flex">
           <aside>
-            <div>
-              <Menu></Menu>
-            </div>
+            <Menu></Menu>
           </aside>
 
           <main className="flex-1 p-6 bg-general-background h-[920px]">
             
-          <Header userName="Pedro Almeida" profileImage="/profile.jpg" title="Sobre a Plataforma"/>
+          <Header userName={user?.name || ""} profileImage={user?.imgUrl || ""} title="Sobre a Plataforma"/>
 
             <div className="flex-1 bg-content-background h-[830px]">
               <div className="flex-1 bg-content-background p-8 pt-4 pb-2 ">
@@ -100,5 +101,3 @@ const About = () => {
       </div>
   );
 };
-
-export default About;

@@ -1,5 +1,5 @@
 import { Body, Controller, Get, HttpStatus, Param, ParseIntPipe, Patch, Post, ValidationPipe } from '@nestjs/common';
-import { SelfevaluationService } from './self-evaluation.service';
+import { SelfEvaluationService } from './self-evaluation.service';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Prisma, SelfEvaluation } from '@prisma/client';
 import { CreateSelfEvaluationDto } from './dto/create-self-evaluation.dto';
@@ -12,13 +12,24 @@ const applyBodyValidation = new ValidationPipe({ errorHttpStatusCode: HttpStatus
 @ApiTags('Self-Evaluation Controller')
 @Controller('self-evaluation')
 export class SelfEvaluationController {
-    constructor(private selfevaluationService: SelfevaluationService) { }
+    constructor(private selfevaluationService: SelfEvaluationService) { }
 
     @Get()
     @ApiOperation({ summary: 'Get all self evaluations' })
     @ApiResponse({ status: 200, description: 'Return all self evaluations.' })
     async findAll(): Promise<SelfEvaluation[]> {
         return this.selfevaluationService.findAll();
+    }
+
+
+    @Get('/latest-cycle/:userId')
+    @ApiOperation({ summary: 'Get self evaluation by (userId, latest cycleId)' })
+    @ApiResponse({ status: 200, description: 'Return user self evaluations of latest cycle.' })
+    @ApiResponse({ status: 400, description: 'Bad Request. Stopped by some validator.' })
+    async findUserEvalInTheLatestCycle(
+        @Param('userId') userId: number,
+    ): Promise<SelfEvaluation> {
+        return this.selfevaluationService.findUserEvalInTheLatestCycle(+userId);
     }
 
 
@@ -52,7 +63,7 @@ export class SelfEvaluationController {
     @ApiResponse({ status: 400, description: 'Bad Request. Stopped by some validator.' })
     async createSelfEvaluation(
         @Body(applyBodyValidation) createSelfEvaluationDto: CreateSelfEvaluationDto
-    ){
+    ) {
         return this.selfevaluationService.createSelfEvaluation(createSelfEvaluationDto);
     }
 

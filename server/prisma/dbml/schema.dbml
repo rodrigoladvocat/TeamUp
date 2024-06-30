@@ -18,11 +18,11 @@ Table User {
   city String [not null]
   state String [not null]
   zipCode String [not null]
-  selfEvaluation SelfEvaluation [not null]
-  othersEvaluator OthersEvaluation [not null]
   othersEvaluated OthersEvaluation [not null]
-  tuningEvaluator Tuning [not null]
+  othersEvaluator OthersEvaluation [not null]
+  selfEvaluation SelfEvaluation [not null]
   tuningEvaluated Tuning [not null]
+  tuningEvaluator Tuning [not null]
 }
 
 Table Cycle {
@@ -31,8 +31,8 @@ Table Cycle {
   initialDate DateTime [default: `now()`, not null]
   finalDate DateTime [not null]
   lastUpdated DateTime [not null]
-  selfEvaluation SelfEvaluation [not null]
   othersEvaluation OthersEvaluation [not null]
+  selfEvaluation SelfEvaluation [not null]
   tuning Tuning [not null]
 }
 
@@ -40,28 +40,28 @@ Table SelfEvaluation {
   id Int [pk, increment]
   userId Int [not null]
   cycleId Int [not null]
-  ownershipMentalityGrade Int [not null]
-  ownershipMentalityComment String [not null]
-  learningAgilityGrade Int [not null]
-  learningAgilityComment String [not null]
-  resilienceAdversityGrade Int [not null]
-  resilienceAdversityComment String [not null]
-  teamworkGrade Int [not null]
-  teamworkComment String [not null]
-  outOfTheBoxThinkingBehavioralGrade Int [not null]
-  outOfTheBoxThinkingBehavioralComment String [not null]
-  deliveringQualityGrade Int [not null]
-  deliveringQualityComment String [not null]
-  meetingDeadlinesGrade Int [not null]
-  meetingDeadlinesComment String [not null]
-  doingMoreWithLessGrade Int [not null]
-  doingMoreWithLessComment String [not null]
-  outOfTheBoxThinkingExecutionGrade Int [not null]
-  outOfTheBoxThinkingExecutionComment String [not null]
+  ownershipMentalityGrade Int [not null, default: -1]
+  ownershipMentalityComment String [not null, default: '']
+  learningAgilityGrade Int [not null, default: -1]
+  learningAgilityComment String [not null, default: '']
+  resilienceAdversityGrade Int [not null, default: -1]
+  resilienceAdversityComment String [not null, default: '']
+  teamworkGrade Int [not null, default: -1]
+  teamworkComment String [not null, default: '']
+  outOfTheBoxThinkingBehavioralGrade Int [not null, default: -1]
+  outOfTheBoxThinkingBehavioralComment String [not null, default: '']
+  deliveringQualityGrade Int [not null, default: -1]
+  deliveringQualityComment String [not null, default: '']
+  meetingDeadlinesGrade Int [not null, default: -1]
+  meetingDeadlinesComment String [not null, default: '']
+  doingMoreWithLessGrade Int [not null, default: -1]
+  doingMoreWithLessComment String [not null, default: '']
+  outOfTheBoxThinkingExecutionGrade Int [not null, default: -1]
+  outOfTheBoxThinkingExecutionComment String [not null, default: '']
   lastUpdated DateTime [default: `now()`, not null]
   isFinalized Boolean [not null, default: false]
-  user User [not null]
   cycle Cycle [not null]
+  user User [not null]
 }
 
 Table OthersEvaluation {
@@ -73,9 +73,13 @@ Table OthersEvaluation {
   comment String [not null]
   lastUpdated DateTime [default: `now()`, not null]
   isFinalized Boolean [not null, default: false]
-  evaluator User [not null]
-  evaluated User [not null]
   cycle Cycle [not null]
+  evaluated User [not null]
+  evaluator User [not null]
+
+  indexes {
+    (evaluatorUserId, evaluatedUserId, cycleId) [unique]
+  }
 }
 
 Table Tuning {
@@ -94,23 +98,23 @@ Table Tuning {
   outOfTheBoxThinkingExecutionGrade Int [not null]
   grade Float [not null]
   lastUpdated DateTime [default: `now()`, not null]
-  evaluator User [not null]
-  evaluated User [not null]
   cycle Cycle [not null]
+  evaluated User [not null]
+  evaluator User [not null]
 }
-
-Ref: SelfEvaluation.userId > User.id
 
 Ref: SelfEvaluation.cycleId > Cycle.id
 
-Ref: OthersEvaluation.evaluatorUserId > User.id
-
-Ref: OthersEvaluation.evaluatedUserId > User.id
+Ref: SelfEvaluation.userId > User.id
 
 Ref: OthersEvaluation.cycleId > Cycle.id
 
-Ref: Tuning.managerUserId > User.id
+Ref: OthersEvaluation.evaluatedUserId > User.id
+
+Ref: OthersEvaluation.evaluatorUserId > User.id
+
+Ref: Tuning.cycleId > Cycle.id
 
 Ref: Tuning.collaboratorUserId > User.id
 
-Ref: Tuning.cycleId > Cycle.id
+Ref: Tuning.managerUserId > User.id

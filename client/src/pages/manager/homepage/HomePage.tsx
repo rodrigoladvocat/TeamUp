@@ -1,6 +1,5 @@
 import Header from "../../../components/Header";
 import { Menu } from "../../../components/Menu";
-import { useMenu } from "../../../context/MenuContext";
 
 import ProgressBar from "../../../components/ProgressBar";
 
@@ -15,9 +14,7 @@ import { getLastCycle } from "../../../utils/getLastCycle";
 import ProfilePictureSequence from "../../../components/ProfilePictureSequence";
 // order grades and display the 4 best and 4 worst
 
-const HomePage: React.FC = () => {
-    const { setMenu } = useMenu();
-    setMenu(0);
+export default function ManagerHomePage(): JSX.Element {
 
     const [ cycleId, setCycleId ] = useState<number | null>(null);
     const [cycle, setCycle] = useState<any>(null);
@@ -86,8 +83,7 @@ const HomePage: React.FC = () => {
     }, [tuningData]);
 
     return (
-            <div className="flex w-full p-6 min-h-screen bg-gray-900 text-white">
-      <div className="flex">
+      <div className="flex flex-row w-screen h-screen min-h-screen p-6 bg-gray-900 text-white">
         <aside>
           <Menu></Menu>
         </aside>
@@ -255,9 +251,6 @@ const HomePage: React.FC = () => {
               </div>  
             </div>
         </main>
-      </div>
     </div>
     );
 }
-
-export default HomePage;
