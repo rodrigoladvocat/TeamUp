@@ -14,6 +14,15 @@ import { getLastCycle } from "../../../utils/getLastCycle";
 import ProfilePictureSequence from "../../../components/ProfilePictureSequence";
 // order grades and display the 4 best and 4 worst
 
+import { average } from "@/utils/average";
+
+class Title_Grade {
+  constructor(public title: string, public grade: number) {
+    this.title = title;
+    this.grade = grade;
+  }
+}
+
 export default function ManagerHomePage(): JSX.Element {
 
     const [ cycleId, setCycleId ] = useState<number | null>(null);
@@ -22,9 +31,9 @@ export default function ManagerHomePage(): JSX.Element {
     const [ picturesArrayExcepcional, setPicturesArrayExcepcional ] = useState<string[]>([]);
     const [ picturesArrayMuitoBom, setPicturesArrayMuitoBom ] = useState<string[]>([]);
     const [ picturesArrayFezOBasico, setPicturesArrayFezOBasico ] = useState<string[]>([]);
-    const [ picturesArrayPrecisoMelhorar, setPicturesArrayPrecisoMelhorar ] = useState<string[]>([]);
-
-
+    const [ picturesArrayPrecisoMelhorar, setPicturesArrayPrecisoMelhorar ] = useState<string[]>([]); 
+    const [ bestGrades, setBestGrades ] = useState<any[]>([]); // 4 items
+    const [ worstGrades, setWorstGrades ] = useState<any[]>([]); // 4 items
 
     useEffect(() => {
       getLastCycle().then((_cycle) => {
@@ -54,11 +63,8 @@ export default function ManagerHomePage(): JSX.Element {
 
       // Populate picturesArrays whenever tuningData changes
       let _picturesArrayExcepcional: any[] = [];
-
       let _picturesArrayMuitoBom: any[] = [];
-
       let _picturesArrayFezOBasico: any[] = [];
-
       let _picturesArrayPrecisoMelhorar: any[] = [];
 
       tuningData.forEach((tuning: any) => {
@@ -82,8 +88,75 @@ export default function ManagerHomePage(): JSX.Element {
 
     }, [tuningData]);
 
+
+    // setting the best and worst grades
+    useEffect(() => { 
+      let ownerShipMentalityGrades: number[] = [];
+      let learningAgilityGrades: number[] = [];
+      let resilienceAdversityGrades: number[] = [];
+      let teamworkGrades: number[] = [];
+      let outOfTheBoxThinkingBehavioralGrades: number[] = [];
+      let deliveringQualityGrades: number[] = [];
+      let meetingDeadlinesGrades: number[] = [];
+      let doingMoreWithLessGrades: number[] = [];
+      let outOfTheBoxThinkingExecutionGrades: number[] = [];
+
+      // averages
+      let ownerShipMentalityAverage: number = 0;
+      let learningAgilityAverage: number = 0;
+      let resilienceAdversityAverage: number = 0;
+      let teamworkAverage: number = 0;
+      let outOfTheBoxThinkingBehavioralAverage: number = 0;
+      let deliveringQualityAverage: number = 0;
+      let meetingDeadlinesAverage: number = 0;
+      let doingMoreWithLessAverage: number = 0;
+      let outOfTheBoxThinkingExecutionAverage: number = 0;
+
+      tuningData.forEach((tuning: any) => {
+        ownerShipMentalityGrades.push(tuning.ownershipMentalityGrade);
+        learningAgilityGrades.push(tuning.learningAgilityGrade);
+        resilienceAdversityGrades.push(tuning.resilienceAdversityGrade);
+        teamworkGrades.push(tuning.teamworkGrade);
+        outOfTheBoxThinkingBehavioralGrades.push(tuning.outOfTheBoxThinkingBehavioralGrade);
+        deliveringQualityGrades.push(tuning.deliveringQualityGrade);
+        meetingDeadlinesGrades.push(tuning.meetingDeadlinesGrade);
+        doingMoreWithLessGrades.push(tuning.doingMoreWithLessGrade);
+        outOfTheBoxThinkingExecutionGrades.push(tuning.outOfTheBoxThinkingExecutionGrade);
+      });
+
+      // setting the averages for each criteria (returns 0 if there are no tunings)
+      ownerShipMentalityAverage = average(ownerShipMentalityGrades);
+      learningAgilityAverage = average(learningAgilityGrades);
+      resilienceAdversityAverage = average(resilienceAdversityGrades);
+      teamworkAverage = average(teamworkGrades);
+      outOfTheBoxThinkingBehavioralAverage = average(outOfTheBoxThinkingBehavioralGrades);
+      deliveringQualityAverage = average(deliveringQualityGrades);
+      meetingDeadlinesAverage = average(meetingDeadlinesGrades);
+      doingMoreWithLessAverage = average(doingMoreWithLessGrades);
+      outOfTheBoxThinkingExecutionAverage = average(outOfTheBoxThinkingExecutionGrades);
+
+      let averagesList: Title_Grade[] = [
+        new Title_Grade("OwnerShip Mentality", ownerShipMentalityAverage),
+        new Title_Grade("Learning Agility", learningAgilityAverage),
+        new Title_Grade("Resilience Adversity", resilienceAdversityAverage),
+        new Title_Grade("Teamwork", teamworkAverage),
+        new Title_Grade("Out Of The Box Thinking Behavioral", outOfTheBoxThinkingBehavioralAverage),
+        new Title_Grade("Delivering Quality", deliveringQualityAverage),
+        new Title_Grade("Meeting Deadlines", meetingDeadlinesAverage),
+        new Title_Grade("Doing More With Less", doingMoreWithLessAverage),
+        new Title_Grade("Out Of The Box Thinking Execution", outOfTheBoxThinkingExecutionAverage)
+      ];
+
+      // sorting the averagesList in asc order
+      averagesList.sort((a, b) => b.grade - a.grade);
+
+      setBestGrades(averagesList.slice(0, 4)); // getting the 4 best grades
+      setWorstGrades(averagesList.slice(averagesList.length - 4, averagesList.length)); // getting the 4 worst grades 
+
+    }, [tuningData])
+
     return (
-      <div className="flex flex-row w-screen h-screen min-h-screen p-6 bg-gray-900 text-white">
+      <div className="flex flex-row w-screen h-screen min-h-screen p-6 bg-general-background text-white">
         <aside>
           <Menu></Menu>
         </aside>
@@ -136,22 +209,15 @@ export default function ManagerHomePage(): JSX.Element {
                         <li className="text-left text-green font-bold mb-10">
                             <span>Critérios com as maiores notas</span>
                         </li>
-                        <li className="flex justify-between">
-                        <span>Resiliência nas adversidades</span>
-                        <span>Média: 3.0</span>
-                        </li>
-                        <li className="flex justify-between">
-                        <span>Fazer mais com menos</span>
-                        <span>Média: 2.8</span>
-                        </li>
-                        <li className="flex justify-between">
-                        <span>Trabalhar em equipe</span>
-                        <span>Média: 2.5</span>
-                        </li>
-                        <li className="flex justify-between">
-                        <span>Sentimento de dono</span>
-                        <span>Média: 2.0</span>
-                        </li>
+
+                        {bestGrades.map((grade, index) => {
+                          return (
+                            <li className="flex justify-between" key={index}>
+                              <span>{grade.title}</span>
+                              <span>Média: {grade.grade.toFixed(1)}</span>
+                            </li>
+                          );
+                        })}
                     </ul>
                 </div>
             </div>
@@ -166,22 +232,15 @@ export default function ManagerHomePage(): JSX.Element {
                     <li className="text-left text-red font-bold mb-10">
                             <span>Critérios com as menores notas</span>
                     </li>
-                    <li className="flex justify-between">
-                        <span>Resiliência nas adversidades</span>
-                        <span>Média: 3.0</span>
-                    </li>
-                    <li className="flex justify-between">
-                        <span>Fazer mais com menos</span>
-                        <span>Média: 2.8</span>
-                    </li>
-                    <li className="flex justify-between">
-                        <span>Trabalhar em equipe</span>
-                        <span>Média: 2.5</span>
-                    </li>
-                    <li className="flex justify-between">
-                        <span>Sentimento de dono</span>
-                        <span>Média: 2.0</span>
-                    </li>
+                    
+                        {worstGrades.map((grade, index) => {
+                          return (
+                            <li className="flex justify-between" key={index}>
+                              <span>{grade.title}</span>
+                              <span>Média: {grade.grade.toFixed(1)}</span>
+                            </li>
+                          );
+                        })}
                     </ul>
                 </div>
             </div>
