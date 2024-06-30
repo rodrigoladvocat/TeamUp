@@ -12,27 +12,33 @@ datasource db {
 }
 
 model User {
-  id              Int                @id @default(autoincrement())
-  name            String
-  email           String             @unique
-  password        String
-  imgUrl          String
-  isManager       Boolean
-  role            String
-  age             Int
-  telephone       String
-  cpf             String             @unique
-  street          String
-  number          String
-  city            String
-  state           String
-  zipCode         String
-  othersEvaluated OthersEvaluation[] @relation("OthersEvaluated")
-  othersEvaluator OthersEvaluation[] @relation("OthersEvaluator")
-  selfEvaluation  SelfEvaluation[]
-  tuningEvaluated Tuning[]           @relation("TuningEvaluated")
-  tuningEvaluator Tuning[]           @relation("TuningEvaluator")
+  id        Int     @default(autoincrement()) @id
+  name      String
+  email     String  @unique
+  password  String
+  imgUrl    String
+  isManager Boolean // may be redundant*
+  role      String
+  age       Int
+  telephone String
+  cpf       String  @unique
+  street    String
+  number    String
+  city      String
+  state     String
+  zipCode   String
+  bio       String @default("Just a TeamUp user")
+  admissionDate DateTime @default(now())
+
+  selfEvaluation       SelfEvaluation[] 
+
+  othersEvaluator      OthersEvaluation [] @relation("OthersEvaluator")
+  othersEvaluated      OthersEvaluation [] @relation("OthersEvaluated")
+
+  tuningEvaluator      Tuning []           @relation("TuningEvaluator")
+  tuningEvaluated      Tuning []           @relation("TuningEvaluated")
 }
+
 
 model Cycle {
   id               Int                @id @default(autoincrement())

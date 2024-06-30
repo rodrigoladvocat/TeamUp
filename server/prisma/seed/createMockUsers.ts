@@ -1,4 +1,4 @@
-import { User } from "@prisma/client";
+import { User } from '@prisma/client';
 
 export const users: User[] = [
   {
@@ -16,7 +16,9 @@ export const users: User[] = [
     number: "123",
     city: "Recife",
     state: "PE",
-    zipCode: "12345-123"
+    zipCode: "12345-123",
+    bio: 'Sou Maria Beatriz, Designer de Produtos na Visagio, com mais de cinco anos de experiência. Crio soluções intuitivas e atraentes, liderando projetos do início ao fim. Sou apaixonado por novas tecnologias e tendências de design.',
+    admissionDate: new Date('2024-06-04'),
   },
   {
     id: 2,
@@ -33,7 +35,9 @@ export const users: User[] = [
     number: "123",
     city: "Recife",
     state: "PE",
-    zipCode: "12345-123"
+    zipCode: "12345-123",
+    bio: 'Sou José dos Santos, Designer de Produtos na Visagio, com mais de cinco anos de experiência. Crio soluções intuitivas e atraentes, liderando projetos do início ao fim. Sou apaixonado por novas tecnologias e tendências de design.',
+    admissionDate: new Date('2024-06-04'),
   },
   {
     id: 3,
@@ -50,7 +54,9 @@ export const users: User[] = [
     number: "123",
     city: "Recife",
     state: "PE",
-    zipCode: "12345-123"
+    zipCode: "12345-123",
+    bio: 'Sou Pedro Henrique, Designer de Produtos na Visagio, com mais de cinco anos de experiência. Crio soluções intuitivas e atraentes, liderando projetos do início ao fim. Sou apaixonado por novas tecnologias e tendências de design.',
+    admissionDate: new Date('2024-06-04'),
   },
   {
     id: 4,
@@ -67,7 +73,9 @@ export const users: User[] = [
     number: "123",
     city: "Recife",
     state: "PE",
-    zipCode: "12345-123"
+    zipCode: "12345-123",
+    bio: 'Sou Joana Maria, Designer de Produtos na Visagio, com mais de cinco anos de experiência. Crio soluções intuitivas e atraentes, liderando projetos do início ao fim. Sou apaixonado por novas tecnologias e tendências de design.',
+    admissionDate: new Date('2024-06-04'),
   },
   {
     id: 5,
@@ -84,7 +92,9 @@ export const users: User[] = [
     number: "123",
     city: "Recife",
     state: "PE",
-    zipCode: "12345-123"
+    zipCode: "12345-123",
+    bio: 'Sou Pedro Almeida, Designer de Produtos na Visagio, com mais de cinco anos de experiência. Crio soluções intuitivas e atraentes, liderando projetos do início ao fim. Sou apaixonado por novas tecnologias e tendências de design.',
+    admissionDate: new Date('2024-06-04'),
   },
   {
     id: 6,
@@ -101,7 +111,9 @@ export const users: User[] = [
     number: "123",
     city: "Recife",
     state: "PE",
-    zipCode: "12345-123"
+    zipCode: "12345-123",
+    bio: 'Sou Camila Pantaleão, Designer de Produtos na Visagio, com mais de cinco anos de experiência. Crio soluções intuitivas e atraentes, liderando projetos do início ao fim. Sou apaixonado por novas tecnologias e tendências de design.',
+    admissionDate: new Date('2024-06-04'),
   },
   {
     id: 7,
@@ -118,7 +130,9 @@ export const users: User[] = [
     number: "123",
     city: "Recife",
     state: "PE",
-    zipCode: "12345-123"
+    zipCode: "12345-123",
+    bio: 'Sou Manager de Teste, Designer de Produtos na Visagio, com mais de cinco anos de experiência. Crio soluções intuitivas e atraentes, liderando projetos do início ao fim. Sou apaixonado por novas tecnologias e tendências de design.',
+    admissionDate: new Date('2024-06-04'),
   },
   {
     id: 8,
@@ -135,7 +149,9 @@ export const users: User[] = [
     number: "123",
     city: "Recife",
     state: "PE",
-    zipCode: "12345-123"
+    zipCode: "12345-123",
+    bio: 'Sou Dev de Teste, Designer de Produtos na Visagio, com mais de cinco anos de experiência. Crio soluções intuitivas e atraentes, liderando projetos do início ao fim. Sou apaixonado por novas tecnologias e tendências de design.',
+    admissionDate: new Date('2024-06-04'),
   },
   // Adicione mais usuários conforme necessário
 ]
