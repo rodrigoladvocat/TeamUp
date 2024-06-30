@@ -1,11 +1,9 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
+}
+
+generator dbml {
+  provider = "prisma-dbml-generator"
 }
 
 datasource db {
@@ -13,123 +11,101 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-generator dbml {
-  provider = "prisma-dbml-generator"
-}
-
 model User {
-  id        Int     @default(autoincrement()) @id
-  name      String
-  email     String  @unique
-  password  String
-  imgUrl    String
-  isManager Boolean // may be redundant*
-  role      String
-  age       Int
-  telephone String
-  cpf       String  @unique
-  street    String
-  number    String
-  city      String
-  state     String
-  zipCode   String
-
-  selfEvaluation       SelfEvaluation[] 
-
-  othersEvaluator      OthersEvaluation [] @relation("OthersEvaluator")
-  othersEvaluated      OthersEvaluation [] @relation("OthersEvaluated")
-
-  tuningEvaluator      Tuning []           @relation("TuningEvaluator")
-  tuningEvaluated      Tuning []           @relation("TuningEvaluated")
+  id              Int                @id @default(autoincrement())
+  name            String
+  email           String             @unique
+  password        String
+  imgUrl          String
+  isManager       Boolean
+  role            String
+  age             Int
+  telephone       String
+  cpf             String             @unique
+  street          String
+  number          String
+  city            String
+  state           String
+  zipCode         String
+  othersEvaluated OthersEvaluation[] @relation("OthersEvaluated")
+  othersEvaluator OthersEvaluation[] @relation("OthersEvaluator")
+  selfEvaluation  SelfEvaluation[]
+  tuningEvaluated Tuning[]           @relation("TuningEvaluated")
+  tuningEvaluator Tuning[]           @relation("TuningEvaluator")
 }
 
 model Cycle {
-  id          Int      @default(autoincrement()) @id
-  cycleName   String
-  initialDate DateTime @default(now())
-  finalDate   DateTime
-  lastUpdated DateTime
-
-  selfEvaluation    SelfEvaluation[]
-  othersEvaluation  OthersEvaluation []
-  tuning            Tuning []
+  id               Int                @id @default(autoincrement())
+  cycleName        String
+  initialDate      DateTime           @default(now())
+  finalDate        DateTime
+  lastUpdated      DateTime
+  othersEvaluation OthersEvaluation[]
+  selfEvaluation   SelfEvaluation[]
+  tuning           Tuning[]
 }
 
 model SelfEvaluation {
-  id          Int     @default(autoincrement()) @id
-  userId      Int
-  cycleId     Int
-
-  ownershipMentalityGrade   Int
-  ownershipMentalityComment String
-
-  learningAgilityGrade   Int
-  learningAgilityComment String
-
-  resilienceAdversityGrade   Int
-  resilienceAdversityComment String
-
-  teamworkGrade   Int
-  teamworkComment String
-
-  outOfTheBoxThinkingBehavioralGrade   Int
-  outOfTheBoxThinkingBehavioralComment String
-
-  deliveringQualityGrade   Int
-  deliveringQualityComment String
-
-  meetingDeadlinesGrade   Int
-  meetingDeadlinesComment String
-
-  doingMoreWithLessGrade   Int
-  doingMoreWithLessComment String
-
-  outOfTheBoxThinkingExecutionGrade   Int
-  outOfTheBoxThinkingExecutionComment String
-
-  lastUpdated        DateTime      @default(now())
-
-  user      User @relation(fields: [userId], references: [id])
-  cycle     Cycle @relation(fields: [cycleId], references: [id]) 
+  id                                   Int      @id @default(autoincrement())
+  userId                               Int
+  cycleId                              Int
+  ownershipMentalityGrade              Int      @default(-1)
+  ownershipMentalityComment            String   @default("")
+  learningAgilityGrade                 Int      @default(-1)
+  learningAgilityComment               String   @default("")
+  resilienceAdversityGrade             Int      @default(-1)
+  resilienceAdversityComment           String   @default("")
+  teamworkGrade                        Int      @default(-1)
+  teamworkComment                      String   @default("")
+  outOfTheBoxThinkingBehavioralGrade   Int      @default(-1)
+  outOfTheBoxThinkingBehavioralComment String   @default("")
+  deliveringQualityGrade               Int      @default(-1)
+  deliveringQualityComment             String   @default("")
+  meetingDeadlinesGrade                Int      @default(-1)
+  meetingDeadlinesComment              String   @default("")
+  doingMoreWithLessGrade               Int      @default(-1)
+  doingMoreWithLessComment             String   @default("")
+  outOfTheBoxThinkingExecutionGrade    Int      @default(-1)
+  outOfTheBoxThinkingExecutionComment  String   @default("")
+  lastUpdated                          DateTime @default(now())
+  isFinalized                          Boolean  @default(false)
+  cycle                                Cycle    @relation(fields: [cycleId], references: [id])
+  user                                 User     @relation(fields: [userId], references: [id])
 }
 
 model OthersEvaluation {
-  id          Int     @default(autoincrement()) @id
+  id              Int      @id @default(autoincrement())
   evaluatorUserId Int
   evaluatedUserId Int
-  cycleId     Int
-  
-  grade       Int
-  comment     String
+  cycleId         Int
+  grade           Int      
+  comment         String
+  lastUpdated     DateTime @default(now())
+  isFinalized     Boolean  @default(false)
+  cycle           Cycle    @relation(fields: [cycleId], references: [id])
+  evaluated       User     @relation("OthersEvaluated", fields: [evaluatedUserId], references: [id])
+  evaluator       User     @relation("OthersEvaluator", fields: [evaluatorUserId], references: [id])
 
-  lastUpdated        DateTime      @default(now())
-
-  evaluator User @relation("OthersEvaluator", fields: [evaluatorUserId], references: [id])
-  evaluated User @relation("OthersEvaluated", fields: [evaluatedUserId], references: [id])
-  cycle     Cycle @relation(fields: [cycleId], references: [id])
+  @@unique([evaluatorUserId, evaluatedUserId, cycleId])
 }
 
 model Tuning {
-  id                 Int @default(autoincrement()) @id
-  collaboratorUserId Int
-  managerUserId      Int
-  cycleId            Int
-
-  ownershipMentalityGrade   Int
-  learningAgilityGrade   Int
-  resilienceAdversityGrade   Int
-  teamworkGrade   Int
-  outOfTheBoxThinkingBehavioralGrade   Int
-  deliveringQualityGrade   Int
-  meetingDeadlinesGrade   Int
-  doingMoreWithLessGrade   Int
-  outOfTheBoxThinkingExecutionGrade   Int
-
-  grade              Float
-
-  lastUpdated        DateTime      @default(now())
-
-  evaluator User @relation("TuningEvaluator", fields: [managerUserId], references: [id])
-  evaluated User @relation("TuningEvaluated", fields: [collaboratorUserId], references: [id])
-  cycle     Cycle @relation(fields: [cycleId], references: [id])
+  id                                 Int      @id @default(autoincrement())
+  collaboratorUserId                 Int
+  managerUserId                      Int
+  cycleId                            Int
+  ownershipMentalityGrade            Int
+  learningAgilityGrade               Int
+  resilienceAdversityGrade           Int
+  teamworkGrade                      Int
+  outOfTheBoxThinkingBehavioralGrade Int
+  deliveringQualityGrade             Int
+  meetingDeadlinesGrade              Int
+  doingMoreWithLessGrade             Int
+  outOfTheBoxThinkingExecutionGrade  Int
+  grade                              Float
+  lastUpdated                        DateTime @default(now())
+  cycle                              Cycle    @relation(fields: [cycleId], references: [id])
+  evaluated                          User     @relation("TuningEvaluated", fields: [collaboratorUserId], references: [id])
+  evaluator                          User     @relation("TuningEvaluator", fields: [managerUserId], references: [id])
 }

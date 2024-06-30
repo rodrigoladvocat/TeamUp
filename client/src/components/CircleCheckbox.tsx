@@ -2,10 +2,10 @@
 
 
 interface Props {
-  value: string;
+  value: number;
   name: string;
   checked?: boolean;
-  onChange: (value: string) => void;
+  onChange: (value: number) => void;
 }
 
 export default function CircleCheckbox({ value, name, checked, onChange }: Props): JSX.Element {

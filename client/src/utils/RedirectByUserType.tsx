@@ -9,7 +9,7 @@ interface Props {
 export function RedirectByUserType({
   collaboratorPage: CollaboratorPage, 
   managerPage: ManagerPage
-}: Props) {
+}: Props): JSX.Element {
   const { user } = useAuth();
 
   if (!user) {

@@ -1,16 +1,90 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { PrismaService } from '../../database/prisma.service';
 import { CreateOthersevaluationDto } from './dto/create-others-evaluation.dto';
 import { UpdateOthersevaluationDto } from './dto/update-others-evaluation.dto';
+import { OthersEvaluation } from '@prisma/client';
+import { SubmitOthersevaluationDto } from './dto/submit-others-evaluation.dto';
 
 @Injectable()
-export class OthersevaluationService {
+export class OthersEvaluationService {
     constructor(private prisma: PrismaService) { }
 
     async create(createOthersevaluationDto: CreateOthersevaluationDto) {
         return await this.prisma.othersEvaluation.create({
             data: createOthersevaluationDto
         });
+    }
+
+
+    async submitEvaluation(createOthersevaluationDto: SubmitOthersevaluationDto[], userId: number, cycleId: number) {
+
+        const upsertPromises = createOthersevaluationDto.map((row) => {
+            return this.prisma.othersEvaluation.upsert({
+                where: {
+                    evaluatorUserId_evaluatedUserId_cycleId: {
+                        evaluatorUserId: userId,
+                        evaluatedUserId: row.evaluatedUserId,
+                        cycleId: cycleId,
+                    },
+                },
+                update: {
+                    grade: row.grade,
+                    comment: row.comment,
+                    lastUpdated: new Date(),
+                    isFinalized: row.isFinalized
+                },
+                create: {
+                    ...row,
+                    evaluatorUserId: userId,
+                    cycleId: cycleId,
+                    lastUpdated: new Date(),
+                }
+            });
+        });
+
+        const createdOrUpdated = await Promise.all(upsertPromises);
+        return createdOrUpdated;
+    }
+
+
+    async submitEvaluationToLatestCycle(createOthersevaluationDto: SubmitOthersevaluationDto[], userId: number) {
+
+        const latestCycleFound = await this.prisma.cycle.findFirst({
+            orderBy: {
+                finalDate: 'desc',
+            },
+        });
+
+        if (!latestCycleFound) {
+            throw new HttpException('No cycles found.', HttpStatus.NO_CONTENT);
+        }
+
+        const upsertPromises = createOthersevaluationDto.map((row) => {
+            return this.prisma.othersEvaluation.upsert({
+                where: {
+                    evaluatorUserId_evaluatedUserId_cycleId: {
+                        evaluatorUserId: userId,
+                        evaluatedUserId: row.evaluatedUserId,
+                        cycleId: latestCycleFound.id,
+                    },
+                },
+                update: {
+                    grade: row.grade,
+                    comment: row.comment,
+                    lastUpdated: new Date(),
+                    isFinalized: row.isFinalized
+                },
+                create: {
+                    ...row,
+                    evaluatorUserId: userId,
+                    cycleId: latestCycleFound.id,
+                    lastUpdated: new Date(),
+                }
+            });
+        });
+
+        const createdOrUpdated = await Promise.all(upsertPromises);
+        return createdOrUpdated;
     }
 
 
@@ -36,6 +110,12 @@ export class OthersevaluationService {
     }
 
 
+    async evaluatorGetsOthersEval(evaluatorUserId: number, cycleId: number) {
+        return await this.prisma.othersEvaluation.findMany({
+            where: { evaluatorUserId: evaluatorUserId, cycleId: cycleId }
+        });
+    }
+
     async update(updateOthersevaluationDto: UpdateOthersevaluationDto) {
         return await this.prisma.othersEvaluation.updateMany({
             where: {
@@ -55,5 +135,27 @@ export class OthersevaluationService {
                 cycleId: cycleId
             }
         });
+    }
+
+
+    async findUserEvalInTheLatestCycle(userId: number): Promise<OthersEvaluation[]> {
+        const latestCycleFound = await this.prisma.cycle.findFirst({
+            orderBy: {
+                finalDate: 'desc',
+            },
+        });
+
+        if (!latestCycleFound) {
+            throw new HttpException('No cycles found.', HttpStatus.NO_CONTENT);
+        }
+
+        const found = await this.prisma.othersEvaluation.findMany({
+            where: {
+                evaluatorUserId: userId,
+                cycleId: latestCycleFound.id
+            },
+        });
+
+        return found;
     }
 }

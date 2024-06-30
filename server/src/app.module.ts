@@ -7,8 +7,8 @@ import { PrismaModule } from './database/prisma.module';
 import { UserModule } from './modules/user/user.module';
 import { CycleModule } from './modules/cycle/cycle.module';
 import { TuningModule } from './modules/tuning/tuning.module';
-import { SelfevaluationModule } from './modules/self-evaluation/self-evaluation.module';
-import { OthersevaluationModule } from './modules/others-evaluation/others-evaluation.module';
+import { SelfEvaluationModule } from './modules/self-evaluation/self-evaluation.module';
+import { OthersEvaluationModule } from './modules/others-evaluation/others-evaluation.module';
 import { ApiTokenCheckMiddleware } from './common/api-token-check.middleware';
 
 @Module({
@@ -16,12 +16,14 @@ import { ApiTokenCheckMiddleware } from './common/api-token-check.middleware';
     PrismaModule,
     UserModule,
     CycleModule,
-    SelfevaluationModule,
-    OthersevaluationModule,
+    SelfEvaluationModule,
+    OthersEvaluationModule,
     TuningModule,
     ConfigModule.forRoot({ isGlobal: true }),
-    JwtModule.register({ secret: "!@34Th9!Jk8f9wo34L&$fdjeiw2349&fnn22kfv!flrO2vci2Kf@9Jkds#loSvn38P0", // add secret key to .env file
-                         global: true }),
+    JwtModule.register({
+      secret: "!@34Th9!Jk8f9wo34L&$fdjeiw2349&fnn22kfv!flrO2vci2Kf@9Jkds#loSvn38P0", // add secret key to .env file
+      global: true
+    }),
   ],
   controllers: [AppController],
   providers: [AppService],
@@ -38,4 +40,4 @@ import { ApiTokenCheckMiddleware } from './common/api-token-check.middleware';
 //   }
 // }
 
-export class AppModule{}
+export class AppModule { }

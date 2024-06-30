@@ -24,7 +24,8 @@ export const selfEvaluations: SelfEvaluation[] = [
     outOfTheBoxThinkingExecutionGrade: 4,
     outOfTheBoxThinkingExecutionComment: "Innovative execution",
 
-    lastUpdated: new Date()
+    lastUpdated: new Date(),
+    isFinalized: false
   }
   // Adicione mais autoavaliações conforme necessário
 ];
