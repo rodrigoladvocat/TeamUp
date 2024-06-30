@@ -10,6 +10,7 @@ import { useAuth } from "../hooks/AuthUser";
 import { useNavigate } from "react-router-dom";
 import { AxiosError } from "axios";
 import { ErrorResponseDto } from "../dto/ErrorResponseDto";
+import { useMenu } from "@/context/MenuContext";
 
 function leftSideColumn() {
   return(
@@ -40,13 +41,15 @@ function leftSideColumn() {
 }
 
 
-const Login = () => {
+export default function LoginPage(): JSX.Element {
   // const [eye, setEye] = useState(true);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
   const { login, isAuthenticated, user } = useAuth();
+  const { setMenu } = useMenu();
+  setMenu(0);
 
   useEffect(() => {
     console.log(`User data -> ${user}`);
@@ -130,5 +133,3 @@ const Login = () => {
     </div>
   );
 };
-
-export default Login;

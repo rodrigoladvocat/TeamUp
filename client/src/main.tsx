@@ -1,17 +1,20 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Login from './pages/Login';
-import Home from "./pages/collaborator/homepage/HomePage";
-import ManagerHome from "./pages/manager/homepage/HomePage";
-import About from "./pages/About";
+import LoginPage from './pages/LoginPage';
+import CollaboratorHomePage from "./pages/collaborator/homepage/CollaboratorHomePage";
+import ManagerHomePage from "./pages/manager/homepage/HomePage";
+import AboutPage from "./pages/AboutPage";
 import ErrorPage from './pages/ErrorPage';
 import VisualizeComponent from "./pages/VisualizeComponent";
+import CycleCollaboratorPage from './pages/collaborator/cycle/CycleCollaboratorPage';
+import SelfEvaluationCollaboratorPage from './pages/collaborator/SelfEvaluationCollaboratorPage';
 import { MenuProvider } from "./context/MenuContext";
 import { RedirectByUserType } from './utils/RedirectByUserType';
-import './global.css';
 import { AuthProvider } from './context/AuthContext';
-import CycleCollaboratorPage from './pages/collaborator/cycle/CycleCollaboratorPage';
+import { CycleProvider } from './context/CycleContext';
+import './global.css';
+
 
 // ideal to merge both homepages into same route
 
@@ -19,47 +22,52 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <MenuProvider>
     <AuthProvider>
+    <CycleProvider>
       <BrowserRouter>
         <Routes>
           <Route path="*" element={<ErrorPage />} />
-          <Route path="/" element={<Login />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/cycle" element={<CycleCollaboratorPage />} /> {/* TODO registerPage */}
+          <Route path="/" element={<LoginPage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/profile/:id" element={<ErrorPage/>}/> {/* TODO profilePage (usar id da URL no useEffect para acessar rota GET user by id do backend */}
+          <Route path="/about" element={<AboutPage/>}/>
+          <Route path="/dev" element={<VisualizeComponent />} />
+
+          {/* 4 rotas do menu */}
           <Route path="/home" element={
             <RedirectByUserType
-              managerPage={ManagerHome} // TODO substituir por HomeManagerPage
-              collaboratorPage={Home}
+            managerPage={ManagerHomePage} // TODO substituir por HomeManagerPage
+            collaboratorPage={CollaboratorHomePage}
             />
           } />
           <Route path="/grades" element={
             <RedirectByUserType
-              managerPage={ErrorPage} // TODO substituir por SearchUserPage
-              collaboratorPage={ErrorPage} // TODO substituir por GradesCollaboratorPage
+            managerPage={ErrorPage} // TODO substituir por SearchUserPage
+            collaboratorPage={ErrorPage} // TODO substituir por GradesCollaboratorPage
             />
           } />
-          <Route path="/avaliacoes" element={
+          <Route path="/evaluations" element={
             <RedirectByUserType
-              managerPage={CycleCollaboratorPage} // TODO substituir por CycleManagerPage
-              collaboratorPage={CycleCollaboratorPage} // TODO substituir por CycleCollaboratorPage
+            managerPage={CycleCollaboratorPage} // TODO substituir por CycleManagerPage
+            collaboratorPage={CycleCollaboratorPage} // TODO substituir por CycleCollaboratorPage
             />
           } />
+
+          {/* 2 rotas para os 2 fluxos de avaliação */}
           <Route path="/self-evaluation" element={
             <RedirectByUserType
-              managerPage={ErrorPage} // TODO substituir por SelfEvaluationManagerPage
-              collaboratorPage={ErrorPage} // TODO substituir por SelfEvaluationCollaboratorPage
+            managerPage={ErrorPage} // TODO substituir por SelfEvaluationManagerPage
+            collaboratorPage={SelfEvaluationCollaboratorPage} // TODO substituir por SelfEvaluationCollaboratorPage
             />
           } />
           <Route path="/others-evaluation" element={
             <RedirectByUserType
-              managerPage={ErrorPage} // TODO substituir por OthersEvaluationManagerPage
-              collaboratorPage={ErrorPage} // TODO substituir por OthersEvaluationCollaboratorPage
+            managerPage={ErrorPage} // TODO substituir por OthersEvaluationManagerPage
+            collaboratorPage={ErrorPage} // TODO substituir por OthersEvaluationCollaboratorPage
             />
           } />
-          <Route path="/profile/:id" element={<ErrorPage/>}/> {/* TODO profilePage (usar id da URL no useEffect para acessar rota GET user by id do backend */}
-          <Route path="/about" element={<About/>}/>
-          <Route path="/dev" element={<VisualizeComponent />} />
         </Routes>
       </BrowserRouter>
+    </CycleProvider>
     </AuthProvider>
     </MenuProvider>
   </React.StrictMode>,

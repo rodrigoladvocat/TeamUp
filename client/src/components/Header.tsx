@@ -6,11 +6,20 @@ interface Props {
     subtitle?: string;
     userName: string;
     profileImage: string;
+    backLink?: string;
 }
 
-export default function Header({title, userName, profileImage, subtitle}: Props) {
+export default function Header({title, userName, profileImage, subtitle, backLink}: Props) {
+
+  // TODO: Fazer o sininho funcionando
+  // TODO: Melhorar o css para ficar IGUAL o figma em todas as telas que usam o Header.
   return (
     <header className="flex justify-between items-center mb-3">
+      {backLink && 
+      <>
+      {/* TODO: seta para voltar */}
+      </>
+      }
       <h1 className="text-32 text-left text-purple-text font-bold">
         <div className="flex-1">{title}</div>
         <div className="flex-1 text-14 mt-1 text-white text-20 font-poppins font-normal">{subtitle}</div>
