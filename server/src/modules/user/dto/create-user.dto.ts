@@ -9,7 +9,6 @@ import {
   IsPhoneNumber,
   Length,
   IsPostalCode,
-  IsDate,
 } from 'class-validator';
 
 export class CreateUserDto {
@@ -94,17 +93,4 @@ export class CreateUserDto {
   @IsNotEmpty()
   @IsPostalCode('BR')
   zipCode: string;
-
-  @ApiProperty({
-    description: 'User bio',
-    example: 'A user who loves to use TeamUp',
-  })
-  @IsNotEmpty()
-  @IsString()
-  bio: string;
-
-  @ApiProperty({ description: 'User admission date', example: '04/06/2001' })
-  @IsNotEmpty()
-  @IsDate()
-  admissionDate: Date;
 }
