@@ -1,6 +1,5 @@
 import Header from "../../../components/Header";
 import { Menu } from "../../../components/Menu";
-import { useMenu } from "../../../context/MenuContext";
 
 import ProgressBar from "../../../components/ProgressBar";
 
@@ -10,15 +9,12 @@ import vector_horizontal from "../../../assets/vector_horizontal.svg";
 import concept_icons from "../../../assets/concept_icons";
 import { useState, useEffect } from "react";
 
-import { profilePictureSequence } from "../../../components/ProfilePictureSequence";
-
 import { getTuningByCycleId } from "../../../utils/getTuningByCycleId";
 import { getLastCycle } from "../../../utils/getLastCycle";
+import ProfilePictureSequence from "../../../components/ProfilePictureSequence";
 // Request grades and users from the backend
 
-const HomePage: React.FC = () => {
-    const { setMenu } = useMenu();
-    setMenu(0);
+export default function ManagerHomePage(): JSX.Element {
 
     const [ cycleId, setCycleId ] = useState<number>(-1);
     const [ tuningData, setTuningData ] = useState<string[]>([]);
@@ -31,6 +27,7 @@ const HomePage: React.FC = () => {
       getLastCycle().then((id) => {
         setCycleId(id);
       });
+      
     }, []); // runs once when the component is mounted
     
     useEffect(() => {
@@ -74,8 +71,7 @@ const HomePage: React.FC = () => {
     }, [tuningData]);
 
     return (
-            <div className="flex w-full p-6 min-h-screen bg-gray-900 text-white">
-      <div className="flex">
+      <div className="flex flex-row w-screen h-screen min-h-screen p-6 bg-gray-900 text-white">
         <aside>
           <Menu></Menu>
         </aside>
@@ -201,7 +197,7 @@ const HomePage: React.FC = () => {
                     <img src={vector_horizontal} alt="vector" />
                   </div>
 
-                  {profilePictureSequence(picturesArrayExcepcional)}
+                  <ProfilePictureSequence pictures={picturesArrayExcepcional}/>
                 </div>
 
                 <div className="flex-1 flex flex-row mt-4">
@@ -213,7 +209,7 @@ const HomePage: React.FC = () => {
                       <img src={vector_horizontal} alt="vector" />
                     </div>
 
-                    {profilePictureSequence(picturesArrayMuitoBom)}
+                    <ProfilePictureSequence pictures={picturesArrayMuitoBom}/>
                 </div>
 
                 <div className="flex-1 flex flex-row mt-4">
@@ -225,7 +221,7 @@ const HomePage: React.FC = () => {
                       <img src={vector_horizontal} alt="vector" />
                     </div>
 
-                    {profilePictureSequence(picturesArrayFezOBasico)}
+                    <ProfilePictureSequence pictures={picturesArrayFezOBasico}/>
                 </div>
 
                 <div className="flex-1 flex flex-row items-center mt-4">
@@ -237,15 +233,12 @@ const HomePage: React.FC = () => {
                       <img src={vector_horizontal} alt="vector" />
                     </div>
 
-                    {profilePictureSequence(picturesArrayPrecisoMelhorar)}
+                    <ProfilePictureSequence pictures={picturesArrayPrecisoMelhorar}/>
                 </div>
 
               </div>  
             </div>
         </main>
-      </div>
     </div>
     );
 }
-
-export default HomePage;

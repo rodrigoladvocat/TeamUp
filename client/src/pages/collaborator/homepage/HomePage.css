@@ -70,12 +70,12 @@
 }
 
 
-.stars {
+/* .stars {
     display: flex;
     justify-content: center;
     gap: 10px;
     align-self: flex-end;
-}
+} */
 
 
 .performance {

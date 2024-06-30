@@ -3,16 +3,16 @@ import { Cycle } from "@prisma/client";
 export const cycles: Cycle[] = [
   {
     id: 1,
-    cycleName: "2023.1",
-    initialDate: new Date("2023-01-01"),
-    finalDate: new Date("2023-06-30"),
-    lastUpdated: new Date("2023-06-01")
+    cycleName: "2024.1",
+    initialDate: new Date("2024-01-01"),
+    finalDate: new Date("2024-04-30"),
+    lastUpdated: new Date("2024-04-30")
   },
   {
     id: 2,
-    cycleName: "2023.2",
-    initialDate: new Date("2023-07-01"),
-    finalDate: new Date("2023-12-31"),
-    lastUpdated: new Date("2023-12-01")
+    cycleName: "2024.2",
+    initialDate: new Date("2024-05-01"),
+    finalDate: new Date("2024-07-07"),
+    lastUpdated: new Date("2024-06-30")
   }
 ];

@@ -2,14 +2,15 @@ import background from "../assets/loginPage/login-background.png";
 import teamUpLogo from "../assets/loginPage/login-logo.svg";
 import emailIcon from "../assets/loginPage/email.svg";
 import passwordIcon from "../assets/loginPage/password.svg";
-import openEye from "../assets/loginPage/openEye.svg";
-import closedEye from "../assets/loginPage/closedEye.svg";
+// import openEye from "../assets/loginPage/openEye.svg";
+// import closedEye from "../assets/loginPage/closedEye.svg";
 
 import { FormEvent, useEffect, useState } from "react";
 import { useAuth } from "../hooks/AuthUser";
 import { useNavigate } from "react-router-dom";
 import { AxiosError } from "axios";
 import { ErrorResponseDto } from "../dto/ErrorResponseDto";
+import { useMenu } from "@/context/MenuContext";
 
 function leftSideColumn() {
   return(
@@ -40,13 +41,15 @@ function leftSideColumn() {
 }
 
 
-const Login = () => {
-  const [eye, setEye] = useState(true);
+export default function LoginPage(): JSX.Element {
+  // const [eye, setEye] = useState(true);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
   const { login, isAuthenticated, user } = useAuth();
+  const { setMenu } = useMenu();
+  setMenu(0);
 
   useEffect(() => {
     console.log(`User data -> ${user}`);
@@ -83,7 +86,7 @@ const Login = () => {
           <div className="flex flex-row items-center h-16 min-w-fit bg-[#333333] rounded-[16px]">
             <img className="px-5" src={emailIcon} />
             <input
-              className="w-full rounded-[16px] focus:outline-none bg-[#333333]"
+              className="w-full focus:outline-none bg-[#333333]"
               id="email"
               placeholder="E-mail"
               type="email"
@@ -93,13 +96,13 @@ const Login = () => {
           <div className="flex flex-row items-center h-16 bg-[#333333] rounded-[16px]">
             <img className="px-5" src={passwordIcon} />
             <input
-              className="w-full rounded-[16px] focus:outline-none bg-[#333333]"
+              className="w-full focus:outline-none bg-[#333333] mr-4"
               id="password"
               placeholder="Password"
-              type={eye ? "password" : "text"}
+              type={"password"}
               onChange={(e)=> {setPassword(e.target.value)}}
             />
-            <div className="m-5 cursor-pointer">
+            {/* <div className="m-5 cursor-pointer">
               {eye ? (
                 <a className="" onClick={() => setEye(false)}>
                   <img src={openEye} alt="password icon" />
@@ -109,7 +112,7 @@ const Login = () => {
                   <img src={closedEye} alt="password icon" />
                 </a>
               )} 
-            </div>
+            </div> */}
           </div>
           <div className="flex flex-row justify-end">
             <a>
@@ -130,5 +133,3 @@ const Login = () => {
     </div>
   );
 };
-
-export default Login;
