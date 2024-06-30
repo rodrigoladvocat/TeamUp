@@ -3,7 +3,6 @@ import { AxiosError, AxiosResponse } from "axios";
 import { UserDto } from "../dto/UserDto";
 import { ErrorResponseDto } from "../dto/ErrorResponseDto";
 import { api } from "../services/apiService";
-import { Navigate } from "react-router-dom";
 import { useLocalStorage } from "@uidotdev/usehooks";
 
 
@@ -12,7 +11,7 @@ interface AuthContextModel {
   isAuthenticated: boolean;
   token: string;
   login: (email: string, password: string) => Promise<string | void>;
-  logout: () => void;
+  logout: () => Promise<void>;
 }
 
 export const AuthContext = createContext({} as AuthContextModel);
@@ -50,17 +49,23 @@ export const AuthProvider: React.FC<Props> = ({ children }) => {
 
 
   const Logout = useCallback(() => {
-    
-    // clearing the local storage
-    localStorage.removeItem("user");
-    localStorage.removeItem("token");
-    localStorage.removeItem("isauthenticated");
-    
-    // reset the state
-    setUser(null); 
-    setToken(""); 
-    setIsAuthenticated(false); 
-    return <Navigate to='/' />;
+    return new Promise<void>((resolve) => {
+      // clearing the local storage
+      localStorage.removeItem("user");
+      localStorage.removeItem("token");
+      localStorage.removeItem("isauthenticated");
+      localStorage.removeItem("@Cycle.Data");
+      localStorage.removeItem("@AutoEval.Data");
+      localStorage.removeItem("@OthersEval.Data");
+      
+      // reset the state
+      setUser(null); 
+      setToken(""); 
+      setIsAuthenticated(false); 
+  
+      // Resolve the promise
+      resolve();
+    });
   }, []);
 
 
