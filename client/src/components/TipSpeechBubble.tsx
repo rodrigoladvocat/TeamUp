@@ -4,7 +4,7 @@
 function up(text: string) {
   return (
     <div className="flex flex-col-reverse items-center">
-      <div className={`bg-white text-black text-wrap text-center p-[24px] text-[14px] font-normal font-inter leading-[18px] rounded-lg max-w-[360px]`}>
+      <div className={`bg-white text-black text-wrap text-center p-[24px] text-[14px] font-normal font-inter leading-[18px] rounded-2xl max-w-[360px]`}>
         {text}
       </div>
       <div className={`relative bottom-[-8%] rotate-[225deg] w-[0] h-[0] border-t-transparent border-l-transparent border-r-[12px] border-b-[12px] border-white`} />
@@ -16,7 +16,7 @@ function up(text: string) {
 function right(text: string) {
   return (
     <div className="flex flex-row items-center">
-      <div className={`bg-white text-black text-wrap text-center p-[24px] text-[14px] font-normal font-inter leading-[18px] rounded-lg max-w-[360px]`}>
+      <div className={`bg-white text-black text-wrap text-center p-[24px] text-[14px] font-normal font-inter leading-[18px] rounded-2xl max-w-[360px]`}>
         {text}
       </div>
       <div className={`relative left-[-2%] rotate-[225deg] w-[0] h-[0] border-t-transparent border-l-transparent border-r-[12px] border-b-[12px] border-white`} />
@@ -28,7 +28,7 @@ function right(text: string) {
 function down(text: string) {
   return (
     <div className="flex flex-col items-center">
-      <div className={`bg-white text-black text-wrap text-center p-[24px] text-[14px] font-normal font-inter leading-[18px] rounded-lg max-w-[360px]`}>
+      <div className={`bg-white text-black text-wrap text-center p-[24px] text-[14px] font-normal font-inter leading-[18px] rounded-2xl max-w-[360px]`}>
         {text}
       </div>
       <div className={`relative bottom-[8%] rotate-[225deg] w-[0] h-[0] border-t-transparent border-l-transparent border-r-[12px] border-b-[12px] border-white`} />
@@ -40,7 +40,7 @@ function down(text: string) {
 function left(text: string) {
   return (
     <div className="flex flex-row-reverse items-center">
-      <div className={`bg-white text-black text-wrap text-center p-[24px] text-[14px] font-normal font-inter leading-[18px] rounded-lg max-w-[360px]`}>
+      <div className={`bg-white text-black text-wrap text-center p-[24px] text-[14px] font-normal font-inter leading-[18px] rounded-2xl max-w-[360px]`}>
         {text}
       </div>
       <div className={`relative right-[-2%] rotate-[45deg] w-[0] h-[0] border-t-transparent border-l-[12px] border-r-transparent border-b-[12px] border-white`} />

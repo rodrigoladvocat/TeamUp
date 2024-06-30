@@ -1,5 +1,6 @@
 
 const stageToColorMap: { [stage: string]: string } = {
+  "Carregando" : "bg-gray-600",
   "Não iniciado": "bg-gray-600",
   "Em andamento": "bg-yellow-800",
   "Em revisão": "bg-turquoise-blue-700",
@@ -8,7 +9,7 @@ const stageToColorMap: { [stage: string]: string } = {
 };
 
 interface Props {
-  stage: "Não iniciado" | "Em andamento" | "Em revisão" | "Concluída" | "Entregue";
+  stage: "Carregando" | "Não iniciado" | "Em andamento" | "Em revisão" | "Concluída" | "Entregue";
 }
 
 export default function TagStage({stage}: Props): JSX.Element {
