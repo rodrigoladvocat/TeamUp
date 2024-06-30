@@ -19,6 +19,7 @@ export default function CycleCollaboratorPage(): JSX.Element {
   const { _cycle, endDate, endTime, startDate, selfEvalInfo, othersEvalInfo, callAllUpdates } = useCycle();
   const { user, isAuthenticated } = useAuth();
   const [othersLastUpdated, setOthersLastUpdated] = useState(null);
+  const [cycle, setCycle] = useState<any>(null);
 
   const formatter = new Intl.DateTimeFormat(undefined, { year: 'numeric', month: '2-digit', day: '2-digit' });
 
@@ -32,6 +33,18 @@ export default function CycleCollaboratorPage(): JSX.Element {
       callAllUpdates(user.id, false);
     }
   }, []);
+
+  useEffect(() => {
+    if (_cycle === null) {
+      setCycle(null);
+    }
+    else if (new Date(_cycle.finalDate) < new Date()) {
+      setCycle(null);
+    }
+    else {
+      setCycle(_cycle);
+    }
+  }, [_cycle])
 
   useEffect(() => {
     let auxOthersLastUpdated: any = null;
@@ -84,7 +97,7 @@ export default function CycleCollaboratorPage(): JSX.Element {
             
           <Header 
             userName={user?.name || ""} 
-            subtitle={`Período aberto em ${startDate} e termina em ${endDate} às ${endTime}`} 
+            subtitle={cycle === null ? "Aguarde o próximo período avaliativo" : `Período aberto em ${startDate} e termina em ${endDate} às ${endTime}`} 
             profileImage={user?.imgUrl || ""} 
             title="Sobre a Plataforma"
           />
@@ -119,11 +132,11 @@ export default function CycleCollaboratorPage(): JSX.Element {
                     </div>
                 </div>
               {
-              _cycle !== null ?
+              cycle ?
               
                 <div className="p-6 rounded-xl border border-purple-text mt-5">
                   <div className="text-purple-text text-[20px] font-bold ml-[5.5rem]">
-                    Ciclo avaliativo {_cycle ? _cycle.cycleName : "cycle not found"}
+                    Ciclo avaliativo {cycle ? cycle.cycleName : "cycle not found"}
                   </div>
                   <div className="space-y-9 mt-7">
                     <div className="flex items-center justify-between">
@@ -147,7 +160,6 @@ export default function CycleCollaboratorPage(): JSX.Element {
                         </Button>
                       </div>
                       <div className="flex-1 flex items-center justify-center text-[#D3C8FF]">
-                        {/* <p>{autoEval !== null ? "DateFormat(autoEval.lastUpdated)" : "----"}</p> */}
                         <p>{selfEvalInfo.selfLastUpdated || "----"}</p>
                       </div>
                       <div className="flex-1 flex items-center justify-center">
