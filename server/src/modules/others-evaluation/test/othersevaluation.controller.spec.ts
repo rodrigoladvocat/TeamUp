@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { OthersEvaluationController } from '../others-evaluation.controller';
 import { MockPrismaModule } from '../../../database/mock.prisma.module';
-import { OthersevaluationService } from '../others-evaluation.service';
+import { OthersEvaluationService } from '../others-evaluation.service';
 
 describe('OthersevaluationController', () => {
   let controller: OthersEvaluationController;
@@ -9,7 +9,7 @@ describe('OthersevaluationController', () => {
   beforeEach(async () => {
     const moduleRef: TestingModule = await Test.createTestingModule({
       controllers: [OthersEvaluationController],
-      providers: [OthersevaluationService],
+      providers: [OthersEvaluationService],
       imports: [MockPrismaModule]
     }).compile();
 

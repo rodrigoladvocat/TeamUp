@@ -1,17 +1,17 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { SelfevaluationService } from '../self-evaluation.service';
+import { SelfEvaluationService } from '../self-evaluation.service';
 import { MockPrismaModule } from '../../../database/mock.prisma.module';
 
 describe('SelfevaluationService', () => {
-  let service: SelfevaluationService;
+  let service: SelfEvaluationService;
 
   beforeEach(async () => {
     const moduleRef: TestingModule = await Test.createTestingModule({
-      providers: [SelfevaluationService],
+      providers: [SelfEvaluationService],
       imports: [MockPrismaModule]
     }).compile();
 
-    service = moduleRef.get<SelfevaluationService>(SelfevaluationService);
+    service = moduleRef.get<SelfEvaluationService>(SelfEvaluationService);
   });
 
   it('should be defined', () => {

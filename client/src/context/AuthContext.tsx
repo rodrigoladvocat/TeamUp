@@ -3,7 +3,7 @@ import { AxiosError, AxiosResponse } from "axios";
 import { UserDto } from "../dto/UserDto";
 import { ErrorResponseDto } from "../dto/ErrorResponseDto";
 import { api } from "../services/apiService";
-import { Navigate } from "react-router-dom";
+import { useLocalStorage } from "@uidotdev/usehooks";
 
 
 interface AuthContextModel {
@@ -11,7 +11,7 @@ interface AuthContextModel {
   isAuthenticated: boolean;
   token: string;
   login: (email: string, password: string) => Promise<string | void>;
-  logout: () => void;
+  logout: () => Promise<void>;
 }
 
 export const AuthContext = createContext({} as AuthContextModel);
@@ -21,9 +21,11 @@ interface Props {
 }
 
 export const AuthProvider: React.FC<Props> = ({ children }) => {
-  const [user, setUser] = useState<UserDto | null>(null);
-  const [token, setToken] = useState<string>("");
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+  const [user, setUser] = useLocalStorage<UserDto | null>("user", null);
+  const [token, setToken] = useLocalStorage<string>("token", "");
+  const [isAuthenticated, setIsAuthenticated] = useLocalStorage<boolean>("isauthenticated", false);
+
+  // *to clear the local storage => <local storage key>.localStorage.clear()
 
 
   const Login = useCallback(async (email: string, password: string) => {
@@ -47,10 +49,23 @@ export const AuthProvider: React.FC<Props> = ({ children }) => {
 
 
   const Logout = useCallback(() => {
-    setUser(null);
-    setToken("");
-    setIsAuthenticated(false);
-    return <Navigate to='/' />;
+    return new Promise<void>((resolve) => {
+      // clearing the local storage
+      localStorage.removeItem("user");
+      localStorage.removeItem("token");
+      localStorage.removeItem("isauthenticated");
+      localStorage.removeItem("@Cycle.Data");
+      localStorage.removeItem("@AutoEval.Data");
+      localStorage.removeItem("@OthersEval.Data");
+      
+      // reset the state
+      setUser(null); 
+      setToken(""); 
+      setIsAuthenticated(false); 
+  
+      // Resolve the promise
+      resolve();
+    });
   }, []);
 
 

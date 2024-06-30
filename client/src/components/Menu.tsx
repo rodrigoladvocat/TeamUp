@@ -1,16 +1,19 @@
 import icons from "../assets/icons";
 import logo from "../assets/logo.svg";
 import traco from "../assets/traco.svg";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { useMenu } from "../context/MenuContext";
+import { useAuth } from "@/hooks/AuthUser";
 
 export function Menu() {
   const { menu, setMenu } = useMenu();
+  const { logout } = useAuth();
+  const navigate = useNavigate();
 
   const menuItems = [
-    { path: "/", label: "Página inicial", icon: icons.home },
-    { path: "/notas", label: "Notas", icon: icons.grades },
-    { path: "/avaliacoes", label: "Avaliações", icon: icons.clipboard },
+    { path: "/home", label: "Página inicial", icon: icons.home },
+    { path: "/grades", label: "Notas", icon: icons.grades },
+    { path: "/evaluations", label: "Avaliações", icon: icons.clipboard },
     { path: "/about", label: "Sobre a plataforma", icon: icons.monitor },
   ];
 
@@ -42,9 +45,9 @@ export function Menu() {
         </nav>
       </div>
       <div>
-        <li className="flex text-[20px] text-white hover:text-[#A28BFE] py-5 px-8">
+        <li className="flex text-[20px] text-white hover:text-[#A28BFE] py-5 px-8 cursor-pointer">
           {icons.logout}
-          <div className="pl-2">Sair</div>
+          <div className="pl-2" onClick={() => {logout().then(() => {navigate("/")})}}>Sair</div>
         </li>
         <div className="flex flex-col justify-center items-center">
           <img src={traco} />

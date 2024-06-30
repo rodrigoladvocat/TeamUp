@@ -8,6 +8,7 @@ import {
     IsOptional,
     Max,
     Min,
+    IsBoolean,
 } from 'class-validator';
 
 export class CreateOthersevaluationDto {
@@ -46,4 +47,12 @@ export class CreateOthersevaluationDto {
     @IsNotEmpty()
     @IsString()
     comment: string;
+
+    @ApiProperty({
+        description: 'Stores if the evaluation is finalized',
+        example: false
+    })
+    @IsOptional()
+    @IsBoolean()
+    isFinalized: boolean;
 }
