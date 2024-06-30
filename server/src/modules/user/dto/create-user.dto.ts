@@ -33,7 +33,7 @@ export class CreateUserDto {
 
   @ApiProperty({
     description: 'URL of user profile image.',
-    example: 'TODO - put default image',
+    example: 'https://s3-alpha-sig.figma.com/img/c77b/5367/3ddf1e131c74d76bfc7f3e4cefdc4331?Expires=1720396800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=l4O0pKtpwtOnn7e3dRCGdHogQGO0lD00zuGfXgLXa7Y5MFYncWsct8twUxOY0jfgjuC~~-GTz5QBnruZRSb-RjHl7V-ACinksCy0Ou0AdiXdSXDXEMwY7~bZHM2ZDn1XHHhwhkP7r9jqQtYKNjACi-F-qKwpRoarFdSOcdM-aAE0NhimVG8kziAyIBVqb8atHZCSBugUv8KrTQJGGvhzlh0KciywurX1x7m6Dd~iZWSMvik2W709eFnDJYvvyU1Odbpfh6yRv~DLd0lrIQwUDA7yAluhdqeALWEADVDlS0EBGrDl5DBqBRmgEJRbdB39j5qxtHkmoXvzXo5MlXs70g__',
   })
   @IsNotEmpty()
   imgUrl: string;
@@ -61,7 +61,7 @@ export class CreateUserDto {
   @IsPhoneNumber('BR')
   telephone: string;
 
-  @ApiProperty({ description: 'User cpf', example: '123123123-12' })
+  @ApiProperty({ description: 'User cpf', example: '12312312312' })
   @IsNotEmpty()
   @Length(11, 11)
   cpf: string;

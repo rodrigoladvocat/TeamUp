@@ -1,11 +1,11 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { Prisma, SelfEvaluation } from '@prisma/client';
 import { PrismaService } from '../../database/prisma.service';
 import { CreateSelfEvaluationDto } from './dto/create-self-evaluation.dto';
 import { UpdateSelfEvaluationDto } from './dto/update-self-evaluation.dto';
 
 @Injectable()
-export class SelfevaluationService {
+export class SelfEvaluationService {
 
     constructor(private prisma: PrismaService) { }
 
@@ -56,7 +56,7 @@ export class SelfevaluationService {
         });
 
         // prevents from creating a new self evaluation if it already exists
-        if (found){
+        if (found) {
             return await this.prisma.selfEvaluation.updateMany({
                 where: {
                     userId: createSelfEvaluationDto.userId,
@@ -65,11 +65,10 @@ export class SelfevaluationService {
                 data: createSelfEvaluationDto
             })
         }
-        
+
         return await this.prisma.selfEvaluation.create({
             data: createSelfEvaluationDto
-        }
-        );
+        });
     }
 
 
@@ -81,5 +80,27 @@ export class SelfevaluationService {
             },
             data: { ...updateSelfEvaluationDto, lastUpdated: new Date() }
         })
+    }
+
+
+    async findUserEvalInTheLatestCycle(userId: number): Promise<SelfEvaluation> {
+        const latestCycleFound = await this.prisma.cycle.findFirst({
+            orderBy: {
+                finalDate: 'desc',
+            },
+        });
+
+        if (!latestCycleFound) {
+            throw new HttpException('No cycles found.', HttpStatus.NO_CONTENT);
+        }
+
+        const found = await this.prisma.selfEvaluation.findFirst({
+            where: {
+                userId: userId,
+                cycleId: latestCycleFound.id
+            },
+        });
+
+        return found;
     }
 }

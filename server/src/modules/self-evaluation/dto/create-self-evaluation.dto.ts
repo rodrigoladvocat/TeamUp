@@ -1,11 +1,10 @@
 import { ApiProperty } from "@nestjs/swagger";
 import {
-    IsNotEmpty,
+    IsOptional,
     IsNumber,
     MinLength,
     MaxLength,
     IsString,
-    IsOptional,
     Max,
     Min,
     IsBoolean,
@@ -16,7 +15,7 @@ export class CreateSelfEvaluationDto {
         description: 'User id',
         example: 1
     })
-    @IsNotEmpty()
+    @IsOptional()
     @IsNumber()
     userId: number;
 
@@ -24,7 +23,7 @@ export class CreateSelfEvaluationDto {
         description: 'Cycle id',
         example: 1
     })
-    @IsNotEmpty()
+    @IsOptional()
     @IsNumber()
     cycleId: number;
 
@@ -34,7 +33,7 @@ export class CreateSelfEvaluationDto {
         maximum: 5,
         example: 4
     })
-    @IsNotEmpty()
+    @IsOptional()
     @IsNumber({ allowNaN: false, allowInfinity: false })
     @Min(0)
     @Max(5)
@@ -45,7 +44,7 @@ export class CreateSelfEvaluationDto {
         maxLength: 255,
         example: 'vazio'
     })
-    @IsNotEmpty()
+    @IsOptional()
     @IsString()
     ownershipMentalityComment: string;
 
@@ -55,7 +54,7 @@ export class CreateSelfEvaluationDto {
         maximum: 5,
         example: 4
     })
-    @IsNotEmpty()
+    @IsOptional()
     @IsNumber({ allowNaN: false, allowInfinity: false })
     @Min(0)
     @Max(5)
@@ -65,7 +64,7 @@ export class CreateSelfEvaluationDto {
         description: 'Comment on Learning Agility',
         maxLength: 255
     })
-    @IsNotEmpty()
+    @IsOptional()
     @IsString()
     learningAgilityComment: string;
 
@@ -75,7 +74,7 @@ export class CreateSelfEvaluationDto {
         maximum: 5,
         example: 4
     })
-    @IsNotEmpty()
+    @IsOptional()
     @IsNumber({ allowNaN: false, allowInfinity: false })
     @Min(0)
     @Max(5)
@@ -86,7 +85,7 @@ export class CreateSelfEvaluationDto {
         maxLength: 255,
         example: 'vazio'
     })
-    @IsNotEmpty()
+    @IsOptional()
     @IsString()
     resilienceAdversityComment: string;
 
@@ -96,7 +95,7 @@ export class CreateSelfEvaluationDto {
         maximum: 5,
         example: 4
     })
-    @IsNotEmpty()
+    @IsOptional()
     @IsNumber({ allowNaN: false, allowInfinity: false })
     @Min(0)
     @Max(5)
@@ -107,7 +106,7 @@ export class CreateSelfEvaluationDto {
         maxLength: 255,
         example: 'vazio'
     })
-    @IsNotEmpty()
+    @IsOptional()
     @IsString()
     teamworkComment: string;
 
@@ -117,7 +116,7 @@ export class CreateSelfEvaluationDto {
         maximum: 5,
         example: 4
     })
-    @IsNotEmpty()
+    @IsOptional()
     @IsNumber({ allowNaN: false, allowInfinity: false })
     @Min(0)
     @Max(5)
@@ -128,7 +127,7 @@ export class CreateSelfEvaluationDto {
         maxLength: 255,
         example: 'vazio'
     })
-    @IsNotEmpty()
+    @IsOptional()
     @IsString()
     outOfTheBoxThinkingBehavioralComment: string;
 
@@ -138,7 +137,7 @@ export class CreateSelfEvaluationDto {
         maximum: 5,
         example: 4
     })
-    @IsNotEmpty()
+    @IsOptional()
     @IsNumber({ allowNaN: false, allowInfinity: false })
     @Min(0)
     @Max(5)
@@ -149,7 +148,7 @@ export class CreateSelfEvaluationDto {
         maxLength: 255,
         example: 'vazio'
     })
-    @IsNotEmpty()
+    @IsOptional()
     @IsString()
     deliveringQualityComment: string;
 
@@ -159,7 +158,7 @@ export class CreateSelfEvaluationDto {
         maximum: 5,
         example: 4
     })
-    @IsNotEmpty()
+    @IsOptional()
     @IsNumber({ allowNaN: false, allowInfinity: false })
     @Min(0)
     @Max(5)
@@ -170,7 +169,7 @@ export class CreateSelfEvaluationDto {
         maxLength: 255,
         example: 'vazio'
     })
-    @IsNotEmpty()
+    @IsOptional()
     @IsString()
     meetingDeadlinesComment: string;
 
@@ -180,7 +179,7 @@ export class CreateSelfEvaluationDto {
         maximum: 5,
         example: 4
     })
-    @IsNotEmpty()
+    @IsOptional()
     @IsNumber({ allowNaN: false, allowInfinity: false })
     @Min(0)
     @Max(5)
@@ -191,7 +190,7 @@ export class CreateSelfEvaluationDto {
         maxLength: 255,
         example: 'vazio'
     })
-    @IsNotEmpty()
+    @IsOptional()
     @IsString()
     doingMoreWithLessComment: string;
 
@@ -201,7 +200,7 @@ export class CreateSelfEvaluationDto {
         maximum: 5,
         example: 4
     })
-    @IsNotEmpty()
+    @IsOptional()
     @IsNumber({ allowNaN: false, allowInfinity: false })
     @Min(0)
     @Max(5)
@@ -212,7 +211,7 @@ export class CreateSelfEvaluationDto {
         maxLength: 255,
         example: 'vazio'
     })
-    @IsNotEmpty()
+    @IsOptional()
     @IsString()
     outOfTheBoxThinkingExecutionComment: string;
 

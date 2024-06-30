@@ -1,8 +1,9 @@
 import { Body, Controller, Get, HttpStatus, Param, ParseIntPipe, Patch, Post, ValidationPipe } from '@nestjs/common';
-import { OthersevaluationService } from './others-evaluation.service';
+import { OthersEvaluationService } from './others-evaluation.service';
 import { CreateOthersevaluationDto } from './dto/create-others-evaluation.dto';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { OthersEvaluation, Prisma } from '@prisma/client';
+import { SubmitOthersevaluationDto } from './dto/submit-others-evaluation.dto';
 
 const applyIdValidation = new ParseIntPipe({ errorHttpStatusCode: HttpStatus.BAD_REQUEST });
 const applyBodyValidation = new ValidationPipe({ errorHttpStatusCode: HttpStatus.BAD_REQUEST });
@@ -10,7 +11,7 @@ const applyBodyValidation = new ValidationPipe({ errorHttpStatusCode: HttpStatus
 @ApiTags('Others-Evaluation Controller')
 @Controller('others-evaluation')
 export class OthersEvaluationController {
-    constructor(private othersevaluationService: OthersevaluationService) { }
+    constructor(private othersevaluationService: OthersEvaluationService) { }
 
     @Post()
     @ApiOperation({ summary: 'Create a others-evaluation' })
@@ -21,11 +22,47 @@ export class OthersEvaluationController {
     }
 
 
+    @Post("/submit-evaluation/latest-cycle/:userId")
+    @ApiOperation({ summary: 'Create many others-evaluation' })
+    @ApiResponse({ status: 201, description: 'All others-evaluation have been successfully created.' })
+    @ApiResponse({ status: 400, description: 'Bad Request. Stopped by some validator.' })
+    async submitEvaluationToLatestCycle(
+        @Body(applyBodyValidation) data: SubmitOthersevaluationDto[],
+        @Param('userId', applyIdValidation) userId: number,
+    ) {
+        return await this.othersevaluationService.submitEvaluationToLatestCycle(data, userId);
+    }
+
+
+    @Post("/submit-evaluation/:cycleId/:userId")
+    @ApiOperation({ summary: 'Create many others-evaluation' })
+    @ApiResponse({ status: 201, description: 'All others-evaluation have been successfully created.' })
+    @ApiResponse({ status: 400, description: 'Bad Request. Stopped by some validator.' })
+    async submitEvaluation(
+        @Body(applyBodyValidation) data: SubmitOthersevaluationDto[],
+        @Param('cycleId', applyIdValidation) cycleId: number,
+        @Param('userId', applyIdValidation) userId: number,
+    ) {
+        return await this.othersevaluationService.submitEvaluation(data, userId, cycleId);
+    }
+
+
     @Get()
     @ApiOperation({ summary: 'Get all others-evaluations.' })
     @ApiResponse({ status: 200, description: 'Return all others-evaluations.' })
     async findAll() {
         return await this.othersevaluationService.findAll();
+    }
+
+
+    @Get('/latest-cycle/:userId')
+    @ApiOperation({ summary: 'Get others evaluation by (userId, latest cycleId)' })
+    @ApiResponse({ status: 200, description: 'Return user self evaluations of latest cycle.' })
+    @ApiResponse({ status: 400, description: 'Bad Request. Stopped by some validator.' })
+    async findUserEvalInTheLatestCycle(
+        @Param('userId', applyIdValidation) userId: number
+    ): Promise<OthersEvaluation[]> {
+        return this.othersevaluationService.findUserEvalInTheLatestCycle(+userId);
     }
 
 
