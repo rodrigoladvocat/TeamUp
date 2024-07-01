@@ -6,10 +6,11 @@ interface Props {
   profileUrl: string;
   name: string;
   role: string;
+  comment: string;
 }
 
 
-export default function UserDisplay({children, profileUrl, name, role}:Props) {
+export default function UserDisplay({children, profileUrl, name, role, comment}:Props) {
   const [image, setImage] = useState<string>(profileUrl);
 
   return(
@@ -34,7 +35,7 @@ export default function UserDisplay({children, profileUrl, name, role}:Props) {
         <textarea
             id="disabledTextarea"
             className="mt-0 block w-[60.313rem] h-[11.25rem] px-3 py-2 border border-gray-300 shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm bg-[#FFFFFF] cursor-not-allowed"
-            placeholder="This input is disabled"
+            placeholder={comment}
             disabled
             style={{ borderRadius: '0 0 0.5rem 0.5rem' }}
         ></textarea>
