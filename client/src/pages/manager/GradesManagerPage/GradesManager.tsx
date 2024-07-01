@@ -22,7 +22,7 @@ const About = () => {
   const { search } = useSearchBar();
 
   useEffect(() => {
-    setMenu(2);
+    setMenu(1);
   }, []);
 
   useEffect(() => {
