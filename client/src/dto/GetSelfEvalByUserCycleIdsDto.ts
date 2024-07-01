@@ -2,23 +2,23 @@ export interface GetSelffEvalByUserCycleIdsDto {
   id: number
   userId: number
   cycleId: number
-  ownershipMentalityGrade: number
+  ownershipMentalityGrade: number //
   ownershipMentalityComment: string
-  learningAgilityGrade: number
+  learningAgilityGrade: number //
   learningAgilityComment: string
-  resilienceAdversityGrade: number
+  resilienceAdversityGrade: number //
   resilienceAdversityComment: string
-  teamworkGrade: number
-  teamworkComment: string
-  outOfTheBoxThinkingBehavioralGrade: number
+  teamworkGrade: number //
+  teamworkComment: string 
+  outOfTheBoxThinkingBehavioralGrade: number //
   outOfTheBoxThinkingBehavioralComment: string
-  deliveringQualityGrade: number
+  deliveringQualityGrade: number //
   deliveringQualityComment: string
-  meetingDeadlinesGrade: number
+  meetingDeadlinesGrade: number //
   meetingDeadlinesComment: string
-  doingMoreWithLessGrade: number
+  doingMoreWithLessGrade: number //
   doingMoreWithLessComment: string
-  outOfTheBoxThinkingExecutionGrade: number
+  outOfTheBoxThinkingExecutionGrade: number //
   outOfTheBoxThinkingExecutionComment: string
   lastUpdated: string
   isFinalized: boolean
