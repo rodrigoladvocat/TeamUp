@@ -8,6 +8,6 @@ export async function evaluatorGetsOthersEval(userId: number, cycleId: number) {
     }
     catch (error) {
         console.log(error);
-        return -1;
+        return [];
     }
 }

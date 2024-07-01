@@ -39,7 +39,7 @@ export class CycleService {
   async getLatest(): Promise<Cycle> {
     const found = await this.prisma.cycle.findFirst({
       orderBy: {
-        finalDate: 'desc',
+        id: 'desc',
       },
     });
 
@@ -53,7 +53,7 @@ export class CycleService {
   async getLast(): Promise<Cycle> {
     const found = await this.prisma.cycle.findFirst({
       orderBy: {
-        finalDate: 'desc',
+        id: 'desc',
       },
       skip: 1,
     });

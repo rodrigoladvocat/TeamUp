@@ -46,7 +46,7 @@ export default function AboutPage(): JSX.Element {
                   Funcionalidades
                 </div>
 
-                <div className="grid grid-cols-3 pb-8 ml-5">
+                <div className="grid grid-cols-3 pb-8 place-items-center">
                   <div className="p-4 text-center w-[14.313rem] h-[12.5rem]">
                     <div className="flex justify-center">
                       <img src={img_evaluation} alt="img" className="img" />
