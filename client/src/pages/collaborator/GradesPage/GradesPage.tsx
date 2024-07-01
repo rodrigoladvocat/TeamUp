@@ -5,6 +5,17 @@ import Header from "../../../components/Header";
 import Accordion from "../../../components/Accordion";
 import { useMenu } from "../../../context/MenuContext";
 
+import {
+    Table,
+    TableBody,
+    TableCaption,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
+  } from "@/components/ui/table"
+  
+
 const GradesPage: React.FC = () => {
   const { setMenu } = useMenu();
   setMenu(0);
@@ -60,6 +71,90 @@ const GradesPage: React.FC = () => {
                     <Accordion title="2. Atender aos prazos" />
                     <Accordion title="3. Fazer mais com menos" />
                   </div>
+                </>
+              )}
+             {selectedTabIndex === 1 && (
+                <>
+                  <p className="text-20 text-white text-left pl-[10px] mb-0">
+                    Selecione o ciclo que você deseja consultar
+                  </p>
+                  <p className="text-16 text-text text-left pl-[10px] mb-4">
+                    Acompanhe a sua evolução em cada critério ao longo do tempo.
+                  </p>
+                  <p className="pb-5 text-28 text-purple-text font-bold text-left pl-[10px] pt-[1.813rem] mb-0">
+                    Autoavaliação
+                  </p>
+                  
+                  <Table>
+                      <TableCaption>A list of your recent invoices.</TableCaption>
+                      <TableHeader className="bg-[#444444]">
+                        <TableRow>
+                          <TableHead className="text-20 font-bold">Critérios comportamentais</TableHead>
+                          <TableHead className="text-18 text-center font-bold">Nota da autoavaliação</TableHead>
+                          <TableHead className="text-18 text-center font-bold">Nota final</TableHead>
+                        </TableRow>
+                      </TableHeader>
+                      <TableBody>
+                        <TableRow>
+                          <TableCell className="text-18 text-left">1. Sentimento de dono</TableCell>
+                          <TableCell className="text-16 text-center">0 </TableCell>
+                          <TableCell className="text-16 text-center">0 </TableCell>
+                        </TableRow>
+                        <TableRow>
+                          <TableCell className="text-18 text-left">2. Resiliência nas adversidades</TableCell>
+                          <TableCell className="text-16 text-center">0 </TableCell>
+                          <TableCell className="text-16 text-center">0 </TableCell>
+                        </TableRow>
+                        <TableRow>
+                          <TableCell className="text-18 text-left">3. Organização no trabalho</TableCell>
+                          <TableCell className="text-16 text-center">0 </TableCell>
+                          <TableCell className="text-16 text-center">0 </TableCell>
+                        </TableRow>
+                        <TableRow>
+                          <TableCell className="text-18 text-left">4. Capacidade de aprender</TableCell>
+                          <TableCell className="text-16 text-center">0 </TableCell>
+                          <TableCell className="text-16 text-center">0 </TableCell>
+                        </TableRow>
+                        <TableRow>
+                          <TableCell className="text-18 text-left">5. Trabalho em equipe</TableCell>
+                          <TableCell className="text-16 text-center">0 </TableCell>
+                          <TableCell className="text-16 text-center">0 </TableCell>
+                        </TableRow>
+                      </TableBody>
+                      <div className="pt-[1.75rem] "></div>
+                      <TableHeader className="bg-[#444444]">
+                        <TableRow>
+                          <TableHead className="text-20 font-bold">Critérios de execução</TableHead>
+                          <TableHead className="text-18 text-center font-semibold font-bold">Nota da autoavaliação</TableHead>
+                          <TableHead className="text-18 text-center font-semibold font-bold">Nota final</TableHead>
+                        </TableRow>
+                      </TableHeader>
+                      <TableBody>
+                        <TableRow>
+                          <TableCell className="text-18 text-left">1. Entregar com qualidade</TableCell>
+                          <TableCell className="text-16 text-center">0 </TableCell>
+                          <TableCell className="text-16 text-center">0 </TableCell>
+                        </TableRow>
+                        <TableRow>
+                          <TableCell className="text-18 text-left">2. Atender aos prazos </TableCell>
+                          <TableCell className="text-16 text-center">0 </TableCell>
+                          <TableCell className="text-16 text-center">0 </TableCell>
+                        </TableRow>
+                        <TableRow>
+                          <TableCell className="text-18 text-left">3. Fazer mais com menos</TableCell>
+                          <TableCell className="text-16 text-center">0 </TableCell>
+                          <TableCell className="text-16 text-center">0 </TableCell>
+                        </TableRow>
+                        <TableRow>
+                          <TableCell className="text-18 text-left">4. Pensar fora da caixa</TableCell>
+                          <TableCell className="text-16 text-center">0 </TableCell>
+                          <TableCell className="text-16 text-center">0 </TableCell>
+                        </TableRow>
+                      </TableBody>
+                      
+                  </Table>
+
+
                 </>
               )}
             </div>
