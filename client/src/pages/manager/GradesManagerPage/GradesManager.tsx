@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { getCollaboratorsByName } from "@/utils/getCollaboratorsByName";
 import Card from "@/components/Card";
 import { Link } from "react-router-dom";
-import {  useSearchBar } from "@/context/SearchBarContext";
+import { useSearchBar } from "@/context/SearchBarContext";
 import { useMenu } from "@/context/MenuContext";
 
 interface CollaboratorProps {
@@ -17,32 +17,17 @@ interface CollaboratorProps {
 }
 
 const About = () => {
-    const {setMenu} = useMenu();
-    const [ collaborators, setCollaborators ] = useState<CollaboratorProps[]>([]);
-    const { search } =  useSearchBar();
+  const { setMenu } = useMenu();
+  const [collaborators, setCollaborators] = useState<CollaboratorProps[]>([]);
+  const { search } = useSearchBar();
 
-    useEffect(() => {
-        setMenu(2);
-    }, [])
+  useEffect(() => {
+    setMenu(2);
+  }, []);
 
-    useEffect(() => {
-        let append_array: CollaboratorProps[] = [];
-        let param = (!search ? " " : search);
-
-        getCollaboratorsByName(param)
-        .then((data) => {
-            data.forEach((collaborator: any) => {
-
-                append_array.push({
-                    name: collaborator.name,
-                    role: collaborator.role,
-                    email: collaborator.email,
-                    imageSrc: collaborator.imgUrl
-                });
-
-            });
-
-            setCollaborators(append_array);
+  useEffect(() => {
+    let append_array: CollaboratorProps[] = [];
+    let param = !search ? " " : search;
 
     getCollaboratorsByName(param).then((data) => {
       data.forEach((collaborator: any) => {
