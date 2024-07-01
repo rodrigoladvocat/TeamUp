@@ -1,5 +1,5 @@
-import React from 'react';
-import defaultProfileImage from '../assets/default_profile_image.png';
+import React from "react";
+import defaultProfileImage from "../assets/default_profile_image.png";
 
 interface CardProps {
   imageSrc: string;
@@ -19,16 +19,18 @@ const Card: React.FC<CardProps> = ({ imageSrc, name, role, email }) => {
             onError={(e) => {
               e.currentTarget.src = defaultProfileImage;
             }}
-            />
+          />
         </div>
         <div className="flex-1 text-center mt-8">
-          <div className="text-20 max-w-md font-bold">{name}</div>
-          <div className="text-purple-text text-16 font-medium text-base my-2">{role}</div>
-          <div className="text-16 font-medium">{email}</div>
+          <div className="text-20 max-w-md font-bold text-white">{name}</div>
+          <div className="text-purple-text text-16 font-medium text-base my-2">
+            {role}
+          </div>
+          <div className="text-16 font-medium text-white">{email}</div>
         </div>
       </div>
     </div>
   );
-}
+};
 
 export default Card;

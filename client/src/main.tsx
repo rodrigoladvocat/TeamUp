@@ -15,6 +15,8 @@ import { AuthProvider } from './context/AuthContext';
 import { CycleProvider } from './context/CycleContext';
 import './global.css';
 import GradesManagerPage from './pages/manager/GradesManagerPage/GradesManagerPage';
+import CollaboratorProfile from './pages/CollaboratorProfilePage';
+import UserProfile from './pages/UserProfile';
 
 
 // ideal to merge both homepages into same route
@@ -30,9 +32,11 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
           <Route path="*" element={<ErrorPage />} />
           <Route path="/" element={<LoginPage />} />
           <Route path="/login" element={<LoginPage />} />
-          <Route path="/profile/:id" element={<ErrorPage/>}/> {/* TODO profilePage (usar id da URL no useEffect para acessar rota GET user by id do backend */}
+          <Route path="/profile" element={<UserProfile/>}/> {/* TODO profilePage (usar id da URL no useEffect para acessar rota GET user by id do backend */}
+          <Route path="/profile/:id" element={<CollaboratorProfile/>}/> {/* TODO profilePage (usar id da URL no useEffect para acessar rota GET user by id do backend */}
           <Route path="/about" element={<AboutPage/>}/>
           <Route path="/dev" element={<VisualizeComponent />} />
+
 
           {/* 4 rotas do menu */}
           <Route path="/home" element={
@@ -43,8 +47,8 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
           } />
           <Route path="/grades" element={
             <RedirectByUserType
-            managerPage={GradesManagerPage} // TODO substituir por GradesManagerPage
-            collaboratorPage={GradesManagerPage} // TODO substituir por GradesCollaboratorPage
+            managerPage={GradesManagerPage} // TODO substituir por SearchUserPage
+            collaboratorPage={ErrorPage} // TODO substituir por GradesCollaboratorPage
             />
           } />
           <Route path="/evaluations" element={
