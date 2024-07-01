@@ -14,6 +14,7 @@ import { RedirectByUserType } from './utils/RedirectByUserType';
 import { AuthProvider } from './context/AuthContext';
 import { CycleProvider } from './context/CycleContext';
 import './global.css';
+import Profile from './pages/ProfilePage';
 
 
 // ideal to merge both homepages into same route
@@ -28,7 +29,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
           <Route path="*" element={<ErrorPage />} />
           <Route path="/" element={<LoginPage />} />
           <Route path="/login" element={<LoginPage />} />
-          <Route path="/profile/:id" element={<ErrorPage/>}/> {/* TODO profilePage (usar id da URL no useEffect para acessar rota GET user by id do backend */}
+          <Route path="/profile/:id" element={<Profile/>}/> {/* TODO profilePage (usar id da URL no useEffect para acessar rota GET user by id do backend */}
           <Route path="/about" element={<AboutPage/>}/>
           <Route path="/dev" element={<VisualizeComponent />} />
 
