@@ -4,11 +4,12 @@ import { Menu } from "@/components/Menu";
 import { Link, useParams } from "react-router-dom";
 import arrowBack from "../assets/arrow-back-circle.svg";
 import { AuthContext } from "@/context/AuthContext";
+import defaultProfileImage from "@/assets/default_profile_image.png";
 
 interface CollaboratorProps {
   name: string;
   role: string;
-  imageSrc: string;
+  imgUrl: string;
   age: number;
   id: string;
   telephone: string;
@@ -54,7 +55,7 @@ const Profile = () => {
       </div>
     );
   }
-
+  console.log(user.imgUrl);
   return (
     <div className="flex flex-1 p-6 min-h-screen bg-gray-900 text-white">
       <div className="flex flex-1">
@@ -73,6 +74,7 @@ const Profile = () => {
                     <img src={arrowBack} alt="Arrow Back" />
                   </div>
                 </Link>
+
                 <div>
                   <div className="flex-1">Colaboradores</div>
                   <div className="flex-1 mt-1 text-white text-20 font-poppins font-normal flex flex-row">
@@ -94,11 +96,16 @@ const Profile = () => {
           <div className="flex flex-1 bg-[#212020] h-[820px] mt-4 overflow-y-auto">
             <div className="flex flex-wrap flex-1 justify-evenly gap-x-[52px] pt-10 flex-row">
               <div className="">
-                <img
-                  src={user.imageSrc}
-                  alt={user.name}
-                  className="w-[275px] h-[275px] rounded-full mr-2 bg-primary"
-                />
+                <div className="flex flex-row justify-center">
+                  <img
+                    src={user.imgUrl}
+                    alt={user.name}
+                    className="w-[275px] h-[275px] object-cover rounded-full"
+                    onError={(e) => {
+                      e.currentTarget.src = defaultProfileImage;
+                    }}
+                  />
+                </div>
                 <div className="pt-10 text-[24px] font-semibold">
                   {user.name}
                 </div>
