@@ -115,6 +115,39 @@ const icons = {
       />
     </svg>
   ),
+  collaborators: (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+    >
+      <path
+        d="M9 9C10.6569 9 12 7.65685 12 6C12 4.34315 10.6569 3 9 3C7.34315 3 6 4.34315 6 6C6 7.65685 7.34315 9 9 9Z"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M15 20V18C15 16.1362 15 15.2044 14.6955 14.4693C14.2895 13.4892 13.5108 12.7105 12.5307 12.3045C11.7956 12 10.8638 12 9 12V12C7.13623 12 6.20435 12 5.46927 12.3045C4.48915 12.7105 3.71046 13.4892 3.30448 14.4693C3 15.2044 3 16.1362 3 18V20"
+        stroke-width="2"
+        stroke-linecap="round"
+      />
+      <path
+        d="M15 9C16.6569 9 18 7.65685 18 6C18 4.34315 16.6569 3 15 3"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M21 20V16.5C21 16.0357 21 15.8035 20.9807 15.6079C20.7937 13.7088 19.2912 12.2063 17.3921 12.0193C17.1965 12 16.9643 12 16.5 12V12"
+        stroke-width="2"
+        stroke-linecap="round"
+      />
+    </svg>
+  ),
 };
 
 export default icons;

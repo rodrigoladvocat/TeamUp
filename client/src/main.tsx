@@ -15,6 +15,7 @@ import { AuthProvider } from './context/AuthContext';
 import { CycleProvider } from './context/CycleContext';
 import './global.css';
 import Profile from './pages/ProfilePage';
+import GradesManagerPage from './pages/manager/GradesManagerPage/GradesManagerPage';
 
 
 // ideal to merge both homepages into same route
@@ -33,6 +34,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
           <Route path="/about" element={<AboutPage/>}/>
           <Route path="/dev" element={<VisualizeComponent />} />
 
+
           {/* 4 rotas do menu */}
           <Route path="/home" element={
             <RedirectByUserType
@@ -42,7 +44,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
           } />
           <Route path="/grades" element={
             <RedirectByUserType
-            managerPage={ErrorPage} // TODO substituir por SearchUserPage
+            managerPage={GradesManagerPage} // TODO substituir por SearchUserPage
             collaboratorPage={ErrorPage} // TODO substituir por GradesCollaboratorPage
             />
           } />
