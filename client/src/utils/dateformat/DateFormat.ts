@@ -1,4 +1,4 @@
-const DateFormat: (date: Date) => string = (date: Date) => {
+const DateFormat: (date: string | Date) => string = (date: string | Date) => {
 
   // Format options
   const options: Intl.DateTimeFormatOptions = {
@@ -8,6 +8,10 @@ const DateFormat: (date: Date) => string = (date: Date) => {
   };
 
   // Format the date
+  if (typeof date === 'string') {
+    date = new Date(date);
+  }
+  
   const formattedDate = new Intl.DateTimeFormat('pt-BR', options).format(date);
 
   return formattedDate;

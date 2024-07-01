@@ -18,29 +18,61 @@ export class OthersEvaluationService {
 
     async submitEvaluation(createOthersevaluationDto: SubmitOthersevaluationDto[], userId: number, cycleId: number) {
 
-        const upsertPromises = createOthersevaluationDto.map((row) => {
-            return this.prisma.othersEvaluation.upsert({
+        const upsertPromises = createOthersevaluationDto.map(async (row) => {
+            // return this.prisma.othersEvaluation.upsert({
+            //     where: {
+            //             evaluatorUserId: userId,
+            //             evaluatedUserId: row.evaluatedUserId,
+            //             cycleId: cycleId,
+            //     },
+            //     update: {
+            //         grade: row.grade,
+            //         comment: row.comment,
+            //         lastUpdated: new Date(),
+            //         isFinalized: row.isFinalized
+            //     },
+            //     create: {
+            //         ...row,
+            //         evaluatorUserId: userId,
+            //         cycleId: cycleId,
+            //         lastUpdated: new Date(),
+            //     }
+            // });
+
+            const found = await this.prisma.othersEvaluation.findFirst({
                 where: {
-                    evaluatorUserId_evaluatedUserId_cycleId: {
-                        evaluatorUserId: userId,
-                        evaluatedUserId: row.evaluatedUserId,
-                        cycleId: cycleId,
-                    },
-                },
-                update: {
-                    grade: row.grade,
-                    comment: row.comment,
-                    lastUpdated: new Date(),
-                    isFinalized: row.isFinalized
-                },
-                create: {
-                    ...row,
                     evaluatorUserId: userId,
-                    cycleId: cycleId,
-                    lastUpdated: new Date(),
+                    evaluatedUserId: row.evaluatedUserId,
+                    cycleId: cycleId
                 }
             });
-        });
+
+            if (found) {
+                return this.prisma.othersEvaluation.updateMany({
+                    where: {
+                            evaluatorUserId: userId,
+                            evaluatedUserId: row.evaluatedUserId,
+                            cycleId: cycleId,
+                    },
+                    data: {
+                        grade: row.grade,
+                        comment: row.comment,
+                        lastUpdated: new Date(),
+                        isFinalized: row.isFinalized
+                    }
+                });
+            }
+            else {
+                return this.prisma.othersEvaluation.create({
+                    data: {
+                        ...row,
+                        evaluatorUserId: userId,
+                        cycleId: cycleId,
+                        lastUpdated: new Date(),
+                    }
+                });
+        };
+    });
 
         const createdOrUpdated = await Promise.all(upsertPromises);
         return createdOrUpdated;
@@ -59,28 +91,64 @@ export class OthersEvaluationService {
             throw new HttpException('No cycles found.', HttpStatus.NO_CONTENT);
         }
 
-        const upsertPromises = createOthersevaluationDto.map((row) => {
-            return this.prisma.othersEvaluation.upsert({
+        const upsertPromises = createOthersevaluationDto.map(async (row) => {
+            // return this.prisma.othersEvaluation.upsert({
+            //     where: {
+            //         evaluatorUserId_evaluatedUserId_cycleId: {
+            //             evaluatorUserId: userId,
+            //             evaluatedUserId: row.evaluatedUserId,
+            //             cycleId: latestCycleFound.id,
+            //         },
+            //     },
+            //     update: {
+            //         grade: row.grade,
+            //         comment: row.comment,
+            //         lastUpdated: new Date(),
+            //         isFinalized: row.isFinalized
+            //     },
+            //     create: {
+            //         ...row,
+            //         evaluatorUserId: userId,
+            //         cycleId: latestCycleFound.id,
+            //         lastUpdated: new Date(),
+            //     }
+            // });
+
+            const found = await this.prisma.othersEvaluation.findFirst({
                 where: {
-                    evaluatorUserId_evaluatedUserId_cycleId: {
-                        evaluatorUserId: userId,
-                        evaluatedUserId: row.evaluatedUserId,
-                        cycleId: latestCycleFound.id,
-                    },
-                },
-                update: {
-                    grade: row.grade,
-                    comment: row.comment,
-                    lastUpdated: new Date(),
-                    isFinalized: row.isFinalized
-                },
-                create: {
-                    ...row,
                     evaluatorUserId: userId,
-                    cycleId: latestCycleFound.id,
-                    lastUpdated: new Date(),
+                    evaluatedUserId: row.evaluatedUserId,
+                    cycleId: latestCycleFound.id
                 }
             });
+
+            if (found) {
+                return this.prisma.othersEvaluation.updateMany({
+                    where: {
+                            evaluatorUserId: userId,
+                            evaluatedUserId: row.evaluatedUserId,
+                            cycleId: latestCycleFound.id,
+                    },
+                    data: {
+                        grade: row.grade,
+                        comment: row.comment,
+                        lastUpdated: new Date(),
+                        isFinalized: row.isFinalized
+                    }
+                });
+            }
+            else {
+                return this.prisma.othersEvaluation.create({
+                    data: {
+                        ...row,
+                        evaluatorUserId: userId,
+                        cycleId: latestCycleFound.id,
+                        lastUpdated: new Date(),
+                    }
+                });
+        };
+
+
         });
 
         const createdOrUpdated = await Promise.all(upsertPromises);

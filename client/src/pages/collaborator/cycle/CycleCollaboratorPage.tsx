@@ -1,9 +1,8 @@
 import Header from "../../../components/Header";
 import { Menu } from "../../../components/Menu";
-import { useMenu } from "../../../context/MenuContext";
 import { Button } from "@/components/ui/button";
 // import { getCurrentCycle } from "@/utils/getCurrentCycle";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useAuth } from "@/hooks/AuthUser";
 // import { getAutoEval } from "@/utils/getAutoEval";
 // import { evaluatorGetsOthersEval } from "@/utils/evaluatorGetsOthersEval";
@@ -19,6 +18,10 @@ export default function CycleCollaboratorPage(): JSX.Element {
   const navigate = useNavigate();
   const { _cycle, endDate, endTime, startDate, selfEvalInfo, othersEvalInfo, callAllUpdates } = useCycle();
   const { user, isAuthenticated } = useAuth();
+  const [othersLastUpdated, setOthersLastUpdated] = useState(null);
+  const [cycle, setCycle] = useState<any>(null);
+
+  const formatter = new Intl.DateTimeFormat(undefined, { year: 'numeric', month: '2-digit', day: '2-digit' });
 
 
   useEffect(() => {
@@ -30,6 +33,37 @@ export default function CycleCollaboratorPage(): JSX.Element {
       callAllUpdates(user.id, false);
     }
   }, []);
+
+  useEffect(() => {
+    if (_cycle === null) {
+      setCycle(null);
+    }
+    else if (new Date(_cycle.finalDate) < new Date()) {
+      setCycle(null);
+    }
+    else {
+      setCycle(_cycle);
+    }
+  }, [_cycle])
+
+  useEffect(() => {
+    let auxOthersLastUpdated: any = null;
+    othersEvalInfo.othersLastUpdated.forEach((date: string) => {
+      if (auxOthersLastUpdated === null) {
+        auxOthersLastUpdated = date;
+      } else {
+        if (new Date(date) > new Date(auxOthersLastUpdated)) {
+          auxOthersLastUpdated = date;
+        }
+      }
+    });
+
+    if (auxOthersLastUpdated !== null) {
+      auxOthersLastUpdated = formatter.format(new Date(auxOthersLastUpdated));
+    }
+    setOthersLastUpdated(auxOthersLastUpdated)
+
+  }, [othersEvalInfo])
 
   function calculateOthersStage(stages: stage[]): stage {
 
@@ -63,7 +97,7 @@ export default function CycleCollaboratorPage(): JSX.Element {
             
           <Header 
             userName={user?.name || ""} 
-            subtitle={`Período aberto em ${startDate} e termina em ${endDate} às ${endTime}`} 
+            subtitle={cycle === null ? "Aguarde o próximo período avaliativo" : `Período aberto em ${startDate} e termina em ${endDate} às ${endTime}`} 
             profileImage={user?.imgUrl || ""} 
             title="Sobre a Plataforma"
           />
@@ -97,10 +131,12 @@ export default function CycleCollaboratorPage(): JSX.Element {
                         <span> Ao apontar áreas de melhoria, forneça sugestões práticas e construtivas para o desenvolvimento do colaborador. O objetivo é ajudar na evolução profissional e pessoal.</span>
                     </div>
                 </div>
-
+              {
+              cycle ?
+              
                 <div className="p-6 rounded-xl border border-purple-text mt-5">
                   <div className="text-purple-text text-[20px] font-bold ml-[5.5rem]">
-                    Ciclo avaliativo {_cycle ? _cycle.cycleName : "cycle not found"}
+                    Ciclo avaliativo {cycle ? cycle.cycleName : "cycle not found"}
                   </div>
                   <div className="space-y-9 mt-7">
                     <div className="flex items-center justify-between">
@@ -124,14 +160,10 @@ export default function CycleCollaboratorPage(): JSX.Element {
                         </Button>
                       </div>
                       <div className="flex-1 flex items-center justify-center text-[#D3C8FF]">
-                        {/* <p>{autoEval !== null ? "DateFormat(autoEval.lastUpdated)" : "----"}</p> */}
                         <p>{selfEvalInfo.selfLastUpdated || "----"}</p>
                       </div>
                       <div className="flex-1 flex items-center justify-center">
                         <TagStage stage={selfEvalInfo.selfEvalStage}/>
-                        {/* <span className="inline-block px-2 py-1 text-sm font-medium text-yellow-900 rounded-md">
-                          {autoEval !== null ? "Em andamento" : "Não iniciado"}
-                        </span> */}
                       </div>
                     </div>
                     <div className="flex items-center justify-between">
@@ -144,18 +176,22 @@ export default function CycleCollaboratorPage(): JSX.Element {
                         </Button>
                       </div>
                       <div className="flex-1 flex items-center justify-center text-[#D3C8FF]">
-                        {/* <p>{lastUpdatedDateEval !== null ? DateFormat(new Date(lastUpdatedDateEval)) : "----"}</p> */}
-                        <p>{othersEvalInfo.othersLastUpdated || "----"}</p>
+                        <p>{othersLastUpdated === null ? "----" : othersLastUpdated}</p>
                       </div>
                       <div className="flex-1 flex items-center justify-center">
                         <TagStage stage={calculateOthersStage(othersEvalInfo.othersEvalStage)}/>
-                        {/* <span className="inline-block px-2 py-1 text-sm font-medium text-gray-900 bg-gray-500 rounded-md">
-                          {othersEval.length === 0 ? "Não iniciado" : "Em andamento"}
-                        </span> */}
                       </div>
                     </div>
                   </div>
                 </div>
+
+                :
+                <div className="flex flex-col justify-center p-6 rounded-xl border border-purple-text h-[18rem]">
+                  <div className="text-purple-text text-center text-32 font-bold">
+                    Ciclo avaliativo finalizado.
+                  </div>
+                </div>
+              }
             </div>
           </main>
         </div>
