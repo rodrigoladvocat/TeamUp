@@ -1,8 +1,9 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { getCollaboratorsById } from "@/utils/getCollaboratorsById";
 import { Menu } from "@/components/Menu";
 import { Link, useParams } from "react-router-dom";
 import arrowBack from "../assets/arrow-back-circle.svg";
+import { AuthContext } from "@/context/AuthContext";
 
 interface CollaboratorProps {
   name: string;
@@ -22,6 +23,7 @@ interface CollaboratorProps {
 const Profile = () => {
   const { id } = useParams<{ id?: string }>();
   const [user, setUser] = useState<CollaboratorProps | null>(null);
+  const auth = useContext(AuthContext);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -82,11 +84,11 @@ const Profile = () => {
             </h1>
             <div className="flex items-center">
               <img
-                src={user.imageSrc}
-                alt={user.name}
+                src={auth.user?.imgUrl}
+                alt={auth.user?.name}
                 className="w-10 h-10 rounded-full mr-2"
               />
-              <span>{user.name}</span>
+              <span>{auth.user?.name}</span>
             </div>
           </header>
           <div className="flex flex-1 bg-[#212020] h-[820px] mt-4 overflow-y-auto">
