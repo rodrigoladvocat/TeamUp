@@ -11,6 +11,7 @@ import { useCycle } from "@/hooks/useCycle";
 import { useNavigate } from "react-router-dom";
 import TagStage from "@/components/TagStage";
 import { stage } from "@/utils/stageType";
+import { useMenu } from "@/context/MenuContext";
 
 
 
@@ -20,11 +21,14 @@ export default function CycleCollaboratorPage(): JSX.Element {
   const { user, isAuthenticated } = useAuth();
   const [othersLastUpdated, setOthersLastUpdated] = useState(null);
   const [cycle, setCycle] = useState<any>(null);
+  const {setMenu} = useMenu();
 
   const formatter = new Intl.DateTimeFormat(undefined, { year: 'numeric', month: '2-digit', day: '2-digit' });
 
 
   useEffect(() => {
+    setMenu(2);
+
     if (!isAuthenticated) {
       navigate('/login');
     }
