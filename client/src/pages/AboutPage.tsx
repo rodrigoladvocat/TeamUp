@@ -4,12 +4,19 @@ import img_historic from "../assets/img_historic.svg";
 import img_performance_analysis from "../assets/img_performance_analysis.svg";
 import Header from "../components/Header";
 import { Menu } from "../components/Menu";
+import { useMenu } from "@/context/MenuContext";
+import { useEffect } from "react";
 
 export default function AboutPage(): JSX.Element {
   const { user } = useAuth();
+  const { setMenu } = useMenu();
+
+  useEffect(() => {
+    setMenu(3);
+  }, []);
 
   return (
-      <div className="flex flex-row w-screen h-screen max-h-screen p-6 bg-gray-900 text-white">
+      <div className="flex flex-row w-screen h-screen max-h-screen p-6 bg-general-background text-white">
         <div className="flex">
           <aside>
             <Menu></Menu>
