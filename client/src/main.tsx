@@ -14,6 +14,7 @@ import { RedirectByUserType } from './utils/RedirectByUserType';
 import { AuthProvider } from './context/AuthContext';
 import { CycleProvider } from './context/CycleContext';
 import './global.css';
+import GradesManagerPage from './pages/manager/GradesManagerPage/GradesManagerPage';
 
 
 // ideal to merge both homepages into same route
@@ -25,6 +26,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
     <CycleProvider>
       <BrowserRouter>
         <Routes>
+          <Route path='/collab/test' element={<CollaboratorHomePage/>} />
           <Route path="*" element={<ErrorPage />} />
           <Route path="/" element={<LoginPage />} />
           <Route path="/login" element={<LoginPage />} />
@@ -41,8 +43,8 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
           } />
           <Route path="/grades" element={
             <RedirectByUserType
-            managerPage={ErrorPage} // TODO substituir por SearchUserPage
-            collaboratorPage={ErrorPage} // TODO substituir por GradesCollaboratorPage
+            managerPage={GradesManagerPage} // TODO substituir por GradesManagerPage
+            collaboratorPage={GradesManagerPage} // TODO substituir por GradesCollaboratorPage
             />
           } />
           <Route path="/evaluations" element={

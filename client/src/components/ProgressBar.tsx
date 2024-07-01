@@ -102,7 +102,9 @@ function App() {
         console.log(nOfAutoEvalsDone)
         console.log(nOfOthersEvalsDone)
 
-        const percent = totalNumberOfActivities > 0 ? (totalCompleted / totalNumberOfActivities) * 100 : 0;
+        let percent = totalNumberOfActivities > 0 ? (totalCompleted / totalNumberOfActivities) * 100 : 0;
+
+        percent = Math.round(percent);
         
         setPercent(percent);
 

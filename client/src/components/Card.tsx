@@ -12,10 +12,10 @@ const Card: React.FC<CardProps> = ({ imageSrc, name, role, email }) => {
   return (
     <div className="font-poppins w-[256px] h-[310px] rounded-[16px] shadow-xl bg-gray overflow-hidden">
       <div className="flex flex-col w-full p-5 mt-2">
-        <div className="flex-1 h-[127px] w-[127px] mx-auto">
+        <div className="flex h-[7.9rem] w-[7.9rem] mx-auto">
           <img src={imageSrc} 
             alt={name} 
-            className="h-full object-cover rounded-full" 
+            className='object-cover rounded-full'
             onError={(e) => {
               e.currentTarget.src = defaultProfileImage;
             }}

@@ -20,7 +20,7 @@ const About = () => {
     const { search } =  useSearchBar();
 
     useEffect(() => {
-        setMenu(2);
+        setMenu(1);
     }, [])
 
     useEffect(() => {
@@ -47,22 +47,22 @@ const About = () => {
     }, [search]);
 
     return (
-        <div className="flex flex-1 p-6 min-h-screen bg-gray-900 text-white">
-            <div className="flex flex-1">
+        <div className="flex justify-center p-6 min-h-screen bg-general-background text-white">
+            <div className="flex">
             <aside>
                 <div>
                 <Menu></Menu>
                 </div>
             </aside>
 
-            <main className="flex-1 p-6 bg-general-background">
+            <main className="w-[64.25rem] p-6 bg-general-background">
                 
                 <Header userName="Pedro Almeida" subtitle="Selecione o colaborador que deseja visualizar informações sobre" profileImage="/profile.jpg" title="Sobre a Plataforma"/>
                 
                 <SearchBar/>
 
                 <div className="flex flex-1 bg-content-background h-[750px] rounded-xl mt-4 overflow-y-auto">
-                <div className="flex flex-wrap flex-1 justify-center gap-x-[52px] pt-10 pb-8">
+                <div className="flex flex-wrap flex-1 justify-center gap-x-[52px] gap-y-[1rem] pt-10 pb-8">
                         {
                             collaborators.map(( collaborator ) => {
                                 return (
