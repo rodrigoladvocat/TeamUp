@@ -1,45 +1,14 @@
-import { useContext, useEffect, useState } from "react";
-import { getCollaboratorsById } from "@/utils/getCollaboratorsById";
+import { useContext } from "react";
 import { Menu } from "@/components/Menu";
-import { Link, useParams } from "react-router-dom";
-import arrowBack from "../assets/arrow-back-circle.svg";
 import { AuthContext } from "@/context/AuthContext";
+import Header from "@/components/Header";
 
-interface CollaboratorProps {
-  name: string;
-  role: string;
-  imageSrc: string;
-  age: number;
-  id: string;
-  telephone: string;
-  email: string;
-  street: string;
-  state: string;
-  cpf: string;
-  bio: string;
-  admissionDate: Date;
-}
-
-const Profile = () => {
-  const { id } = useParams<{ id?: string }>();
-  const [user, setUser] = useState<CollaboratorProps | null>(null);
+const UserProfile = () => {
   const auth = useContext(AuthContext);
-
-  useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const userData = await getCollaboratorsById(id);
-        const formattedDate = new Date(
-          userData.admissionDate
-        ).toLocaleDateString("pt-BR");
-        setUser({ ...userData, admissionDate: formattedDate });
-      } catch (error) {
-        console.error("Error fetching user:", error);
-      }
-    };
-
-    fetchUser();
-  }, [id]); // Fetch data whenever id changes
+  const user = auth.user;
+  const formattedDate = user?.admissionDate
+    ? new Date(user.admissionDate).toLocaleDateString("pt-BR")
+    : "Invalid date";
 
   if (!user) {
     return (
@@ -65,37 +34,16 @@ const Profile = () => {
         </aside>
 
         <main className="flex-1 p-6 bg-general-background">
-          <header className="flex justify-between items-center mb-3">
-            <h1 className="text-32 text-left text-purple-text font-bold">
-              <div className="flex flex-row">
-                <Link to={"/dev"}>
-                  <div className="pr-2 pt-1">
-                    <img src={arrowBack} alt="Arrow Back" />
-                  </div>
-                </Link>
-                <div>
-                  <div className="flex-1">Colaboradores</div>
-                  <div className="flex-1 mt-1 text-white text-20 font-poppins font-normal flex flex-row">
-                    Perfil de colaborador &gt;
-                    <div className="text-primary">&nbsp;{user.name}</div>
-                  </div>
-                </div>
-              </div>
-            </h1>
-            <div className="flex items-center">
-              <img
-                src={auth.user?.imgUrl}
-                alt={auth.user?.name}
-                className="w-10 h-10 rounded-full mr-2"
-              />
-              <span>{auth.user?.name}</span>
-            </div>
-          </header>
+          <Header
+            userName={user?.name || ""}
+            profileImage={user?.imgUrl || ""}
+            title="Meu Perfil"
+          />
           <div className="flex flex-1 bg-[#212020] h-[820px] mt-4 overflow-y-auto">
             <div className="flex flex-wrap flex-1 justify-evenly gap-x-[52px] pt-10 flex-row">
               <div className="">
                 <img
-                  src={user.imageSrc}
+                  src={user.imgUrl}
                   alt={user.name}
                   className="w-[275px] h-[275px] rounded-full mr-2 bg-primary"
                 />
@@ -107,7 +55,7 @@ const Profile = () => {
                   <span className="text-primary text-16">
                     Data de admissão:{" "}
                   </span>
-                  <span>{user.admissionDate}</span>
+                  <span>{formattedDate}</span>
                 </div>
                 <div className="pt-24 text-primary text-16">
                   Status do colaborador:
@@ -118,7 +66,7 @@ const Profile = () => {
                   </div>
                 </div>
                 <button className="bg-primary text-[#263238] text-16 font-medium">
-                  Visualizar notas
+                  Download do currículo
                 </button>
               </div>
 
@@ -147,7 +95,7 @@ const Profile = () => {
                   <input
                     type="text"
                     className="w-full pl-6 pr-12 py-2 rounded-xl read-only:bg-[#333] placeholder-white border-0 outline-none"
-                    placeholder={user.id}
+                    placeholder={String(user.id)}
                     readOnly
                   />
                 </div>
@@ -204,4 +152,4 @@ const Profile = () => {
   );
 };
 
-export default Profile;
+export default UserProfile;

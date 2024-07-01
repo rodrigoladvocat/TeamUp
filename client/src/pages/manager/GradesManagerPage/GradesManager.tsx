@@ -4,8 +4,9 @@ import { Menu } from "../../../components/Menu";
 import { useEffect, useState } from "react";
 import { getCollaboratorsByName } from "@/utils/getCollaboratorsByName";
 import Card from "@/components/Card";
-import { SearchBarProvider, useSearchBar } from "@/context/SearchBarContext";
 import { Link } from "react-router-dom";
+import { useSearchBar } from "@/context/SearchBarContext";
+import { useMenu } from "@/context/MenuContext";
 
 interface CollaboratorProps {
   name: string;
@@ -16,8 +17,13 @@ interface CollaboratorProps {
 }
 
 const About = () => {
+  const { setMenu } = useMenu();
   const [collaborators, setCollaborators] = useState<CollaboratorProps[]>([]);
   const { search } = useSearchBar();
+
+  useEffect(() => {
+    setMenu(2);
+  }, []);
 
   useEffect(() => {
     let append_array: CollaboratorProps[] = [];
