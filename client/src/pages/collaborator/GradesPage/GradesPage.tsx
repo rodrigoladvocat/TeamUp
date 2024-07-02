@@ -46,7 +46,7 @@ const GradesPage: React.FC = () => {
   };
 
   return (
-    <div className="flex w-full p-6 min-h-screen bg-gray-900 text-white">
+    <div className="flex w-full p-6 min-h-screen bg-general-background text-white">
       <div className="flex">
         <aside>
           <Menu />
