@@ -55,13 +55,13 @@ function App() {
 
     // setting the total number of activities to be done
     React.useEffect(() => {
-        setTotalNumberOfActivities(collaborators.length * 2);
+        if (_cycle !== null && (new Date(_cycle.finalDate) >= new Date())) setTotalNumberOfActivities(collaborators.length * 2);
     }, [collaborators])
 
     // counting the number of activities done
     React.useEffect(() => {
         let count = 0;
-        if (_cycle !== null) {
+        if (_cycle !== null && (new Date(_cycle.finalDate) >= new Date())) {
             // counting the number of autoevals done
             collaborators.forEach((collaborator) => {
                 getAutoEval(collaborator.id, _cycle.id)
@@ -80,7 +80,7 @@ function App() {
     React.useEffect(() => {
         // counting the number of othersevals done
         let count = 0;
-        if (_cycle !== null) {
+        if (_cycle !== null && (new Date(_cycle.finalDate) >= new Date())) {
             collaborators.forEach((collaborator) => {
                 evaluatorGetsOthersEval(collaborator.id, _cycle.id)
                 .then((othersEvals) => {
@@ -93,7 +93,7 @@ function App() {
                 })
             })
         }
-    })
+    }, [collaborators, _cycle])
 
     // calculate the percentage and update state
     React.useEffect(() => {
@@ -102,7 +102,8 @@ function App() {
         console.log(nOfAutoEvalsDone)
         console.log(nOfOthersEvalsDone)
 
-        let percent = totalNumberOfActivities > 0 ? (totalCompleted / totalNumberOfActivities) * 100 : 0;
+        // sets the percentage to 100% if there are no activities to be done (cycle not found or finished)	
+        let percent = totalNumberOfActivities > 0 ? (totalCompleted / totalNumberOfActivities) * 100 : 100;
 
         percent = Math.round(percent);
         
