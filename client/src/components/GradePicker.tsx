@@ -23,7 +23,7 @@ export default function GradePicker({
   const [selectedGradeIndex, setSelectedGradeIndex] = useState<number>(initialValueIndex);
 
   useEffect(() => {
-    setSelectedGradeIndex(selectedGradeIndex)
+    setSelectedGradeIndex(initialValueIndex)
   }, [initialValueIndex]);
   
   function handleSelectGrade(chosenOption: number) {

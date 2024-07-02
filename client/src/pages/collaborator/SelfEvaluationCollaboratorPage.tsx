@@ -236,7 +236,7 @@ export default function SelfEvaluationCollaboratorPage(): JSX.Element {
       setBehaviourGrades(behaviourGrades);
       setBehaviourComments(behaviourComments);
       setExecutionGrades(executionGrades);
-      setBehaviourComments(executionComments);
+      setExecutionComments(executionComments);
     }
   }, [selfEvalInfo.id]);
 
@@ -410,8 +410,7 @@ export default function SelfEvaluationCollaboratorPage(): JSX.Element {
               <Button variant="ghost" size="default"
                 className="bg-transparent w-[168px] h-[48px] border-solid border-1 border-white" 
                 onClick={() => {handleSubmitForm("save")}}
-                disabled={ false }
-                // disabled={autoEvalInfo.isFinalized || true ? true : false }
+                disabled={selfEvalInfo.isFinalized ? true : false }
                 >
                 Salvar e continuar
               </Button>
