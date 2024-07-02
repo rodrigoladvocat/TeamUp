@@ -1,4 +1,3 @@
-
 export interface UserDto {
   id: number;
   name: string;
@@ -15,4 +14,6 @@ export interface UserDto {
   city: string;
   state: string;
   zipCode: string;
-};
+  bio: string;
+  admissionDate: Date;
+}

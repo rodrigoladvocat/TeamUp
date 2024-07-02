@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { ErrorResponse, useNavigate } from "react-router-dom";
 import { Menu } from "@/components/Menu";
-import { useMenu } from "@/context/MenuContext";
 import { useAuth } from "@/hooks/AuthUser";
 import arrow_left_circle from "../../assets/arrow-left-circle.svg";
 import defaultProfileImage from '../../assets/default_profile_image.png';
@@ -31,7 +30,6 @@ import { Button } from "@/components/ui/button";
 import TipSpeechBubble from "@/components/TipSpeechBubble";
 import { api } from "@/services/apiService";
 import { AxiosError, AxiosResponse } from "axios";
-
 
 
 interface Props {

@@ -4,18 +4,31 @@ import traco from "../assets/traco.svg";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useMenu } from "../context/MenuContext";
 import { useAuth } from "@/hooks/AuthUser";
+import { useContext } from "react";
+import { AuthContext } from "@/context/AuthContext";
 
 export function Menu() {
   const { menu, setMenu } = useMenu();
   const { logout } = useAuth();
   const navigate = useNavigate();
+  const auth = useContext(AuthContext);
+  const isAdmin = auth.user?.isManager;
 
-  const menuItems = [
+  const menuItemsAdmin = [
+    { path: "/home", label: "Página inicial", icon: icons.home },
+    { path: "/grades", label: "Colaboradores", icon: icons.collaborators },
+    { path: "/evaluations", label: "Avaliações", icon: icons.clipboard },
+    { path: "/about", label: "Sobre a plataforma", icon: icons.monitor },
+  ];
+
+  const menuItemsCollaborator = [
     { path: "/home", label: "Página inicial", icon: icons.home },
     { path: "/grades", label: "Notas", icon: icons.grades },
     { path: "/evaluations", label: "Avaliações", icon: icons.clipboard },
     { path: "/about", label: "Sobre a plataforma", icon: icons.monitor },
   ];
+
+  const menuItems = isAdmin ? menuItemsAdmin : menuItemsCollaborator;
 
   return (
     <div className="bg-[#0D0D0D] rounded-[32px] w-[332px] h-[920px] text-white flex flex-col justify-between ">
@@ -47,7 +60,16 @@ export function Menu() {
       <div>
         <li className="flex text-[20px] text-white hover:text-[#A28BFE] py-5 px-8 cursor-pointer">
           {icons.logout}
-          <div className="pl-2" onClick={() => {logout().then(() => {navigate("/")})}}>Sair</div>
+          <div
+            className="pl-2"
+            onClick={() => {
+              logout().then(() => {
+                navigate("/");
+              });
+            }}
+          >
+            Sair
+          </div>
         </li>
         <div className="flex flex-col justify-center items-center">
           <img src={traco} />

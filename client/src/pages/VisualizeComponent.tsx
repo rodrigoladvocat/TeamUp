@@ -6,6 +6,7 @@ import Tabs from "@/components/Tabs";
 import TagGrade from "@/components/TagGrade";
 import TagStage from "@/components/TagStage";
 import TipSpeechBubble from "@/components/TipSpeechBubble";
+import GradesManagerPage from "./manager/GradesManagerPage/GradesManagerPage";
 
 interface Props {}
 
@@ -14,6 +15,7 @@ export default function VisualizeComponent({}: Props): JSX.Element {
   return (
     <div className="snap-center self-center items-center origin-center place-self-center justify-self-center">
       {/* Coloque o componente aqui para visualizar */}
+      <GradesManagerPage></GradesManagerPage>
 
       <GradePicker type={"circles"}
         onChange={(v) => {console.log(v)}}
