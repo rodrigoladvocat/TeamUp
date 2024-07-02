@@ -3,17 +3,31 @@ import { Menu } from "../../../components/Menu";
 import Tabs from "../../../components/Tabs";
 import Header from "../../../components/Header";
 import Accordion from "../../../components/Accordion";
+
+
+import ReadOnlyEvaluation from "../../../components/ReadOnlyEvaluation";
+import GradePicker from "../../../components/GradePicker";
+import TagGrade from "../../../components/TagGrade";
+
 import { useMenu } from "../../../context/MenuContext";
 
 import {
     Table,
     TableBody,
-    TableCaption,
     TableCell,
     TableHead,
     TableHeader,
     TableRow,
   } from "@/components/ui/table"
+
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
+
   
 
 const GradesPage: React.FC = () => {
@@ -27,6 +41,9 @@ const GradesPage: React.FC = () => {
     console.log("Selecionada a aba:", newIndex);
     setSelectedTabIndex(newIndex);
   }
+  const handleOnChange = (index: number) => {
+    console.log(`Selected index: ${index}`);
+  };
 
   return (
     <div className="flex w-full p-6 min-h-screen bg-gray-900 text-white">
@@ -75,18 +92,31 @@ const GradesPage: React.FC = () => {
               )}
              {selectedTabIndex === 1 && (
                 <>
-                  <p className="text-20 text-white text-left pl-[10px] mb-0">
+                  <p className="text-20 text-white text-left pt-[35px] pb-[32px] pl-[10px] mb-0">
                     Selecione o ciclo que você deseja consultar
                   </p>
-                  <p className="text-16 text-text text-left pl-[10px] mb-4">
-                    Acompanhe a sua evolução em cada critério ao longo do tempo.
-                  </p>
-                  <p className="pb-5 text-28 text-purple-text font-bold text-left pl-[10px] pt-[1.813rem] mb-0">
-                    Autoavaliação
-                  </p>
+                  <Select>
+                      <SelectTrigger className="border-2 border-[#A28BFE] rounded-2xl bg-content-background h-[52px] w-[288px]">
+                        <SelectValue placeholder="Selecione o semestre" />
+                      </SelectTrigger>
+                      <SelectContent className="bg-content-background">
+                        <SelectItem value="light">Light</SelectItem>
+                        <SelectItem value="dark">Dark</SelectItem>
+                        <SelectItem value="system">System</SelectItem>
+                      </SelectContent>
+                  </Select>
+                  <div className="flex items-center pl-[10px] pt-[38px] pb-[1.375rem]">
+                    <p className="pb-5 text-28 text-purple-text font-bold text-left mb-0 flex-shrink-0">
+                      Autoavaliação
+                    </p>
+                    <div className="border-2 border-[#A28BFE] gap-[57px] rounded-2xl flex items-center space-x-2 p-2 ml-auto">
+                        <p className="flex-1 font-16">Média final: 4</p>
+                        <TagGrade grade={10}/>
+                    </div>
+                  </div>
+
                   
                   <Table>
-                      <TableCaption>A list of your recent invoices.</TableCaption>
                       <TableHeader className="bg-[#444444]">
                         <TableRow>
                           <TableHead className="text-20 font-bold">Critérios comportamentais</TableHead>
@@ -153,8 +183,22 @@ const GradesPage: React.FC = () => {
                       </TableBody>
                       
                   </Table>
-
-
+                  <p className="pb-5 text-28 text-purple-text font-bold text-left pl-[10px] pt-[1.813rem] mb-0">
+                    Avaliação 360°
+                  </p>
+                  <p className="text-16 text-text text-left pl-[10px] mb-4">
+                    Veja abaixo as avaliações que você fez dos demais colaboradores neste ciclo.
+                  </p>
+                    <div className="flex items-center justify-center pt-10">
+                    <ReadOnlyEvaluation profileUrl="toma" name="Maria Beatriz dos Santos" role="Designer de produto" comment="Invalid">
+                        <GradePicker
+                              gradeOptions={[1, 2, 3, 4, 5]}
+                              type="circles"
+                              initialValueIndex={-1}
+                              onChange={handleOnChange}
+                              />
+                    </ReadOnlyEvaluation>
+                    </div>
                 </>
               )}
             </div>
