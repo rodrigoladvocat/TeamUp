@@ -16,6 +16,7 @@ import ProfilePictureSequence from "../../../components/ProfilePictureSequence";
 
 import { average } from "@/utils/average";
 import { useMenu } from "@/context/MenuContext";
+import { useAuth } from "@/hooks/AuthUser";
 
 class Title_Grade {
   constructor(public title: string, public grade: number) {
@@ -28,6 +29,7 @@ export default function ManagerHomePage(): JSX.Element {
 
     // const { setMenu } = useMenu();
 
+    const {user} = useAuth();
     const [ cycleId, setCycleId ] = useState<number | null>(null);
     const [cycle, setCycle] = useState<any>(null);
     const [ tuningData, setTuningData ] = useState<string[]>([]);
@@ -161,17 +163,18 @@ export default function ManagerHomePage(): JSX.Element {
     }, [tuningData])
 
     return (
-      <div className="flex flex-row w-screen h-screen min-h-screen p-6 bg-general-background text-white">
+      <div className="flex justify-center w-screen h-screen min-h-screen p-6 bg-general-background text-white">
+        <div className="flex"> {/*div added to centralize the page content*/}
         <aside>
           <Menu></Menu>
         </aside>
 
-        <main className="flex-1 p-6 bg-general-background h-[920px]">
+        <main className="flex-1 p-6 bg-general-background h-[920px] w-[64.25rem]">
 
-          <Header userName="Pedro Almeida" subtitle="teste subtitulo" profileImage="/profile.jpg" title="Página inicial"/>
+          <Header userName={user ? user.name : "null"} subtitle="teste subtitulo" profileImage="/profile.jpg" title="Página inicial"/>
           
-          <div className="flex mb-6">
-            <div className="col-span-2 bg-content-background p-4 pl-5 rounded-2xl w-[45rem]">
+          <div className="flex flex-row gap-x-[1rem] max-w-[64.25rem] mb-6">
+            <div className="flex-1 col-span-2 bg-content-background p-4 pl-5 rounded-2xl w-[45rem]">
               <p className="text-28 text-purple-text font-bold text-left">
                 Bem vindo de volta Pedro!
               </p>
@@ -192,7 +195,7 @@ export default function ManagerHomePage(): JSX.Element {
                 </p>
               </div>
             </div>
-            <div className="ml-auto bg-content-background pt-4 pl-4 pr-4 rounded-2xl  w-[18.125rem]">
+            <div className="bg-content-background py-4 rounded-2xl w-[17rem]">
               <h2 className="text-16 mb-4">Avaliações entregues</h2>
               <div className="flex justify-center items-center">
                 <div className="w-32 h-32">
@@ -203,7 +206,7 @@ export default function ManagerHomePage(): JSX.Element {
             </div>
           </div>
 
-          <div className="flex align-center mb-6 w-[64.25rem] h-[290px] bg-content-background pl-5 pr-4 rounded-2xl">
+          <div className="flex align-center mb-6 h-[290px] bg-content-background pl-5 pr-4 rounded-2xl">
             <div className="flex-1">
                 <h2 className="text-20 text-purple-text font-bold text-left mt-3">
                     Análise
@@ -252,7 +255,7 @@ export default function ManagerHomePage(): JSX.Element {
             
             </div>
 
-            <div className="flex mb-6 w-[64.25rem] h-[290px] bg-content-background pl-5 rounded-2xl">
+            <div className="flex mb-6 h-[290px] bg-content-background pl-5 rounded-2xl">
               <div className="flex-1">
                 <div className="mt-3">
                   <h2 className="text-20 text-purple-text font-bold text-left">
@@ -315,6 +318,7 @@ export default function ManagerHomePage(): JSX.Element {
               </div>  
             </div>
         </main>
+        </div>
     </div>
     );
 }

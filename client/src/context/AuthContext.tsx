@@ -1,4 +1,4 @@
-import { createContext, useCallback, useState } from "react";
+import { createContext, useCallback } from "react";
 import { AxiosError, AxiosResponse } from "axios";
 import { UserDto } from "../dto/UserDto";
 import { ErrorResponseDto } from "../dto/ErrorResponseDto";
@@ -8,10 +8,12 @@ import { useLocalStorage } from "@uidotdev/usehooks";
 
 interface AuthContextModel {
   user: UserDto | null;
+  aiMessage: string | null;
   isAuthenticated: boolean;
   token: string;
   login: (email: string, password: string) => Promise<string | void>;
   logout: () => Promise<void>;
+  setAiMessage: (message: string | null) => void;
 }
 
 export const AuthContext = createContext({} as AuthContextModel);
@@ -23,10 +25,10 @@ interface Props {
 export const AuthProvider: React.FC<Props> = ({ children }) => {
   const [user, setUser] = useLocalStorage<UserDto | null>("user", null);
   const [token, setToken] = useLocalStorage<string>("token", "");
+
+  const [ aiMessage, setAiMessage ] = useLocalStorage<string | null>("aiMessage", null); // AI improvement suggestions => collaborator's home page
+
   const [isAuthenticated, setIsAuthenticated] = useLocalStorage<boolean>("isauthenticated", false);
-
-  // *to clear the local storage => <local storage key>.localStorage.clear()
-
 
   const Login = useCallback(async (email: string, password: string) => {
 
@@ -57,6 +59,7 @@ export const AuthProvider: React.FC<Props> = ({ children }) => {
       localStorage.removeItem("@Cycle.Data");
       localStorage.removeItem("@AutoEval.Data");
       localStorage.removeItem("@OthersEval.Data");
+      localStorage.removeItem("aiMessage");
       
       // reset the state
       setUser(null); 
@@ -76,6 +79,8 @@ export const AuthProvider: React.FC<Props> = ({ children }) => {
       token: token,
       login: Login,
       logout: Logout,
+      aiMessage: aiMessage,
+      setAiMessage: setAiMessage
     }}>
       {children}
     </AuthContext.Provider>

@@ -14,11 +14,13 @@ import { RedirectByUserType } from './utils/RedirectByUserType';
 import { AuthProvider } from './context/AuthContext';
 import { CycleProvider } from './context/CycleContext';
 import './global.css';
-import CollaboratorProfile from './pages/CollaboratorProfilePage';
 import GradesManagerPage from './pages/manager/GradesManagerPage/GradesManagerPage';
+import CollaboratorProfile from './pages/CollaboratorProfilePage';
 import UserProfile from './pages/UserProfile';
 import FinalEvaluationManagerPage from './pages/manager/FinalEvaluation/FinalEvaluationManager';
 import CycleManagerPage from './pages/manager/CycleManagerPage';
+import OthersEvaluationCollaboratorPage from './pages/collaborator/OthersEvaluationCollaboratorPage';
+import './global.css';
 
 
 // ideal to merge both homepages into same route
@@ -30,11 +32,12 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
     <CycleProvider>
       <BrowserRouter>
         <Routes>
+          <Route path='/collab/test' element={<CollaboratorHomePage/>} />
           <Route path="*" element={<ErrorPage />} />
           <Route path="/" element={<LoginPage />} />
           <Route path="/login" element={<LoginPage />} />
-          <Route path="/profile" element={<UserProfile/>}/> {/* TODO profilePage (usar id da URL no useEffect para acessar rota GET user by id do backend */}
-          <Route path="/profile/:id" element={<CollaboratorProfile/>}/> {/* TODO profilePage (usar id da URL no useEffect para acessar rota GET user by id do backend */}
+          <Route path="/profile" element={<UserProfile/>}/>
+          <Route path="/profile/:id" element={<CollaboratorProfile/>}/>
           <Route path="/about" element={<AboutPage/>}/>
           <Route path="/dev" element={<VisualizeComponent />} />
 
@@ -48,7 +51,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
           } />
           <Route path="/grades" element={
             <RedirectByUserType
-            managerPage={GradesManagerPage} // TODO substituir por SearchUserPage
+            managerPage={GradesManagerPage}
             collaboratorPage={ErrorPage} // TODO substituir por GradesCollaboratorPage
             />
           } />
@@ -81,7 +84,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
           <Route path="/others-evaluation" element={
             <RedirectByUserType
             managerPage={ErrorPage} // TODO substituir por OthersEvaluationManagerPage
-            collaboratorPage={ErrorPage} // TODO substituir por OthersEvaluationCollaboratorPage
+            collaboratorPage={OthersEvaluationCollaboratorPage}
             />
           } />
         </Routes>

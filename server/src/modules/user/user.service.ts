@@ -109,13 +109,13 @@ export class UserService {
         });
 
         if (!found) {
-            throw new UnauthorizedException("Email or password doesn't match.");
+            throw new UnauthorizedException("E-mail ou senha inválidos.");
         }
 
         const isCorrectPassword = await bcryptCompare(password, found.password);
 
         if (!isCorrectPassword) {
-            throw new UnauthorizedException("Email or password doesn't match.");
+            throw new UnauthorizedException("E-mail ou senha inválidos.");
         }
 
         const payload = { userId: found.id, userName: found.name, email: found.email };
