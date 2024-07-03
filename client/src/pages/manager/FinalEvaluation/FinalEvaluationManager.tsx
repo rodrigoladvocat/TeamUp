@@ -24,7 +24,7 @@ export default function FinalEvaluationManagerPage(): JSX.Element {
   }, []);
 
   return (
-    <main className="flex flex-row w-screen h-screen max-h-screen py-8 bg-gray-900">
+    <main className="flex flex-row w-screen h-screen max-h-screen p-6 bg-[#121212]">
       <aside>
         <Menu></Menu>
       </aside>
