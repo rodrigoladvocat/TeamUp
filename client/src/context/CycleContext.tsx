@@ -8,6 +8,8 @@ import { GetSelffEvalByUserCycleIdsDto } from "@/dto/GetSelfEvalByUserCycleIdsDt
 import { stage } from "@/utils/types/stageType";
 import calculateDaysBetween from "@/utils/dateTime/calculateDaysBetween";
 import { updateEmailSent } from "@/utils/updateEmailSent";
+import { sendCustomEmail } from "@/../emailSender/email";
+import { getCollaboratorsByName } from "@/utils/getCollaboratorsByName";
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -118,6 +120,7 @@ const defaultOthersEvalInfo: OthersEvalInfo = {
 
 export const CycleProvider: React.FC<Props> = ({ children }) => {
   const [ _cycle, setCycle ] = useState<GetLatestCycleResponseDto | null>(null);
+  const [ collaborators , setCollaborators ] = useState<any[]>([]);
   const [ parsedCycleInfo, setParsedCycleInfo ] = useState<ParsedCycleInfo>(defaultParsedCycleInfo);
   const [ selfEvalInfo, setAutoEvalInfo ] = useState<SelfEvalInfo>(defaultAutoEvalInfo);
   const [ othersEvalInfo, setOthersEvalInfo ] = useState<OthersEvalInfo>(defaultOthersEvalInfo);
@@ -154,21 +157,41 @@ export const CycleProvider: React.FC<Props> = ({ children }) => {
       setOthersEvalInfo(othersEvalData);
     }
 
+    getCollaboratorsByName("")
+    .then((response) => {
+      setCollaborators(response);
+    })
+
   }, []);
 
-  const sendEmailIfNeeded = (cycle: GetLatestCycleResponseDto): void => {
-    if (!cycle.emailSent && new Date(cycle.finalDate) < new Date()) {
-      // send email and update sentEmail to true => updates the emailSent field in the database
-      updateEmailSent(cycle.id)
-      .then(() => {
-        console.log("Email sent successfully");
+  function delay(ms: number) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
 
-        // Update the sentEmail status in local storage
+  const sendEmailsSequentially = async () => {
+    for (const collaborator of collaborators) {
+      try{
+        await sendCustomEmail(collaborator.email, collaborator.name);
+        await delay(5000);
+      }
+      catch(e) {
+        console.error(e)
+      }
+    }
+  }
+
+  const sendEmailIfNeeded = async (cycle: GetLatestCycleResponseDto) => {
+    if (!cycle.emailSent && new Date(cycle.finalDate) < new Date() && collaborators.length > 0) {
+      // send emails and update sentEmail to true => updates the emailSent field in the database
+      try{
+        await updateEmailSent(cycle.id)
+        await sendEmailsSequentially();
         localStorage.setItem(`sentEmail_${cycle.id}`, "true");
-      })
-      .catch((e) => {
-        console.error("Failed to send email:", e);
-      });
+      }
+      catch(e) {
+        console.error(e)
+      }
+      
     }
   };
 
@@ -180,7 +203,7 @@ export const CycleProvider: React.FC<Props> = ({ children }) => {
         sendEmailIfNeeded(_cycle);
       }
     }
-  }, [_cycle])
+  }, [_cycle, collaborators]);
 
   const UpdateLatestCycle = useCallback(async (forceUpdate = false) => {
 
