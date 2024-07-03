@@ -144,7 +144,9 @@ const SelfEvaluationTab = () => {
     const fetchData = async () => {
       try {
         const currCycle = await getCurrentCycle();
+        console.log(currCycle);
         const autoEvalData = await getAutoEval(1, 1);
+        //const autoEvalData = await getAutoEval(collabId, currCycle);
         console.log("Auto evaluation data:aaa", autoEval);
         setAutoEval(autoEvalData);
       } catch (error) {
@@ -153,14 +155,13 @@ const SelfEvaluationTab = () => {
     };
 
     fetchData();
-  }, [collabId]);
+  });
 
   console.log("Auto evaluation data:", autoEval);
 
   if (!autoEval) {
-    return null; // or some loading indicator
+    return <></>;
   }
-
   const info = transformDataToArray(autoEval);
 
   return (
