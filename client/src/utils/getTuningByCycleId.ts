@@ -7,6 +7,6 @@ export async function getTuningByCycleId(cycleId: number) {
         return response.data;
     } catch (error) {
         console.log(error);
-        // possibly throw error here
+        return null
     }
 }

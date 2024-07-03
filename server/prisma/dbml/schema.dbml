@@ -20,9 +20,9 @@ Table User {
   zipCode String [not null]
   bio String [not null, default: 'Just a TeamUp user']
   admissionDate DateTime [default: `now()`, not null]
-  selfEvaluation SelfEvaluation [not null]
-  othersEvaluator OthersEvaluation [not null]
   othersEvaluated OthersEvaluation [not null]
+  othersEvaluator OthersEvaluation [not null]
+  selfEvaluation SelfEvaluation [not null]
   tuningEvaluator Tuning [not null]
   tuningEvaluated Tuning [not null]
 }

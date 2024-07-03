@@ -6,11 +6,12 @@ import { useEffect, useState } from "react";
 import { useAuth } from "@/hooks/AuthUser";
 // import { getAutoEval } from "@/utils/getAutoEval";
 // import { evaluatorGetsOthersEval } from "@/utils/evaluatorGetsOthersEval";
-// import DateFormat from "@/utils/dateformat/DateFormat";
+// import DateFormat from "@/utils/dateTime/DateFormat";
 import { useCycle } from "@/hooks/useCycle";
 import { useNavigate } from "react-router-dom";
 import TagStage from "@/components/TagStage";
-import { stage } from "@/utils/stageType";
+import { stage } from "@/utils/types/stageType";
+import { useMenu } from "@/context/MenuContext";
 
 
 
@@ -20,11 +21,14 @@ export default function CycleCollaboratorPage(): JSX.Element {
   const { user, isAuthenticated } = useAuth();
   const [othersLastUpdated, setOthersLastUpdated] = useState(null);
   const [cycle, setCycle] = useState<any>(null);
+  const {setMenu} = useMenu();
 
   const formatter = new Intl.DateTimeFormat(undefined, { year: 'numeric', month: '2-digit', day: '2-digit' });
 
 
   useEffect(() => {
+    setMenu(2);
+
     if (!isAuthenticated) {
       navigate('/login');
     }
@@ -87,13 +91,13 @@ export default function CycleCollaboratorPage(): JSX.Element {
   }
 
   return (
-      <div className="flex w-full p-6 min-h-screen text-white">
+      <div className="flex justify-center w-full p-6 min-h-screen text-white">
         <div className="flex">
           <aside>
             <Menu></Menu>
           </aside>
 
-          <main className="flex-1 p-6 text-left font-poppins">
+          <main className="flex-1 p-6 text-left font-poppins w-[64.25rem]">
             
           <Header 
             userName={user?.name || ""} 

@@ -50,9 +50,9 @@ export class OthersEvaluationService {
             if (found) {
                 return this.prisma.othersEvaluation.updateMany({
                     where: {
-                            evaluatorUserId: userId,
-                            evaluatedUserId: row.evaluatedUserId,
-                            cycleId: cycleId,
+                        evaluatorUserId: userId,
+                        evaluatedUserId: row.evaluatedUserId,
+                        cycleId: cycleId,
                     },
                     data: {
                         grade: row.grade,
@@ -71,8 +71,8 @@ export class OthersEvaluationService {
                         lastUpdated: new Date(),
                     }
                 });
-        };
-    });
+            };
+        });
 
         const createdOrUpdated = await Promise.all(upsertPromises);
         return createdOrUpdated;
@@ -125,9 +125,9 @@ export class OthersEvaluationService {
             if (found) {
                 return this.prisma.othersEvaluation.updateMany({
                     where: {
-                            evaluatorUserId: userId,
-                            evaluatedUserId: row.evaluatedUserId,
-                            cycleId: latestCycleFound.id,
+                        evaluatorUserId: userId,
+                        evaluatedUserId: row.evaluatedUserId,
+                        cycleId: latestCycleFound.id,
                     },
                     data: {
                         grade: row.grade,
@@ -146,9 +146,7 @@ export class OthersEvaluationService {
                         lastUpdated: new Date(),
                     }
                 });
-        };
-
-
+            };
         });
 
         const createdOrUpdated = await Promise.all(upsertPromises);

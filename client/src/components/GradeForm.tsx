@@ -4,37 +4,57 @@ import UserDisplay from './UserDisplay';
 
 
 interface Props {
+  _key?: number;
+  userDisplayKey?: number;
+  gradePickerKey?: number;
+  textAreaKey?: number;
   profileUrl: string;
   name: string;
   role: string;
-  onChange: (comment: string, grade: string) => void;
+  pickerInitialValue: Grade;
+  commentInitialText: string;
+  onChange: (comment: string, grade: Grade) => void;
 }
 
-export default function GradeForm({profileUrl, name, role, onChange}: Props): JSX.Element {
-  const [selectedGrade, setSelectedGrade] = useState<string>("");
+export default function GradeForm({
+    _key, 
+    userDisplayKey, 
+    gradePickerKey, 
+    textAreaKey, 
+    profileUrl, 
+    name, 
+    role, 
+    onChange, 
+    pickerInitialValue, 
+    commentInitialText,
+  }: Props): JSX.Element {
+  const options: Grade[] = [1, 2, 3, 4, 5];
+  const [selectedGradeIndex, setSelectedGrade] = useState<Grade>(options.indexOf(pickerInitialValue) as Grade);
   const [comment, setComment] = useState<string>("");
 
-  function handleSelectGrade(grade: string) {
-    setSelectedGrade(grade);
-    onChange(comment, grade);
+
+  function handleSelectGrade(gradeIndex: Grade) {
+    setSelectedGrade(options[gradeIndex]);
+    onChange(comment, options[gradeIndex]);
   }
   
   function handleWriteOnTextArea(newText: string) {
     setComment(newText);
-    onChange(newText, selectedGrade);
+    onChange(newText, selectedGradeIndex);
   }
 
   
   return (
-    <div className="flex flex-col min-w-fit">
-      <UserDisplay profileUrl={profileUrl} name={name} role={role}>
-        <GradePicker onChange={handleSelectGrade} type={'circles'} initialValueIndex={''}></GradePicker>
+    <div key={_key} className="flex flex-col min-w-fit">
+      <UserDisplay key={userDisplayKey} profileUrl={profileUrl} name={name} role={role}>
+        <GradePicker key={gradePickerKey} onChange={handleSelectGrade} type={'circles'} initialValueIndex={options.indexOf(pickerInitialValue) as Grade}></GradePicker>
       </UserDisplay>
       
-      <textarea rows={5}
+      <textarea rows={5} key={textAreaKey}
         className="h-40 bg-white rounded-b-2xl text-wrap text-black p-3 font-normal resize-none"
         name={`Comment of ${name}`}
         placeholder="Escreva aqui um comentário sobre sua experiência de trabalho com este colaborador."
+        value={commentInitialText}
         onChange={(event) => {handleWriteOnTextArea(event.target.value)}}
       ></textarea>
     </div>

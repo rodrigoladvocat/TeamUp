@@ -6,40 +6,42 @@ function verticalBar(key?: number) {
 }
 
 interface Props {
+  _key?: number;
   gradeOptions?: number[];
   namedOptions?: string[];
   type: "circles" | "cards";
-  initialValueIndex: number;
-  onChange: (valueIndex: number) => void;
+  initialValueIndex: Grade;
+  onChange: (valueIndex: Grade) => void;
 }
 
 export default function GradePicker({
+    _key,
     gradeOptions = [1, 2, 3, 4, 5], 
     namedOptions = ["", "", "", "", ""],
     type = "circles", 
     initialValueIndex = -1,
     onChange,
   }: Props): JSX.Element {
-  const [selectedGradeIndex, setSelectedGradeIndex] = useState<number>(initialValueIndex);
+  const [selectedGradeIndex, setSelectedGradeIndex] = useState<Grade>(initialValueIndex);
 
   useEffect(() => {
-    setSelectedGradeIndex(selectedGradeIndex)
+    setSelectedGradeIndex(initialValueIndex)
   }, [initialValueIndex]);
   
-  function handleSelectGrade(chosenOption: number) {
-    const nextGrade = chosenOption == selectedGradeIndex ? -1 : chosenOption;
-    setSelectedGradeIndex(nextGrade);
-    onChange(nextGrade);
+  function handleSelectGrade(chosenOptionIndex: Grade) {
+    const nextGradeIndex = chosenOptionIndex == selectedGradeIndex ? -1 : chosenOptionIndex;
+    setSelectedGradeIndex(nextGradeIndex);
+    onChange(nextGradeIndex);
   }
 
   switch(type) {
     case "cards":
       return (
-        <div className="flex flex-row justify-between space-x-[0.90625rem] h-[114px] w-fit">
+        <div key={_key} className="flex flex-row justify-between space-x-[0.90625rem] h-[114px] w-fit">
           {gradeOptions.map((gradeOption, i) => {
             return (
-              <div key={i} 
-                onClick={() => {handleSelectGrade(i)}}
+              <div key={_key ? _key+i : i} 
+                onClick={() => {handleSelectGrade(i as Grade)}}
                 style={{boxShadow: "3px 4px 4px 0px #170E0E"}}
                 className={`
                   flex flex-col justify-center items-center
@@ -65,14 +67,14 @@ export default function GradePicker({
     case "circles":
     default:
       return (
-        <div className="flex flex-row justify-between space-x-[0.90625rem] h-[65px] w-fit">
+        <div key={_key} className="flex flex-row justify-between space-x-[0.90625rem] h-[65px] w-fit">
           {gradeOptions.map((gradeOption, i) => {
             return (
               <>
-                <div key={i} className="flex flex-col space-y-2">
+                <div key={_key ? _key+i : i} className="flex flex-col space-y-2">
                   <p className="font-semibold">{gradeOption}</p>
                   <CircleCheckbox 
-                    value={i}
+                    value={i as Grade}
                     name={`feedback choice ${i}`}
                     checked={gradeOptions[selectedGradeIndex] === gradeOption} 
                     onChange={handleSelectGrade} 

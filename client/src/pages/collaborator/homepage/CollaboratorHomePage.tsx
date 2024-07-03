@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 import GroupMeeting from "@/assets/ilustrations/groupMeeting.svg";
 import WorkingTogether from "@/assets/ilustrations/workingTogether.svg";
@@ -15,13 +15,16 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from "recharts";
-import ProgressBar from "@/components/ProgressBar";
 import Header from "@/components/Header";
 import { useAuth } from "@/hooks/AuthUser";
 import { Menu } from "@/components/Menu";
 import "./HomePage.css";
 import { useCycle } from "@/hooks/useCycle";
 import { useNavigate } from "react-router-dom";
+import { getLastCycle } from "@/utils/getLastCycle";
+import { getTuningByUserAndCycleId } from "@/utils/getTuningByUserAndCycleId";
+
+import runAI from "../../../../gemini_api/index"
 
 function stars(fill: 1 | 2 | 3 | 4 | 5) {
   const starArray = new Array(5).fill(null);
@@ -115,28 +118,15 @@ const CustomDot = (props: any) => {
   return <circle cx={cx} cy={cy} r={5} stroke="none" fill="#CCBFFF" />;
 };
 
-function calculateDaysBetween(startDate: string, endDate: string): number {
-
-  function parseDate(dateString: string): Date {
-    const [day, month, year] = dateString.split('/').map(Number);
-    return new Date(year, month - 1, day); // month is 0-based in JS Date
-  }
-
-  const start = parseDate(startDate);
-  const end = parseDate(endDate);
-
-  // Calculate the difference in time
-  const timeDifference = end.getTime() - start.getTime();
-
-  // Convert time difference from milliseconds to days
-  const dayDifference = timeDifference / (1000 * 3600 * 24);
-
-  return dayDifference;
-}
-
 export default function CollaboratorHomePage(): JSX.Element {
-  const { user, isAuthenticated } = useAuth();
-  const { _cycle, endDate, endTime, startDate, callAllUpdates, selfEvalInfo } = useCycle();
+  
+  const { user, isAuthenticated, aiMessage, setAiMessage } = useAuth();
+  const { _cycle, endDate, endTime, startDate, daysToFinish, callAllUpdates, selfEvalInfo } = useCycle();
+  const [ lastCycleId, setLastCycleId ] = useState(null);
+  const [ lastTuning, setLastTuning ] = useState<any>(null);
+
+  const [ prompt, setPrompt ] = useState<number[] | null>(null); // array of grades or null if there is no tuning
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -149,13 +139,60 @@ export default function CollaboratorHomePage(): JSX.Element {
     }
   }, []);
 
+  useEffect(() => {
+    if (user) {
+      getLastCycle().then((cycle) => {
+        if (cycle) {
+          setLastCycleId(cycle.id);
+        }
+      })
+    }
+  }, [user])
+
+  useEffect(() => {
+    if (lastCycleId && user) {
+      getTuningByUserAndCycleId(user.id, lastCycleId)
+      .then((tuning) => {
+        setLastTuning(tuning);
+      })
+    }
+  }, [lastCycleId])
+
+  useEffect(() => {
+    if( lastTuning && aiMessage === null) { // setting the prompt grades
+
+      let auxPrompt: number[] = [];
+      auxPrompt.push(lastTuning.ownershipMentalityGrade);
+      auxPrompt.push(lastTuning.learningAgilityGrade);
+      auxPrompt.push(lastTuning.resilienceAdversityGrade);
+      auxPrompt.push(lastTuning.teamworkGrade);
+      auxPrompt.push(lastTuning.outOfTheBoxThinkingBehavioralGrade);
+      auxPrompt.push(lastTuning.deliveringQualityGrade);
+      auxPrompt.push(lastTuning.meetingDeadlinesGrade);
+      auxPrompt.push(lastTuning.doingMoreWithLessGrade);
+      auxPrompt.push(lastTuning.outOfTheBoxThinkingExecutionGrade);
+      console.log(auxPrompt);
+      
+      setPrompt(auxPrompt);
+    }
+  }, [lastTuning])
+
+  useEffect(() => {
+    if (prompt !== null && aiMessage === null && user) {
+      runAI(prompt, user.role).then((response) => {
+        setAiMessage(response);
+      })
+    }
+  }, [prompt])
+
   return (
-    <main className="flex flex-row w-screen h-screen max-h-screen p-6 bg-gray-900 text-white">
+    <main className="flex justify-center h-screen max-h-screen p-6 bg-general-background text-white">
+      <div className="flex">
       <aside>
         <Menu></Menu>
       </aside>
 
-      <div className="flex flex-col w-full ml-[16px]">
+      <div className="flex-1 p-6 bg-general-background h-[920px] w-[64.25rem]">
 
         <Header 
           userName={user?.name || ""} 
@@ -163,7 +200,7 @@ export default function CollaboratorHomePage(): JSX.Element {
           title="Página inicial"
         />
         
-        <section className="flex flex-row mt-[27px]">
+        <section className="flex flex-row mt-[27px] gap-x-[1rem]">
           <div className="flex flex-col p-4 pl-5 rounded-2xl w-[45rem] bg-content-background">
             <p className="font-bold text-28 leading-[42px] text-purple-text text-left">
               Bem vindo de volta Pedro!
@@ -172,7 +209,7 @@ export default function CollaboratorHomePage(): JSX.Element {
               <img src={flag} alt="flag" className="pr-3" />
               <p className="text-left font-normal text-[16px] leading-[24px]">
                 O ciclo atual{" "}
-                <span className="text-purple-text">fecha em {calculateDaysBetween(startDate, endDate)} dias</span>{" "}
+                <span className="text-purple-text">fecha em {daysToFinish} dias</span>{" "}
                 (Data de fechamento: {endDate})
               </p>
             </div>
@@ -180,20 +217,15 @@ export default function CollaboratorHomePage(): JSX.Element {
             <div className="flex items-start pt-8">
               <img src={flag} alt="flag" className="pr-3" />
               <p className="text-left">
-                Sua nota final do ciclo avaliativo de {_cycle?.cycleName} já está
+                Sua nota final do ciclo avaliativo de {_cycle?.cycleName} já está {/*TODO update to the last cycle, not the current*/}
                 disponível na página Notas.
               </p>
             </div>
           </div>
 
-          <div className="ml-auto bg-content-background pt-4 pl-4 pr-4 rounded-2xl w-[18.125rem]">
-            <h2 className="text-16 mb-4">Avaliações entregues</h2>
-            <div className="flex justify-center items-center">
-              <div className="w-32 h-32">
-                <ProgressBar />
-              </div>
-            </div>
-            <p className="text-12">Ciclo avaliativo 2023.2</p>
+          <div className="ml-auto bg-content-background pt-4 pl-4 pr-4 rounded-2xl w-[18.125rem] text-[12px]">
+            <h2 className="text-left text-16 mb-4">Plano de melhoria</h2>
+            <p>{ lastTuning ? ( aiMessage ? aiMessage : "Aguarde..." ) : "Não há equalizações encontradas" }</p>
           </div>
         </section>
 
@@ -210,7 +242,7 @@ export default function CollaboratorHomePage(): JSX.Element {
                 <img src={GroupMeeting} alt="img" className="h-full object-cover" />
               </div>
               <p className="font-normal text-16 leading-[24px]">Capacidade de aprender</p>
-              {stars(5)}
+              {stars(2)}
             </div>
             <div className="flex flex-col items-center bg-dark-zebra p-4 rounded-xl space-y-[8px] h-[220px]">
               <div className="w-full h-[120px] flex justify-center items-center overflow-hidden">
@@ -266,6 +298,7 @@ export default function CollaboratorHomePage(): JSX.Element {
           </div>
         </section>
 
+      </div>
       </div>
     </main>
   );
