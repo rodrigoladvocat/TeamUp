@@ -201,7 +201,7 @@ export default function CollaboratorHomePage(): JSX.Element {
         setAiMessage(response);
       })
     }
-  })
+  }, [prompt])
 
   return (
     <main className="flex justify-center h-screen max-h-screen p-6 bg-general-background text-white">
