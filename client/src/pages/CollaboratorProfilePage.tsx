@@ -29,7 +29,7 @@ const Profile = () => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const userData = await getCollaboratorsById(id);
+        const userData = await getCollaboratorsById(id || "");
         const formattedDate = new Date(
           userData.admissionDate
         ).toLocaleDateString("pt-BR");
@@ -114,7 +114,7 @@ const Profile = () => {
                   <span className="text-primary text-16">
                     Data de admissão:{" "}
                   </span>
-                  <span>{user.admissionDate}</span>
+                  <span>{user.admissionDate.toLocaleDateString()}</span>
                 </div>
                 <div className="pt-24 text-primary text-16">
                   Status do colaborador:

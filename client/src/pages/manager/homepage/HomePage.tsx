@@ -26,7 +26,7 @@ class Title_Grade {
 
 export default function ManagerHomePage(): JSX.Element {
 
-    const { setMenu } = useMenu()
+    // const { setMenu } = useMenu();
 
     const [ cycleId, setCycleId ] = useState<number | null>(null);
     const [cycle, setCycle] = useState<any>(null);
@@ -39,7 +39,7 @@ export default function ManagerHomePage(): JSX.Element {
     const [ worstGrades, setWorstGrades ] = useState<any[]>([]); // 4 items
 
     useEffect(() => {
-      setMenu(0);
+      // setMenu(0);
       
       getLastCycle().then((_cycle) => {
         setCycle(_cycle)
