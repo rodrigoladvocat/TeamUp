@@ -87,7 +87,7 @@ export const users: User[] = [
     email: 'PedroA.TU@gmail.com',
     password: '12345678',
     imgUrl:
-      'https://s3-alpha-sig.figma.com/img/1e7b/6c22/cca82997814c60a83a9e7f1534f7b2fa?Expires=1720396800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=mFdelLviSU0lKer1kGkiRRaQCQ31R6-btWIJpT51NeZshhGILN3KxOfL2E3PBIEAVeu7uFhDg8NUIbUASQWaCIUzoBBHtPFnBjBKphmwn5k9YONsaeiz3Tk6Oax-HdYbIP~Bd33GgsZVgoUVPFdnz3YwLpZqZUJ2BFEKtPpt3ONwysYw4fos31ns2sAJxs00Fw8a6hWmRY0OmzlTpJRPyy5tXCpQkq6pj-0OnscPhDsCOhDGzcpj~6a8M1u2LcTs0ocVbe2oYYvKOs1G9lpLsZBGHwPgJxnSlwx3avOnvwu~fMMQOXvVHViB45aGJ4KKLoFyfb3WfTTpy7BY8vCjkw__',
+      'https://s3-alpha-sig.figma.com/img/c77b/5367/3ddf1e131c74d76bfc7f3e4cefdc4331?Expires=1721001600&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=QGFh5uYDzL8NOgCz3G3V9LI0lpMkoXUOKD7fwXjhmTjIZJIZNqdJV9GlIwGRyMB6VU05nIk4VNb1vEYUR44oetDaFdc45PTEPwAyjcrB63N~AX62NQKVWDC0TtKPnsir8getZYIZT5qgTm-ZaIT39T4I74ucq2174pEOEXc5oxSh8mL4bChYPoaTiibaY5Ts6herFdgyWCUoZeaexRvSQnsEn5rth4ypuucnZNEIN6vuQm4JsrBu-omStjgO3~FJV67cFmPsG5CxCWv1ijLQv2ub16zBbXJwEFB6wfPjE4lMqPUnQrEArB5~XSdQRAKJdAuYM3YP6lYD2Z8nMAA99Q__',
     isManager: false,
     role: 'Designer de produto',
     age: 30,

@@ -23,7 +23,7 @@ export default function Header({
       {backLink && <>{/* TODO: seta para voltar */}</>}
       <h1 className="text-32 text-left text-purple-text font-bold">
         <div className="flex-1">{title}</div>
-        <div className="flex-1 text-14 mt-1 text-white text-20 font-poppins font-normal">
+        <div className="flex-1 mt-1 text-white text-20 font-poppins font-normal">
           {subtitle}
         </div>
       </h1>
@@ -33,9 +33,7 @@ export default function Header({
             src={profileImage}
             alt={userName}
             className="size-10 rounded-full mr-2"
-            onError={(e) => {
-              e.currentTarget.src = defaultProfileImage;
-            }}
+            onError={(e) => {e.currentTarget.src = defaultProfileImage;}}
           />
           <span className="text-white hover:text-primary">{userName}</span>
         </div>

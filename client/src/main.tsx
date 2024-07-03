@@ -13,10 +13,11 @@ import { MenuProvider } from "./context/MenuContext";
 import { RedirectByUserType } from './utils/RedirectByUserType';
 import { AuthProvider } from './context/AuthContext';
 import { CycleProvider } from './context/CycleContext';
-import './global.css';
 import CollaboratorProfile from './pages/CollaboratorProfilePage';
 import GradesManagerPage from './pages/manager/GradesManagerPage/GradesManagerPage';
 import UserProfile from './pages/UserProfile';
+import OthersEvaluationCollaboratorPage from './pages/collaborator/OthersEvaluationCollaboratorPage';
+import './global.css';
 
 
 // ideal to merge both homepages into same route
@@ -67,7 +68,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
           <Route path="/others-evaluation" element={
             <RedirectByUserType
             managerPage={ErrorPage} // TODO substituir por OthersEvaluationManagerPage
-            collaboratorPage={ErrorPage} // TODO substituir por OthersEvaluationCollaboratorPage
+            collaboratorPage={OthersEvaluationCollaboratorPage} // TODO substituir por OthersEvaluationCollaboratorPage
             />
           } />
         </Routes>

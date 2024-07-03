@@ -6,6 +6,7 @@ function verticalBar(key?: number) {
 }
 
 interface Props {
+  _key?: number;
   gradeOptions?: number[];
   namedOptions?: string[];
   type: "circles" | "cards";
@@ -14,6 +15,7 @@ interface Props {
 }
 
 export default function GradePicker({
+    _key,
     gradeOptions = [1, 2, 3, 4, 5], 
     namedOptions = ["", "", "", "", ""],
     type = "circles", 
@@ -26,19 +28,19 @@ export default function GradePicker({
     setSelectedGradeIndex(initialValueIndex)
   }, [initialValueIndex]);
   
-  function handleSelectGrade(chosenOption: number) {
-    const nextGrade = chosenOption == selectedGradeIndex ? -1 : chosenOption;
-    setSelectedGradeIndex(nextGrade);
-    onChange(nextGrade);
+  function handleSelectGrade(chosenOptionIndex: number) {
+    const nextGradeIndex = chosenOptionIndex == selectedGradeIndex ? -1 : chosenOptionIndex;
+    setSelectedGradeIndex(nextGradeIndex);
+    onChange(nextGradeIndex);
   }
 
   switch(type) {
     case "cards":
       return (
-        <div className="flex flex-row justify-between space-x-[0.90625rem] h-[114px] w-fit">
+        <div key={_key} className="flex flex-row justify-between space-x-[0.90625rem] h-[114px] w-fit">
           {gradeOptions.map((gradeOption, i) => {
             return (
-              <div key={i} 
+              <div key={_key ? _key+i : i} 
                 onClick={() => {handleSelectGrade(i)}}
                 style={{boxShadow: "3px 4px 4px 0px #170E0E"}}
                 className={`
@@ -65,11 +67,11 @@ export default function GradePicker({
     case "circles":
     default:
       return (
-        <div className="flex flex-row justify-between space-x-[0.90625rem] h-[65px] w-fit">
+        <div key={_key} className="flex flex-row justify-between space-x-[0.90625rem] h-[65px] w-fit">
           {gradeOptions.map((gradeOption, i) => {
             return (
               <>
-                <div key={i} className="flex flex-col space-y-2">
+                <div key={_key ? _key+i : i} className="flex flex-col space-y-2">
                   <p className="font-semibold">{gradeOption}</p>
                   <CircleCheckbox 
                     value={i}
