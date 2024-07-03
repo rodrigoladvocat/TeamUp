@@ -10,7 +10,7 @@ import { useAuth } from "@/hooks/AuthUser";
 import { useCycle } from "@/hooks/useCycle";
 import { useNavigate } from "react-router-dom";
 import TagStage from "@/components/TagStage";
-import { stage } from "@/utils/stageType";
+import { stage } from "@/utils/types/stageType";
 import { useMenu } from "@/context/MenuContext";
 
 
@@ -91,13 +91,13 @@ export default function CycleCollaboratorPage(): JSX.Element {
   }
 
   return (
-      <div className="flex w-full p-6 min-h-screen text-white">
+      <div className="flex justify-center w-full p-6 min-h-screen text-white">
         <div className="flex">
           <aside>
             <Menu></Menu>
           </aside>
 
-          <main className="flex-1 p-6 text-left font-poppins">
+          <main className="flex-1 p-6 text-left font-poppins w-[64.25rem]">
             
           <Header 
             userName={user?.name || ""} 

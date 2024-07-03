@@ -21,9 +21,9 @@ const About = () => {
   const [collaborators, setCollaborators] = useState<CollaboratorProps[]>([]);
   const { search } = useSearchBar();
 
-  useEffect(() => {
-    setMenu(1);
-  }, []);
+    useEffect(() => {
+        setMenu(1);
+    }, [])
 
   useEffect(() => {
     let append_array: CollaboratorProps[] = [];
@@ -45,15 +45,15 @@ const About = () => {
   }, [search]);
 
   return (
-    <div className="flex flex-1 p-6 min-h-screen bg-gray-900 text-white">
-      <div className="flex flex-1">
+    <div className="flex justify-center p-6 min-h-screen bg-general-background text-white">
+      <div className="flex">
         <aside>
           <div>
             <Menu></Menu>
           </div>
         </aside>
 
-        <main className="flex-1 p-6 bg-general-background">
+        <main className="flex-1 w-[64.25rem] p-6 bg-general-background">
           <Header
             userName="Pedro Almeida"
             subtitle="Selecione o colaborador que deseja visualizar informações sobre"
@@ -64,7 +64,7 @@ const About = () => {
           <SearchBar />
 
           <div className="flex flex-1 bg-content-background h-[750px] rounded-xl mt-4 overflow-y-auto">
-            <div className="flex flex-wrap flex-1 justify-center gap-x-[52px] pt-10 pb-8">
+            <div className="flex flex-wrap flex-1 justify-center gap-x-[52px] gap-y-[1rem] pt-10 pb-8">
               {collaborators.map((collaborator) => {
                 return (
                   <Link to={`/profile/${collaborator.id}`}>

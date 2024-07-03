@@ -12,8 +12,8 @@ export class LoginUserDto {
     example: 'fulano@gmail.com',
     required: true,
   })
-  @IsEmail()
-  @IsNotEmpty()
+  // @IsEmail() // Before uncommenting the validation. TODO: need create a filter to map english error messages to portuguese ("Email ou senha inválidos")
+  // @IsNotEmpty()
   email: string;
 
   @ApiProperty({
@@ -22,8 +22,8 @@ export class LoginUserDto {
     example: '12345678',
     required: true,
   })
-  @IsString()
-  @IsNotEmpty()
-  @MinLength(8)
+  // @IsString()
+  // @IsNotEmpty()
+  // @MinLength(8)
   password: string;
 }

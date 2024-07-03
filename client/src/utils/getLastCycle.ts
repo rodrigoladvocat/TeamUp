@@ -7,7 +7,7 @@ export async function getLastCycle(){
             return null;
         }
         console.log(response.data);
-        return response.data; // response.data.id;
+        return response.data;
     } catch (error) {
         console.log(error);
         return null;

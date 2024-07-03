@@ -16,17 +16,17 @@ export default function AboutPage(): JSX.Element {
   }, []);
 
   return (
-      <div className="flex flex-row w-screen h-screen max-h-screen p-6 bg-general-background text-white">
+      <div className="flex flex-row w-screen h-screen justify-center max-h-screen p-6 bg-general-background text-white">
         <div className="flex">
           <aside>
             <Menu></Menu>
           </aside>
 
-          <main className="flex-1 p-6 bg-general-background h-[920px]">
+          <main className="flex-1 p-6 bg-general-background h-[920px] w-[64.25rem]">
             
           <Header userName={user?.name || ""} profileImage={user?.imgUrl || ""} title="Sobre a Plataforma"/>
 
-            <div className="flex-1 bg-content-background h-[830px]">
+            <div className="flex-1 bg-content-background h-[830px] max-w-[64.25rem]">
               <div className="flex-1 bg-content-background p-8 pt-4 pb-2 ">
                 <div className="text-left text-32 text-purple-text font-poppins">
                   Propósito
