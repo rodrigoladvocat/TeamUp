@@ -6,11 +6,11 @@ import { useEffect, useState } from "react";
 import { useAuth } from "@/hooks/AuthUser";
 // import { getAutoEval } from "@/utils/getAutoEval";
 // import { evaluatorGetsOthersEval } from "@/utils/evaluatorGetsOthersEval";
-// import DateFormat from "@/utils/dateformat/DateFormat";
+// import DateFormat from "@/utils/dateTime/DateFormat";
 import { useCycle } from "@/hooks/useCycle";
 import { useNavigate } from "react-router-dom";
 import TagStage from "@/components/TagStage";
-import { stage } from "@/utils/stageType";
+import { stage } from "@/utils/types/stageType";
 import { useMenu } from "@/context/MenuContext";
 
 

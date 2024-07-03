@@ -29,6 +29,15 @@ export class TuningController {
     }
 
 
+    @Get("collaborators-stage")
+    @ApiOperation({ summary: 'Get each collaborator stage.' })
+    @ApiResponse({ status: 200, description: 'Return each collaborator stage ("Não iniciado", "Em progresso", "Finalizado").' })
+    @ApiResponse({ status: 204, description: 'No cycles are registered in database.' })
+    async calculateCollaboratorsStageInLatestCycle() {
+        return this.tuningService.calculateCollaboratorsStageInLatestCycle();
+    }
+
+
     @Get(':userId/:cycleId')
     @ApiOperation({ summary: 'Get tuning-evaluations by (userId, cycleId).' })
     @ApiResponse({ status: 200, description: 'Return a tuning-evaluations filtered by (userId, cycleId).' })
@@ -40,6 +49,7 @@ export class TuningController {
     ): Promise<Tuning> {
         return this.tuningService.findOne(+userId, +cycleId);
     }
+
 
     @Get('gettuning/cycle/:cycleId')
     @ApiOperation({ summary: 'Get tuning-evaluations by cycleId.' })

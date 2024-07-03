@@ -27,8 +27,8 @@ model User {
   city            String
   state           String
   zipCode         String
-  bio       String @default("Just a TeamUp user")
-  admissionDate DateTime @default(now())
+  bio             String             @default("Just a TeamUp user")
+  admissionDate DateTime             @default(now())
 
   othersEvaluated OthersEvaluation[] @relation("OthersEvaluated")
   othersEvaluator OthersEvaluation[] @relation("OthersEvaluator")
