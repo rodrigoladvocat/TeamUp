@@ -33,7 +33,9 @@ import { AxiosError, AxiosResponse } from "axios";
 import { getAutoEval } from "@/utils/getAutoEval";
 import { getCurrentCycle } from "@/utils/getCurrentCycle";
 import { GetSelffEvalByUserCycleIdsDto } from "@/dto/GetSelfEvalByUserCycleIdsDto";
-import EqualizationTab from "./SelfEvaluationTab";
+import SelfEvaluationTab from "./SelfEvaluationTab";
+import EqualizationTab from "./EqualizationTab";
+import OtherEvaluationTab from "./OthersEvaluationTab";
 
 interface Props {
   index: number;
@@ -603,21 +605,11 @@ export default function FinalEvaluationManagerPage(): JSX.Element {
         <div className="bg-[#212121] w-full h-full max-h-screen overflow-y-auto p-8">
           <form className="">
             {selectedTab === 0 ? (
-              <EqualizationTab></EqualizationTab>
+              <SelfEvaluationTab></SelfEvaluationTab>
             ) : selectedTab === 1 ? (
-              roundAvaliaton_tab(
-                behaviourGrades,
-                handleBehaviourGradeChange,
-                behaviourComments,
-                handleBehaviourCommentChange
-              )
+              <OtherEvaluationTab></OtherEvaluationTab>
             ) : (
-              equalization_tab(
-                executionGrades,
-                handleExecutionGradeChange,
-                executionComments,
-                handleExecutionCommentChange
-              )
+              <EqualizationTab></EqualizationTab>
             )}
           </form>
 
