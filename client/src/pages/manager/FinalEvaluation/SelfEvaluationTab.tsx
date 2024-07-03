@@ -137,7 +137,7 @@ function SelfEvalFormPart({
 
 const SelfEvaluationTab = () => {
   const [selectedTab, setSelectedTab] = useState(0);
-  const { id } = useParams(); // Extract the id parameter from the URL
+  const { id } = useParams();
   const collabId = Number(id);
   const [autoEval, setAutoEval] =
     useState<GetSelffEvalByUserCycleIdsDto | null>(null);
@@ -147,8 +147,7 @@ const SelfEvaluationTab = () => {
       try {
         const currCycle = await getCurrentCycle();
         console.log(currCycle);
-        const autoEvalData = await getAutoEval(1, 1);
-        //const autoEvalData = await getAutoEval(collabId, currCycle);
+        const autoEvalData = await getAutoEval(collabId, currCycle.id);
         console.log("Auto evaluation data:aaa", autoEval);
         setAutoEval(autoEvalData);
       } catch (error) {
@@ -157,7 +156,7 @@ const SelfEvaluationTab = () => {
     };
 
     fetchData();
-  });
+  }, []);
 
   console.log("Auto evaluation data:", autoEval);
 

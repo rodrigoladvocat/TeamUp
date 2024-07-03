@@ -42,7 +42,7 @@ const OtherEvaluationTab = () => {
     const fetchData = async () => {
       try {
         const currCycle = await getCurrentCycle();
-        const autoEval = await getUserOtherAvals(1, 2);
+        const autoEval = await getUserOtherAvals(collabId, currCycle.id);
         setAutoEval(autoEval);
 
         const additionalDataPromises = autoEval.map((item: any) =>
