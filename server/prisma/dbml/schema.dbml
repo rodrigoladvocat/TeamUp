@@ -23,8 +23,8 @@ Table User {
   othersEvaluated OthersEvaluation [not null]
   othersEvaluator OthersEvaluation [not null]
   selfEvaluation SelfEvaluation [not null]
-  tuningEvaluated Tuning [not null]
   tuningEvaluator Tuning [not null]
+  tuningEvaluated Tuning [not null]
 }
 
 Table Cycle {
