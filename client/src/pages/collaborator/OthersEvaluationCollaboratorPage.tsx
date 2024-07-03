@@ -17,7 +17,7 @@ import { DialogHeader, DialogFooter, DialogTrigger, Dialog, DialogContent, Dialo
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 interface Eval {
-  grade: number;
+  grade: Grade;
   comment: string;
 }
 
@@ -35,7 +35,7 @@ export default function OthersEvaluationCollaboratorPage(): JSX.Element {
   const navigate = useNavigate();
 
   const collaboratorsWithoutLoggedUser = collaborators.filter(c => c.id !== user?.id);
-  const isOhersEvalFinalized = false; // othersEvalInfo.othersEvalStage.filter((s) => s === "Entregue").length > 0;
+  const isOhersEvalFinalized = othersEvalInfo.othersEvalStage.filter((s) => s === "Entregue").length > 0;
   
   useEffect(() => {
     if (!isAuthenticated) {
@@ -51,24 +51,22 @@ export default function OthersEvaluationCollaboratorPage(): JSX.Element {
     });
   }, []);
 
+  useEffect(() => {
 
-  // Uncomment if need to load previous others evaluated info
-  // useEffect(() => {
-
-  //   if (othersEvalInfo.evaluatedUserId.length > 0) {
-  //     console.log(othersEvalInfo);
+    if (othersEvalInfo.evaluatedUserId.length > 0) {
+      console.log(othersEvalInfo);
       
-  //     const newMap = new Map();
-  //     othersEvalInfo.evaluatedUserId.map((id, i) => {
-  //       newMap.set(id, {grade: othersEvalInfo.grade, comment: othersEvalInfo.comment}) ;
-  //     })
+      const newMap = new Map();
+      othersEvalInfo.evaluatedUserId.map((id, i) => {
+        newMap.set(id, {grade: othersEvalInfo.grade[i], comment: othersEvalInfo.comment[i]});
+      });
       
-  //     setMap(newMap);
-  //   }
-  // }, [othersEvalInfo.evaluatedUserId.length]);
+      setMap(newMap);
+    }
+  }, [othersEvalInfo.evaluatedUserId.length]);
 
 
-  function handleUpdateEval(collaboratorId: number, comment: string, grade: number): void {
+  function handleUpdateEval(collaboratorId: number, comment: string, grade: Grade): void {
     const updatedMap = map.set(collaboratorId, {comment: comment, grade: grade});
     // const completelyFilledEvals = [...updatedMap.values()].filter((value) => 
     //   value.grade !== -1
@@ -108,7 +106,7 @@ export default function OthersEvaluationCollaboratorPage(): JSX.Element {
   }
 
 
-  function handleSubmitForm(option: "finish"): void {
+  function handleSubmitForm(option: "save" | "finish"): void {
     if (isLoading) { return; }
 
     // Make sure that only filled strings and completely filled GradeForms are send to backend
@@ -240,6 +238,8 @@ export default function OthersEvaluationCollaboratorPage(): JSX.Element {
                     profileUrl={collaborator.imgUrl} 
                     name={collaborator.name} 
                     role={collaborator.role} 
+                    pickerInitialValue={map.get(collaborator.id)?.grade || -1}
+                    commentInitialText={map.get(collaborator.id)?.comment || ""}
                     onChange={(comment, grade) => handleUpdateEval(collaborator.id, comment, grade)}
                   />
                 </div>
@@ -247,36 +247,49 @@ export default function OthersEvaluationCollaboratorPage(): JSX.Element {
             })}
           </form>
           
-          <section className="flex flex-col justify-center items-center mt-12">
+          <section className="flex flex-col mt-14 mb-14">
+            <p className="font-normal text-[16px] leading-[24px] text-white text-wrap text-left w-[55%]">
+              Depois que você enviar não será mais possível editar, se você ainda não terminou ou quiser fazer edições futuras salve e continue a utilizar a plataforma.
+            </p>
+            <div className="flex flex-row justify-between items-center mt-[60px] px-[15%]">
 
-            {isFormIncomplete()
-            ?
-              <TooltipProvider>
-              <Tooltip delayDuration={100}>
-                  <TooltipTrigger asChild>
-                    <div className="bg-hover-bg w-[168px] h-[48px] flex flex-row items-center justify-center rounded-md">
-                      <p>Enviar</p>
-                    </div>
-                  </TooltipTrigger>
-                  <TooltipContent align="center" side="top" className="bg-white rounded-2xl p-2 ml-2 border-0 border-none">
-                    <p className="font-normal text-[18px] leading-[24px] text-black">
-                      { isOhersEvalFinalized
-                      ? "Formulário Entregue. Não pode mais modificar."
-                      : "Formulário incompleto, preencha ao menos 1 para enviar."
-                    }
-                    </p>
-                  </TooltipContent>
-                </Tooltip>
-                </TooltipProvider>
-            :
+              <Button variant="ghost" size="default"
+                className="bg-transparent w-[168px] h-[48px] border-solid border-1 border-white" 
+                onClick={() => {handleSubmitForm("save")}}
+                disabled={isOhersEvalFinalized ? true : false}
+                >
+                Salvar e continuar
+              </Button>
+
               <Dialog>
                 <DialogTrigger asChild className="w-[812px]">
-                  <Button variant="default" size="default"
-                      className="bg-primary w-[168px] h-[48px]" 
-                      disabled={isOhersEvalFinalized ? true : false}
-                  >
-                    Enviar
-                  </Button>
+                  {isFormIncomplete() 
+                    ? 
+                    <TooltipProvider>
+                    <Tooltip delayDuration={100}>
+                        <TooltipTrigger asChild>
+                          <div className="bg-hover-bg w-[168px] h-[48px] flex flex-row items-center justify-center rounded-md">
+                            <p>Enviar</p>
+                          </div>
+                        </TooltipTrigger>
+                        <TooltipContent align="center" side="top" className="bg-white rounded-2xl p-2 ml-2 border-0 border-none">
+                          <p className="font-normal text-[18px] leading-[24px] text-black">
+                            { isOhersEvalFinalized
+                            ? "Formulário Entregue. Não pode mais modificar."
+                            : "Formulário incompleto, preencha ao menos 1 para enviar."
+                            }
+                          </p>
+                        </TooltipContent>
+                      </Tooltip>
+                      </TooltipProvider>
+                    :
+                    <Button variant="default" size="default"
+                    className="bg-primary w-[168px] h-[48px]" 
+                    disabled={isOhersEvalFinalized ? true : false}
+                    >
+                      Enviar
+                    </Button>
+                  }
                 </DialogTrigger>
                 <DialogContent className="bg-[#D9D9D9] w-[812px] flex flex-col" hasClose={false}>
                   
@@ -304,7 +317,8 @@ export default function OthersEvaluationCollaboratorPage(): JSX.Element {
                   </DialogFooter>
                 </DialogContent>
               </Dialog>
-            }
+              
+            </div>
           </section>
 
         </div> {/* End of Form + Section */}

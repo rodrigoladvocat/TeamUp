@@ -10,8 +10,8 @@ interface Props {
   gradeOptions?: number[];
   namedOptions?: string[];
   type: "circles" | "cards";
-  initialValueIndex: number;
-  onChange: (valueIndex: number) => void;
+  initialValueIndex: Grade;
+  onChange: (valueIndex: Grade) => void;
 }
 
 export default function GradePicker({
@@ -22,13 +22,13 @@ export default function GradePicker({
     initialValueIndex = -1,
     onChange,
   }: Props): JSX.Element {
-  const [selectedGradeIndex, setSelectedGradeIndex] = useState<number>(initialValueIndex);
+  const [selectedGradeIndex, setSelectedGradeIndex] = useState<Grade>(initialValueIndex);
 
   useEffect(() => {
     setSelectedGradeIndex(initialValueIndex)
   }, [initialValueIndex]);
   
-  function handleSelectGrade(chosenOptionIndex: number) {
+  function handleSelectGrade(chosenOptionIndex: Grade) {
     const nextGradeIndex = chosenOptionIndex == selectedGradeIndex ? -1 : chosenOptionIndex;
     setSelectedGradeIndex(nextGradeIndex);
     onChange(nextGradeIndex);
@@ -41,7 +41,7 @@ export default function GradePicker({
           {gradeOptions.map((gradeOption, i) => {
             return (
               <div key={_key ? _key+i : i} 
-                onClick={() => {handleSelectGrade(i)}}
+                onClick={() => {handleSelectGrade(i as Grade)}}
                 style={{boxShadow: "3px 4px 4px 0px #170E0E"}}
                 className={`
                   flex flex-col justify-center items-center
@@ -74,7 +74,7 @@ export default function GradePicker({
                 <div key={_key ? _key+i : i} className="flex flex-col space-y-2">
                   <p className="font-semibold">{gradeOption}</p>
                   <CircleCheckbox 
-                    value={i}
+                    value={i as Grade}
                     name={`feedback choice ${i}`}
                     checked={gradeOptions[selectedGradeIndex] === gradeOption} 
                     onChange={handleSelectGrade} 

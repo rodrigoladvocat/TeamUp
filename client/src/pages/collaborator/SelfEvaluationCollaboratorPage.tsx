@@ -80,7 +80,7 @@ function FormPart({
           onChange={(valueIndex) => onGradeChange(gradeOptions[valueIndex])} 
           gradeOptions={gradeOptions}
           namedOptions={namedOptions}
-          initialValueIndex={gradeOptions.indexOf(gradeInitialOption)}
+          initialValueIndex={gradeOptions.indexOf(gradeInitialOption) as Grade}
         />
       </div>
 

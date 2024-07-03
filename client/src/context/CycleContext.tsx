@@ -5,7 +5,7 @@ import { api } from "../services/apiService";
 import { GetLatestCycleResponseDto } from "@/dto/GetLatestCycleResponseDto";
 import { GetOthersEvalByUserCycleIdsDto } from "@/dto/GetOthersEvalByUserCycleIdsDto";
 import { GetSelffEvalByUserCycleIdsDto } from "@/dto/GetSelfEvalByUserCycleIdsDto";
-import { stage } from "@/utils/stageType";
+import { stage } from "@/utils/types/stageType";
 
 ////////////////////////////////////////////////////////////////////////////////
 
