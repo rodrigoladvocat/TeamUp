@@ -77,10 +77,10 @@ function FormPart({
 
       <div className="flex flex-col items-center bg-[#252525] w-full h-[146px] rounded-xl mb-6 p-3 overflow-x-auto overflow-y-hidden">
         <GradePicker type={"cards"} 
-          onChange={onGradeChange} 
+          onChange={(valueIndex) => onGradeChange(gradeOptions[valueIndex])} 
           gradeOptions={gradeOptions}
           namedOptions={namedOptions}
-          initialValueIndex={gradeOptions.indexOf(gradeInitialOption)}
+          initialValueIndex={gradeOptions.indexOf(gradeInitialOption) as Grade}
         />
       </div>
 
@@ -180,6 +180,7 @@ function execution_tab(
 
 export default function SelfEvaluationCollaboratorPage(): JSX.Element {
   const [ selectedTab, setSelectedTab ] = useState(0);
+  const [ isLoading, setIsLoading ] = useState(false);
   const [ behaviourGrades, setBehaviourGrades ] = useState<number[]>(Array(5).fill(-1));
   const [ behaviourComments, setBehaviourComments ] = useState<string[]>(Array(5).fill(""));
   const [ executionGrades, setExecutionGrades ] = useState<number[]>(Array(4).fill(-1));
@@ -236,13 +237,13 @@ export default function SelfEvaluationCollaboratorPage(): JSX.Element {
       setBehaviourGrades(behaviourGrades);
       setBehaviourComments(behaviourComments);
       setExecutionGrades(executionGrades);
-      setBehaviourComments(executionComments);
+      setExecutionComments(executionComments);
     }
   }, [selfEvalInfo.id]);
 
   function handleBehaviourGradeChange(index: number, value: number): void {
     const newGrades = [...behaviourGrades];
-    newGrades[index] = value+1;
+    newGrades[index] = value;
     setBehaviourGrades(newGrades);
   };
   
@@ -254,7 +255,7 @@ export default function SelfEvaluationCollaboratorPage(): JSX.Element {
   
   function handleExecutionGradeChange(index: number, value: number): void {
     const newGrades = [...executionGrades];
-    newGrades[index] = value+1;
+    newGrades[index] = value;
     setExecutionGrades(newGrades);
   };
   
@@ -282,7 +283,7 @@ export default function SelfEvaluationCollaboratorPage(): JSX.Element {
 
   async function handleSubmitForm(option: "save" | "finish") {
     
-    // if ( isFormIncomplete() ) {return;}
+    if ( isLoading ) { return; }
 
     const parsedBehaviourGrades = behaviourGrades.map((grade) => grade === -1 ? 0 : grade);
     const parsedExecutionGrades = executionGrades.map((grade) => grade === -1 ? 0 : grade);
@@ -314,26 +315,26 @@ export default function SelfEvaluationCollaboratorPage(): JSX.Element {
       isFinalized: option === "finish" ? true : false,
     };
 
-    // api.post("", body).then(() => {}).catch(() => {});
-    // api.patch("", body).then(() => {}).catch(() => {});
-    if (option === "finish" || option === "save") {
-      await api.post("/self-evaluation", body).then((res: AxiosResponse) => {
-        console.log("==============");
-        console.log(behaviourGrades);
-        console.log(executionGrades);
-        console.log(body);
-        console.log("==============");
-        console.log(res);
-        console.log("--------------");
-        console.log(res.data);
-        console.log("==============");
-      }).catch((e: AxiosError<ErrorResponse>) => {
-        console.log(behaviourGrades);
-        console.log(executionGrades);
-        console.log(body);
-        console.log(e);
-      });
-    }
+    setIsLoading(true);
+    await api.post("/self-evaluation", body).then((res: AxiosResponse) => {
+      console.log("Deu tudo certo.");
+      console.log("==============");
+      console.log(behaviourGrades);
+      console.log(executionGrades);
+      console.log(body);
+      console.log("==============");
+      console.log(res);
+      console.log("--------------");
+      console.log(res.data);
+      console.log("==============");
+      setIsLoading(false);
+      navigate("/evaluations");
+    }).catch((e: AxiosError<ErrorResponse>) => {
+      console.log(behaviourGrades);
+      console.log(executionGrades);
+      console.log(body);
+      console.log(e);
+    });
     
   }
   
@@ -350,7 +351,7 @@ export default function SelfEvaluationCollaboratorPage(): JSX.Element {
           <div className="flex flex-row">
             <img
               src={arrow_left_circle}
-              onClick={() => {navigate('/avaliacoes')}}
+              onClick={() => {navigate('/evaluations')}}
               className={`cursor-pointer size-8`}
               alt="arrow"
             />
@@ -376,10 +377,10 @@ export default function SelfEvaluationCollaboratorPage(): JSX.Element {
               <img
                 src={user?.imgUrl || ""}
                 onError={(e) => { e.currentTarget.src = defaultProfileImage; }}
-                className={"size-[54px]"}
+                className={"size-[54px] rounded-full"}
                 alt="Profile Image"
               />
-              <p className="ml-2 font-normal text-[20px] leading-[30px]">{user?.name || "Fulano"}</p>
+              <p className="ml-2 font-normal text-[20px] leading-[30px]">{user?.name || "Erro carregando nome"}</p>
             </span>
           </div>
         </header>
@@ -410,8 +411,7 @@ export default function SelfEvaluationCollaboratorPage(): JSX.Element {
               <Button variant="ghost" size="default"
                 className="bg-transparent w-[168px] h-[48px] border-solid border-1 border-white" 
                 onClick={() => {handleSubmitForm("save")}}
-                disabled={ false }
-                // disabled={autoEvalInfo.isFinalized || true ? true : false }
+                disabled={selfEvalInfo.isFinalized ? true : false }
                 >
                 Salvar e continuar
               </Button>
@@ -459,12 +459,6 @@ export default function SelfEvaluationCollaboratorPage(): JSX.Element {
                     
                   <DialogFooter className="">
                     <div className="flex flex-row justify-between items-center w-full mt-8">
-                      {/* <Button variant="ghost"
-                        className="py-[12px] px-[68.5px] text-black bg-primary border-none selection:border-none"
-                        onClick={(e) => {e.preventDefault();}}
-                        >
-                        Não
-                        </Button> */}
                       <DialogClose className="py-[8.5px] px-[68.5px] text-black bg-primary border-none">
                         Não
                       </DialogClose>

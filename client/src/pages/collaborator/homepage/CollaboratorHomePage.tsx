@@ -115,28 +115,9 @@ const CustomDot = (props: any) => {
   return <circle cx={cx} cy={cy} r={5} stroke="none" fill="#CCBFFF" />;
 };
 
-function calculateDaysBetween(startDate: string, endDate: string): number {
-
-  function parseDate(dateString: string): Date {
-    const [day, month, year] = dateString.split('/').map(Number);
-    return new Date(year, month - 1, day); // month is 0-based in JS Date
-  }
-
-  const start = parseDate(startDate);
-  const end = parseDate(endDate);
-
-  // Calculate the difference in time
-  const timeDifference = end.getTime() - start.getTime();
-
-  // Convert time difference from milliseconds to days
-  const dayDifference = timeDifference / (1000 * 3600 * 24);
-
-  return dayDifference;
-}
-
 export default function CollaboratorHomePage(): JSX.Element {
   const { user, isAuthenticated } = useAuth();
-  const { _cycle, endDate, endTime, startDate, callAllUpdates, selfEvalInfo } = useCycle();
+  const { _cycle, endDate, endTime, startDate, daysToFinish, callAllUpdates, selfEvalInfo } = useCycle();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -173,7 +154,7 @@ export default function CollaboratorHomePage(): JSX.Element {
               <img src={flag} alt="flag" className="pr-3" />
               <p className="text-left font-normal text-[16px] leading-[24px]">
                 O ciclo atual{" "}
-                <span className="text-purple-text">fecha em {calculateDaysBetween(startDate, endDate)} dias</span>{" "}
+                <span className="text-purple-text">fecha em {daysToFinish} dias</span>{" "}
                 (Data de fechamento: {endDate})
               </p>
             </div>
