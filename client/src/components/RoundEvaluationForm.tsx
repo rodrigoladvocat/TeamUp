@@ -21,18 +21,22 @@ export default function GradeForm({
   const gradeOptions = [1, 2, 3, 4, 5];
 
   return (
-    <div className="flex flex-col min-w-fit">
+    <div className="flex flex-col min-w-fit pb-8 py-8">
       <div className="h-[89px] min-w-fit flex flex-row justify-between items-center space-x-[4.625rem] bg-black p-3 rounded-t-2xl">
-        <img className="max-w-16" src={profileUrl} alt="Profile picture" />
+        <img
+          className="w-16 h-16 object-cover rounded-full"
+          src={profileUrl}
+          alt="Profile picture"
+        />
 
         <p className="font-bold text-nowrap text-[20px]">{name}</p>
 
         <p className="font-medium text-nowrap">{role}</p>
-        <div className="flex flex-row justify-between space-x-[0.90625rem] h-[65px] w-fit">
+        <div className="flex flex-row justify-between space-x-[0.90625rem] h-[65px] w-fit pr-5">
           {gradeOptions.map((gradeOption, i) => {
             return (
               <>
-                <div key={i} className="flex flex-col space-y-2">
+                <div key={i} className="flex flex-col space-y-2 ">
                   <p className="font-semibold">{gradeOption}</p>
                   <CircleCheckbox
                     value={i}
@@ -51,7 +55,7 @@ export default function GradeForm({
 
       <textarea
         rows={5}
-        className="h-40 bg-white rounded-b-2xl text-wrap text-black p-3 font-normal resize-none"
+        className="h-40 bg-white rounded-b-2xl text-wrap text-black p-3 font-normal resize-none placeholder:text-[#868686]"
         name={`Comment of ${name}`}
         placeholder={text}
         onChange={() => {}}

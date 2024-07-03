@@ -65,6 +65,10 @@ const OtherEvaluationTab = () => {
   console.log(additionalData);
   return (
     <>
+      <p className="text-left pb-8 text-16">
+        Acompanhe as avaliações 360º recebidas pelo colaborador neste ciclo
+        avaliativo.
+      </p>
       {additionalData.map((item: UserDto, index: number) => (
         <RoundEvalFormPart
           key={item.id}

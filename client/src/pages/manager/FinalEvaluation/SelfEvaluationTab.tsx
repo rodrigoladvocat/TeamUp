@@ -12,6 +12,7 @@ import {
 import TipSpeechBubble from "@/components/TipSpeechBubble";
 import CardeDeNota from "@/components/CardDeNota";
 import { GetSelffEvalByUserCycleIdsDto } from "@/dto/GetSelfEvalByUserCycleIdsDto";
+import Tabs from "@/components/Tabs";
 
 interface SProps {
   index: number;
@@ -90,7 +91,7 @@ function SelfEvalFormPart({
   commentInitialValue,
 }: SProps) {
   return (
-    <div className="flex flex-col px-[32px] pt-6 items-center">
+    <div className="flex flex-col pt-6 items-center pb-10">
       <span className="flex flex-row self-start">
         <h1 className="font-bold text-[20px] leading-[30px] text-primary mr-3">
           {index}. {title}
@@ -125,7 +126,7 @@ function SelfEvalFormPart({
 
       <textarea
         rows={5}
-        className="h-40 w-full bg-white rounded-2xl text-wrap text-black p-3 font-normal resize-none"
+        className="h-40 w-full bg-white rounded-2xl text-wrap text-[#868686] p-3 font-normal resize-none"
         placeholder={commentInitialValue}
         value={commentInitialValue}
         readOnly
@@ -135,6 +136,7 @@ function SelfEvalFormPart({
 }
 
 const SelfEvaluationTab = () => {
+  const [selectedTab, setSelectedTab] = useState(0);
   const { id } = useParams(); // Extract the id parameter from the URL
   const collabId = Number(id);
   const [autoEval, setAutoEval] =
@@ -166,17 +168,38 @@ const SelfEvaluationTab = () => {
 
   return (
     <>
-      {info.map((item, index) => (
-        <SelfEvalFormPart
-          key={index}
-          index={index + 1}
-          title={item.category}
-          subtitle="Como você avaliaria sua performance nesse critério?"
-          tip={item.tip}
-          gradeInitialOption={item.grade}
-          commentInitialValue={item.comment}
-        />
-      ))}
+      <Tabs
+        type="ghost"
+        tabs={["Critérios comportamentais", "Critérios de execução"]}
+        onChange={setSelectedTab}
+      />
+      {selectedTab === 0
+        ? info
+            .slice(0, 4)
+            .map((item, index) => (
+              <SelfEvalFormPart
+                key={index}
+                index={index + 1}
+                title={item.category}
+                subtitle="Como você avaliaria sua performance nesse critério?"
+                tip={item.tip}
+                gradeInitialOption={item.grade}
+                commentInitialValue={item.comment}
+              />
+            ))
+        : info
+            .slice(4)
+            .map((item, index) => (
+              <SelfEvalFormPart
+                key={index + 4}
+                index={index + 1}
+                title={item.category}
+                subtitle="Como você avaliaria sua performance nesse critério?"
+                tip={item.tip}
+                gradeInitialOption={item.grade}
+                commentInitialValue={item.comment}
+              />
+            ))}
     </>
   );
 };
