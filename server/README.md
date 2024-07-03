@@ -21,4 +21,4 @@ $ npm run test:cov
 ```
 
 # SQL Database diagram
-![diagram image](prisma/dbml/schema.png)
+![diagram image](prisma/dbml/diagram.png)
