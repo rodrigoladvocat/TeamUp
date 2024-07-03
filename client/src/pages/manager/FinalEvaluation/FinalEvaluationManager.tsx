@@ -9,13 +9,17 @@ import Tabs from "@/components/Tabs";
 import SelfEvaluationTab from "./SelfEvaluationTab";
 import EqualizationTab from "./EqualizationTab";
 import OtherEvaluationTab from "./OthersEvaluationTab";
+import { useMenu } from "@/context/MenuContext";
 
 export default function FinalEvaluationManagerPage(): JSX.Element {
   const [selectedTab, setSelectedTab] = useState(0);
-
   const { isAuthenticated, user } = useAuth();
-
   const navigate = useNavigate();
+  const { setMenu } = useMenu();
+
+  useEffect(() => {
+    setMenu(2);
+  }, []);
 
   useEffect(() => {
     if (!isAuthenticated) {
