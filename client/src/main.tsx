@@ -17,6 +17,7 @@ import './global.css';
 import CollaboratorProfile from './pages/CollaboratorProfilePage';
 import GradesManagerPage from './pages/manager/GradesManagerPage/GradesManagerPage';
 import UserProfile from './pages/UserProfile';
+import CycleManagerPage from './pages/manager/CycleManagerPage';
 
 
 // ideal to merge both homepages into same route
@@ -40,7 +41,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
           {/* 4 rotas do menu */}
           <Route path="/home" element={
             <RedirectByUserType
-            managerPage={ManagerHomePage} // TODO substituir por HomeManagerPage
+            managerPage={ManagerHomePage}
             collaboratorPage={CollaboratorHomePage}
             />
           } />
@@ -52,8 +53,8 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
           } />
           <Route path="/evaluations" element={
             <RedirectByUserType
-            managerPage={CycleCollaboratorPage} // TODO substituir por CycleManagerPage
-            collaboratorPage={CycleCollaboratorPage} // TODO substituir por CycleCollaboratorPage
+            managerPage={CycleManagerPage}
+            collaboratorPage={CycleCollaboratorPage}
             />
           } />
 
@@ -61,7 +62,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
           <Route path="/self-evaluation" element={
             <RedirectByUserType
             managerPage={ErrorPage} // TODO substituir por SelfEvaluationManagerPage
-            collaboratorPage={SelfEvaluationCollaboratorPage} // TODO substituir por SelfEvaluationCollaboratorPage
+            collaboratorPage={SelfEvaluationCollaboratorPage}
             />
           } />
           <Route path="/others-evaluation" element={
