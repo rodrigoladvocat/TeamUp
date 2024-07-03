@@ -38,8 +38,8 @@ export const users: User[] = [
     city: 'Recife',
     state: 'PE',
     zipCode: '12345-123',
-    bio: 'Sou Jane Smith, Designer de Produtos na Visagio, com mais de cinco anos de experiência. Crio soluções intuitivas e atraentes, liderando projetos do início ao fim. Sou apaixonado por novas tecnologias e tendências de design.',
-    admissionDate: new Date('2023-07-01'),
+    bio: 'Sou John Doe, Designer de Produtos na Visagio, com mais de cinco anos de experiência. Crio soluções intuitivas e atraentes, liderando projetos do início ao fim. Sou apaixonado por novas tecnologias e tendências de design.',
+    admissionDate: new Date('2024-06-04'),
   },
   {
     id: 3,
@@ -58,8 +58,8 @@ export const users: User[] = [
     city: 'Recife',
     state: 'PE',
     zipCode: '12345-123',
-    bio: 'Sou Jane Smith, Designer de Produtos na Visagio, com mais de cinco anos de experiência. Crio soluções intuitivas e atraentes, liderando projetos do início ao fim. Sou apaixonado por novas tecnologias e tendências de design.',
-    admissionDate: new Date('2023-07-01'),
+    bio: 'Sou John Doe, Designer de Produtos na Visagio, com mais de cinco anos de experiência. Crio soluções intuitivas e atraentes, liderando projetos do início ao fim. Sou apaixonado por novas tecnologias e tendências de design.',
+    admissionDate: new Date('2024-06-04'),
   },
   {
     id: 4,
@@ -78,8 +78,8 @@ export const users: User[] = [
     city: 'Recife',
     state: 'PE',
     zipCode: '12345-123',
-    bio: 'Sou Jane Smith, Designer de Produtos na Visagio, com mais de cinco anos de experiência. Crio soluções intuitivas e atraentes, liderando projetos do início ao fim. Sou apaixonado por novas tecnologias e tendências de design.',
-    admissionDate: new Date('2023-07-01'),
+    bio: 'Sou John Doe, Designer de Produtos na Visagio, com mais de cinco anos de experiência. Crio soluções intuitivas e atraentes, liderando projetos do início ao fim. Sou apaixonado por novas tecnologias e tendências de design.',
+    admissionDate: new Date('2024-06-04'),
   },
   {
     id: 5,
@@ -98,8 +98,8 @@ export const users: User[] = [
     city: 'Recife',
     state: 'PE',
     zipCode: '12345-123',
-    bio: 'Sou Jane Smith, Designer de Produtos na Visagio, com mais de cinco anos de experiência. Crio soluções intuitivas e atraentes, liderando projetos do início ao fim. Sou apaixonado por novas tecnologias e tendências de design.',
-    admissionDate: new Date('2023-07-01'),
+    bio: 'Sou John Doe, Designer de Produtos na Visagio, com mais de cinco anos de experiência. Crio soluções intuitivas e atraentes, liderando projetos do início ao fim. Sou apaixonado por novas tecnologias e tendências de design.',
+    admissionDate: new Date('2024-06-04'),
   },
   {
     id: 6,
@@ -118,8 +118,8 @@ export const users: User[] = [
     city: 'Recife',
     state: 'PE',
     zipCode: '12345-123',
-    bio: 'Sou Jane Smith, Designer de Produtos na Visagio, com mais de cinco anos de experiência. Crio soluções intuitivas e atraentes, liderando projetos do início ao fim. Sou apaixonado por novas tecnologias e tendências de design.',
-    admissionDate: new Date('2023-07-01'),
+    bio: 'Sou John Doe, Designer de Produtos na Visagio, com mais de cinco anos de experiência. Crio soluções intuitivas e atraentes, liderando projetos do início ao fim. Sou apaixonado por novas tecnologias e tendências de design.',
+    admissionDate: new Date('2024-06-04'),
   },
   {
     id: 7,
@@ -138,8 +138,8 @@ export const users: User[] = [
     city: 'Recife',
     state: 'PE',
     zipCode: '12345-123',
-    bio: 'Sou Jane Smith, Designer de Produtos na Visagio, com mais de cinco anos de experiência. Crio soluções intuitivas e atraentes, liderando projetos do início ao fim. Sou apaixonado por novas tecnologias e tendências de design.',
-    admissionDate: new Date('2023-07-01'),
+    bio: 'Sou John Doe, Designer de Produtos na Visagio, com mais de cinco anos de experiência. Crio soluções intuitivas e atraentes, liderando projetos do início ao fim. Sou apaixonado por novas tecnologias e tendências de design.',
+    admissionDate: new Date('2024-06-04'),
   },
   {
     id: 8,
@@ -158,8 +158,8 @@ export const users: User[] = [
     city: 'Recife',
     state: 'PE',
     zipCode: '12345-123',
-    bio: 'Sou Jane Smith, Designer de Produtos na Visagio, com mais de cinco anos de experiência. Crio soluções intuitivas e atraentes, liderando projetos do início ao fim. Sou apaixonado por novas tecnologias e tendências de design.',
-    admissionDate: new Date('2023-07-01'),
+    bio: 'Sou John Doe, Designer de Produtos na Visagio, com mais de cinco anos de experiência. Crio soluções intuitivas e atraentes, liderando projetos do início ao fim. Sou apaixonado por novas tecnologias e tendências de design.',
+    admissionDate: new Date('2024-06-04'),
   },
   // Adicione mais usuários conforme necessário
 ];
