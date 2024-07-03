@@ -82,4 +82,25 @@ export class CycleService {
 
     return found;
   }
+
+  async updateEmailSent(id: number): Promise<Cycle> {
+    const found = await this.prisma.cycle.findUnique({
+      where: {
+        id: id,
+      },
+    });
+
+    if (!found) {
+      throw new NotFoundException('Cycle not found.');
+    }
+
+    return await this.prisma.cycle.update({
+      where: {
+        id: id,
+      },
+      data: {
+        emailSent: true,
+      },
+    });
+  }
 }

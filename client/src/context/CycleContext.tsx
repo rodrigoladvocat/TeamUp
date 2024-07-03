@@ -129,6 +129,7 @@ export const CycleProvider: React.FC<Props> = ({ children }) => {
       const endDate = parseDate(cycleData.finalDate, 'YYYY-MM-DD', 'DD/MM/YYYY');
       const daysToFinish = calculateDaysBetween(startDate, endDate);
       const tunningEndDate = new Date(endDate);
+      
       const parsedData: ParsedCycleInfo = {
         startDate: startDate,
         endDate: endDate,
@@ -153,6 +154,26 @@ export const CycleProvider: React.FC<Props> = ({ children }) => {
     }
 
   }, []);
+
+  const sendEmailIfNeeded = (cycle: GetLatestCycleResponseDto) => {
+    if (!cycle.emailSent && new Date(cycle.finalDate) < new Date()) {
+      // send email and update sentEmail to true
+      console.log("send email");
+      // Update the sentEmail status in local storage
+      localStorage.setItem(`sentEmail_${cycle.id}`, "true");
+    }
+  };
+
+  useEffect(() => {
+    if (_cycle) {
+      const sentEmail = localStorage.getItem(`sentEmail_${_cycle.id}`);
+      console.log(sentEmail)
+      if (sentEmail === "false") {
+        console.log("send email")
+        sendEmailIfNeeded(_cycle);
+      }
+    }
+  }, [_cycle])
 
   const UpdateLatestCycle = useCallback(async (forceUpdate = false) => {
 
@@ -179,6 +200,8 @@ export const CycleProvider: React.FC<Props> = ({ children }) => {
       };
 
       localStorage.setItem('@Cycle.Data', JSON.stringify(res.data));
+      console.log(res.data.emailSent)
+      localStorage.setItem(`sentEmail_${res.data.id}`, res.data.emailSent.toString());
 
       setCycle(res.data);
       setParsedCycleInfo(parsedData);
