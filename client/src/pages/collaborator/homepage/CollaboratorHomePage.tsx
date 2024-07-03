@@ -131,12 +131,13 @@ export default function CollaboratorHomePage(): JSX.Element {
   }, []);
 
   return (
-    <main className="flex flex-row w-screen h-screen max-h-screen p-6 bg-gray-900 text-white">
+    <main className="flex justify-center h-screen max-h-screen p-6 bg-general-background text-white">
+      <div className="flex">
       <aside>
         <Menu></Menu>
       </aside>
 
-      <div className="flex flex-col w-full ml-[16px]">
+      <div className="flex-1 p-6 bg-general-background h-[920px] w-[64.25rem]">
 
         <Header 
           userName={user?.name || ""} 
@@ -144,7 +145,7 @@ export default function CollaboratorHomePage(): JSX.Element {
           title="Página inicial"
         />
         
-        <section className="flex flex-row mt-[27px]">
+        <section className="flex flex-row mt-[27px] gap-x-[1rem]">
           <div className="flex flex-col p-4 pl-5 rounded-2xl w-[45rem] bg-content-background">
             <p className="font-bold text-28 leading-[42px] text-purple-text text-left">
               Bem vindo de volta Pedro!
@@ -161,7 +162,7 @@ export default function CollaboratorHomePage(): JSX.Element {
             <div className="flex items-start pt-8">
               <img src={flag} alt="flag" className="pr-3" />
               <p className="text-left">
-                Sua nota final do ciclo avaliativo de {_cycle?.cycleName} já está
+                Sua nota final do ciclo avaliativo de {_cycle?.cycleName} já está {/*TODO update to the last cycle, not the current*/}
                 disponível na página Notas.
               </p>
             </div>
@@ -247,6 +248,7 @@ export default function CollaboratorHomePage(): JSX.Element {
           </div>
         </section>
 
+      </div>
       </div>
     </main>
   );

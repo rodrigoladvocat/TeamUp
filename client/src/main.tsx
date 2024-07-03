@@ -13,8 +13,9 @@ import { MenuProvider } from "./context/MenuContext";
 import { RedirectByUserType } from './utils/RedirectByUserType';
 import { AuthProvider } from './context/AuthContext';
 import { CycleProvider } from './context/CycleContext';
-import CollaboratorProfile from './pages/CollaboratorProfilePage';
+import './global.css';
 import GradesManagerPage from './pages/manager/GradesManagerPage/GradesManagerPage';
+import CollaboratorProfile from './pages/CollaboratorProfilePage';
 import UserProfile from './pages/UserProfile';
 import CycleManagerPage from './pages/manager/CycleManagerPage';
 import OthersEvaluationCollaboratorPage from './pages/collaborator/OthersEvaluationCollaboratorPage';
@@ -30,6 +31,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
     <CycleProvider>
       <BrowserRouter>
         <Routes>
+          <Route path='/collab/test' element={<CollaboratorHomePage/>} />
           <Route path="*" element={<ErrorPage />} />
           <Route path="/" element={<LoginPage />} />
           <Route path="/login" element={<LoginPage />} />
