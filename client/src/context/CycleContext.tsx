@@ -6,6 +6,7 @@ import { GetLatestCycleResponseDto } from "@/dto/GetLatestCycleResponseDto";
 import { GetOthersEvalByUserCycleIdsDto } from "@/dto/GetOthersEvalByUserCycleIdsDto";
 import { GetSelffEvalByUserCycleIdsDto } from "@/dto/GetSelfEvalByUserCycleIdsDto";
 import { stage } from "@/utils/types/stageType";
+import calculateDaysBetween from "@/utils/dateTime/calculateDaysBetween";
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -33,9 +34,12 @@ function parseTime(dateString: string): string {
 ////////////////////////////////////////////////////////////////////////////////
 
 interface ParsedCycleInfo {
+  isOngoingOrEnded: "Carregando" | "Em andamento" | "Finalizado";
+  daysToFinish: number;
   startDate: string; // Format: DD/MM/YYYY
   endDate: string; // Format: DD/MM/YYYY
   endTime: string; // Format: HH:mm
+  tunningEndDate: string; // Format: "DD/MM/YYYY, HH:mm:ss"
 }
 interface SelfEvalInfo extends GetSelffEvalByUserCycleIdsDto {
   selfEvalStage: stage;
@@ -64,7 +68,14 @@ interface Props {
   children: React.ReactNode;
 }
 
-const defaultParsedCycleInfo: ParsedCycleInfo = {startDate: "", endDate: "", endTime: ""};
+const defaultParsedCycleInfo: ParsedCycleInfo = {
+  isOngoingOrEnded: "Carregando", 
+  daysToFinish: -1, 
+  startDate: "", 
+  endDate: "", 
+  endTime: "",
+  tunningEndDate: "",
+};
 const defaultAutoEvalInfo: SelfEvalInfo = {
   selfEvalStage: "Carregando", 
   selfLastUpdated: "",
@@ -114,10 +125,17 @@ export const CycleProvider: React.FC<Props> = ({ children }) => {
 
     const cycleData: GetLatestCycleResponseDto = JSON.parse(localStorage.getItem('@Cycle.Data') || "{}");
     if (cycleData.id) {
+      const startDate = parseDate(cycleData.initialDate, 'YYYY-MM-DD', 'DD/MM/YYYY');
+      const endDate = parseDate(cycleData.finalDate, 'YYYY-MM-DD', 'DD/MM/YYYY');
+      const daysToFinish = calculateDaysBetween(startDate, endDate);
+      const tunningEndDate = new Date(endDate);
       const parsedData: ParsedCycleInfo = {
-        startDate: parseDate(cycleData.initialDate, 'YYYY-MM-DD', 'DD/MM/YYYY'),
-        endDate: parseDate(cycleData.finalDate, 'YYYY-MM-DD', 'DD/MM/YYYY'),
+        startDate: startDate,
+        endDate: endDate,
         endTime: parseTime(cycleData.finalDate),
+        isOngoingOrEnded: daysToFinish < 0 ? "Finalizado" : "Em andamento",
+        daysToFinish: daysToFinish,
+        tunningEndDate: new Date(tunningEndDate.setDate(tunningEndDate.getDate() + 14)).toLocaleDateString(),
       };
       
       setCycle(cycleData);
@@ -146,10 +164,18 @@ export const CycleProvider: React.FC<Props> = ({ children }) => {
     await api.get(
       "/cycle/latest"
     ).then((res: AxiosResponse<GetLatestCycleResponseDto>) => {
+
+      const startDate = parseDate(res.data.initialDate, 'YYYY-MM-DD', 'DD/MM/YYYY');
+      const endDate = parseDate(res.data.finalDate, 'YYYY-MM-DD', 'DD/MM/YYYY');
+      const daysToFinish = calculateDaysBetween(startDate, endDate);
+      const tunningEndDate = new Date(endDate);
       const parsedData: ParsedCycleInfo = {
-        startDate: parseDate(res.data.initialDate, 'YYYY-MM-DD', 'DD/MM/YYYY'),
-        endDate: parseDate(res.data.finalDate, 'YYYY-MM-DD', 'DD/MM/YYYY'),
+        startDate: startDate,
+        endDate: endDate,
         endTime: parseTime(res.data.finalDate),
+        isOngoingOrEnded: daysToFinish < 0 ? "Finalizado" : "Em andamento",
+        daysToFinish: daysToFinish,
+        tunningEndDate: new Date(tunningEndDate.setDate(tunningEndDate.getDate() + 14)).toLocaleDateString(),
       };
 
       localStorage.setItem('@Cycle.Data', JSON.stringify(res.data));
