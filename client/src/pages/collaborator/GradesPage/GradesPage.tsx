@@ -8,6 +8,9 @@ import Accordion from "../../../components/Accordion";
 import ReadOnlyEvaluation from "../../../components/ReadOnlyEvaluation";
 import GradePicker from "../../../components/GradePicker";
 import TagGrade from "../../../components/TagGrade";
+import B from "../../../components/GradeForm";
+
+import { getAutoEval } from "@/utils/getAutoEval";
 
 import { useMenu } from "../../../context/MenuContext";
 
@@ -41,8 +44,9 @@ const GradesPage: React.FC = () => {
     console.log("Selecionada a aba:", newIndex);
     setSelectedTabIndex(newIndex);
   }
-  const handleOnChange = (index: number) => {
-    console.log(`Selected index: ${index}`);
+  const handleGradeChange = (comment: any, grade: any) => {
+    console.log("Comentário recebido:", comment);
+    console.log("Nota recebida:", grade);
   };
 
   return (
@@ -190,14 +194,12 @@ const GradesPage: React.FC = () => {
                     Veja abaixo as avaliações que você fez dos demais colaboradores neste ciclo.
                   </p>
                     <div className="flex items-center justify-center pt-10">
-                    <ReadOnlyEvaluation profileUrl="toma" name="Maria Beatriz dos Santos" role="Designer de produto" comment="Invalid">
-                        <GradePicker
-                              gradeOptions={[1, 2, 3, 4, 5]}
-                              type="circles"
-                              initialValueIndex={-1}
-                              onChange={handleOnChange}
-                              />
-                    </ReadOnlyEvaluation>
+
+                    <B
+                        profileUrl="https://example.com/profile.jpg"
+                        name="João Silva"
+                        role="Desenvolvedor"
+                        onChange={handleGradeChange}/>
                     </div>
                 </>
               )}
