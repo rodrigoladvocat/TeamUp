@@ -7,6 +7,7 @@ import { GetOthersEvalByUserCycleIdsDto } from "@/dto/GetOthersEvalByUserCycleId
 import { GetSelffEvalByUserCycleIdsDto } from "@/dto/GetSelfEvalByUserCycleIdsDto";
 import { stage } from "@/utils/types/stageType";
 import calculateDaysBetween from "@/utils/dateTime/calculateDaysBetween";
+import { updateEmailSent } from "@/utils/updateEmailSent";
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -155,12 +156,19 @@ export const CycleProvider: React.FC<Props> = ({ children }) => {
 
   }, []);
 
-  const sendEmailIfNeeded = (cycle: GetLatestCycleResponseDto) => {
+  const sendEmailIfNeeded = (cycle: GetLatestCycleResponseDto): void => {
     if (!cycle.emailSent && new Date(cycle.finalDate) < new Date()) {
-      // send email and update sentEmail to true
-      console.log("send email");
-      // Update the sentEmail status in local storage
-      localStorage.setItem(`sentEmail_${cycle.id}`, "true");
+      // send email and update sentEmail to true => updates the emailSent field in the database
+      updateEmailSent(cycle.id)
+      .then(() => {
+        console.log("Email sent successfully");
+
+        // Update the sentEmail status in local storage
+        localStorage.setItem(`sentEmail_${cycle.id}`, "true");
+      })
+      .catch((e) => {
+        console.error("Failed to send email:", e);
+      });
     }
   };
 
@@ -169,7 +177,6 @@ export const CycleProvider: React.FC<Props> = ({ children }) => {
       const sentEmail = localStorage.getItem(`sentEmail_${_cycle.id}`);
       console.log(sentEmail)
       if (sentEmail === "false") {
-        console.log("send email")
         sendEmailIfNeeded(_cycle);
       }
     }
