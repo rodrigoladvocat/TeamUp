@@ -379,7 +379,7 @@ export default function SelfEvaluationCollaboratorPage(): JSX.Element {
                 className={"size-[54px]"}
                 alt="Profile Image"
               />
-              <p className="ml-2 font-normal text-[20px] leading-[30px]">{user?.name || "Fulano"}</p>
+              <p className="ml-2 font-normal text-[20px] leading-[30px]">{user?.name || "Erro carregando nome"}</p>
             </span>
           </div>
         </header>
