@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 import GroupMeeting from "@/assets/ilustrations/groupMeeting.svg";
 import WorkingTogether from "@/assets/ilustrations/workingTogether.svg";
@@ -15,13 +15,16 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from "recharts";
-import ProgressBar from "@/components/ProgressBar";
 import Header from "@/components/Header";
 import { useAuth } from "@/hooks/AuthUser";
 import { Menu } from "@/components/Menu";
 import "./HomePage.css";
 import { useCycle } from "@/hooks/useCycle";
 import { useNavigate } from "react-router-dom";
+import { getLastCycle } from "@/utils/getLastCycle";
+import { getTuningByUserAndCycleId } from "@/utils/getTuningByUserAndCycleId";
+
+import runAI from "../../../../gemini_api/index"
 
 function stars(fill: 1 | 2 | 3 | 4 | 5) {
   const starArray = new Array(5).fill(null);
@@ -116,8 +119,14 @@ const CustomDot = (props: any) => {
 };
 
 export default function CollaboratorHomePage(): JSX.Element {
-  const { user, isAuthenticated } = useAuth();
+  
+  const { user, isAuthenticated, aiMessage, setAiMessage } = useAuth();
   const { _cycle, endDate, endTime, startDate, daysToFinish, callAllUpdates, selfEvalInfo } = useCycle();
+  const [ lastCycleId, setLastCycleId ] = useState(null);
+  const [ lastTuning, setLastTuning ] = useState<any>(null);
+
+  const [ prompt, setPrompt ] = useState<number[] | null>(null); // array of grades or null if there is no tuning
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -129,6 +138,52 @@ export default function CollaboratorHomePage(): JSX.Element {
       callAllUpdates(user.id, true);
     }
   }, []);
+
+  useEffect(() => {
+    if (user) {
+      getLastCycle().then((cycle) => {
+        if (cycle) {
+          setLastCycleId(cycle.id);
+        }
+      })
+    }
+  }, [user])
+
+  useEffect(() => {
+    if (lastCycleId && user) {
+      getTuningByUserAndCycleId(user.id, lastCycleId)
+      .then((tuning) => {
+        setLastTuning(tuning);
+      })
+    }
+  }, [lastCycleId])
+
+  useEffect(() => {
+    if( lastTuning && aiMessage === null) { // setting the prompt grades
+
+      let auxPrompt: number[] = [];
+      auxPrompt.push(lastTuning.ownershipMentalityGrade);
+      auxPrompt.push(lastTuning.learningAgilityGrade);
+      auxPrompt.push(lastTuning.resilienceAdversityGrade);
+      auxPrompt.push(lastTuning.teamworkGrade);
+      auxPrompt.push(lastTuning.outOfTheBoxThinkingBehavioralGrade);
+      auxPrompt.push(lastTuning.deliveringQualityGrade);
+      auxPrompt.push(lastTuning.meetingDeadlinesGrade);
+      auxPrompt.push(lastTuning.doingMoreWithLessGrade);
+      auxPrompt.push(lastTuning.outOfTheBoxThinkingExecutionGrade);
+      console.log(auxPrompt);
+      
+      setPrompt(auxPrompt);
+    }
+  }, [lastTuning])
+
+  useEffect(() => {
+    if (prompt !== null && aiMessage === null && user) {
+      runAI(prompt, user.role).then((response) => {
+        setAiMessage(response);
+      })
+    }
+  }, [prompt])
 
   return (
     <main className="flex justify-center h-screen max-h-screen p-6 bg-general-background text-white">
@@ -168,14 +223,9 @@ export default function CollaboratorHomePage(): JSX.Element {
             </div>
           </div>
 
-          <div className="ml-auto bg-content-background pt-4 pl-4 pr-4 rounded-2xl w-[18.125rem]">
-            <h2 className="text-16 mb-4">Avaliações entregues</h2>
-            <div className="flex justify-center items-center">
-              <div className="w-32 h-32">
-                <ProgressBar />
-              </div>
-            </div>
-            <p className="text-12">Ciclo avaliativo 2023.2</p>
+          <div className="ml-auto bg-content-background pt-4 pl-4 pr-4 rounded-2xl w-[18.125rem] text-[12px]">
+            <h2 className="text-left text-16 mb-4">Plano de melhoria</h2>
+            <p>{ lastTuning ? ( aiMessage ? aiMessage : "Aguarde..." ) : "Não há equalizações encontradas" }</p>
           </div>
         </section>
 
@@ -192,7 +242,7 @@ export default function CollaboratorHomePage(): JSX.Element {
                 <img src={GroupMeeting} alt="img" className="h-full object-cover" />
               </div>
               <p className="font-normal text-16 leading-[24px]">Capacidade de aprender</p>
-              {stars(5)}
+              {stars(2)}
             </div>
             <div className="flex flex-col items-center bg-dark-zebra p-4 rounded-xl space-y-[8px] h-[220px]">
               <div className="w-full h-[120px] flex justify-center items-center overflow-hidden">
