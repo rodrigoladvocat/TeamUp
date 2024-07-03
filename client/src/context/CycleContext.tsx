@@ -5,7 +5,7 @@ import { api } from "../services/apiService";
 import { GetLatestCycleResponseDto } from "@/dto/GetLatestCycleResponseDto";
 import { GetOthersEvalByUserCycleIdsDto } from "@/dto/GetOthersEvalByUserCycleIdsDto";
 import { GetSelffEvalByUserCycleIdsDto } from "@/dto/GetSelfEvalByUserCycleIdsDto";
-import { stage } from "@/utils/stageType";
+import { stage } from "@/utils/types/stageType";
 import calculateDaysBetween from "@/utils/dateTime/calculateDaysBetween";
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -39,7 +39,7 @@ interface ParsedCycleInfo {
   startDate: string; // Format: DD/MM/YYYY
   endDate: string; // Format: DD/MM/YYYY
   endTime: string; // Format: HH:mm
-  tunningEndDate: string; // Format "DD/MM/YYYY, HH:mm:ss"
+  tunningEndDate: string; // Format: "DD/MM/YYYY, HH:mm:ss"
 }
 interface SelfEvalInfo extends GetSelffEvalByUserCycleIdsDto {
   selfEvalStage: stage;
@@ -49,6 +49,8 @@ interface OthersEvalInfo {
   evaluatedUserId: number[];
   othersEvalStage: stage[];
   othersLastUpdated: string[]; // Format: DD/MM/YYYY
+  grade: number[];
+  comment: string[];
 }
 interface CycleContextModel extends ParsedCycleInfo {
   _cycle: GetLatestCycleResponseDto | null;
@@ -106,7 +108,9 @@ const defaultAutoEvalInfo: SelfEvalInfo = {
 const defaultOthersEvalInfo: OthersEvalInfo = {
   evaluatedUserId: [], 
   othersEvalStage: [], 
-  othersLastUpdated: []
+  othersLastUpdated: [],
+  comment: [],
+  grade: [],
 };
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -232,12 +236,16 @@ export const CycleProvider: React.FC<Props> = ({ children }) => {
         evaluatedUserId: [],
         othersEvalStage: [],
         othersLastUpdated: [],
+        comment: [],
+        grade: [],
       };
 
       if (res.data.length > 0) {
         parsedData.evaluatedUserId = res.data.map((row) => row.evaluatedUserId);
         parsedData.othersEvalStage = res.data.map((row) => row.isFinalized ? "Entregue" : "Em andamento");
         parsedData.othersLastUpdated = res.data.map((row) => row.lastUpdated);
+        parsedData.comment = res.data.map((row) => row.comment);
+        parsedData.grade = res.data.map((row) => row.grade);
       }
 
       localStorage.setItem('@OthersEval.Data', JSON.stringify(res.data));

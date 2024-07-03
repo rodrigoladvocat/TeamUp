@@ -10,7 +10,7 @@ import { useAuth } from "@/hooks/AuthUser";
 import { useCycle } from "@/hooks/useCycle";
 import { useNavigate } from "react-router-dom";
 import TagStage from "@/components/TagStage";
-import { stage } from "@/utils/stageType";
+import { stage } from "@/utils/types/stageType";
 import { useMenu } from "@/context/MenuContext";
 
 
