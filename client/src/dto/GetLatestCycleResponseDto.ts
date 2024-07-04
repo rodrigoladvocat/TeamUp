@@ -4,4 +4,5 @@ export interface GetLatestCycleResponseDto {
   initialDate: string
   finalDate: string
   lastUpdated: string
+  emailSent: boolean
 }

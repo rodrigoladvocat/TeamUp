@@ -43,6 +43,8 @@ model Cycle {
   initialDate      DateTime           @default(now())
   finalDate        DateTime
   lastUpdated      DateTime
+  emailSent        Boolean            @default(false)
+
   othersEvaluation OthersEvaluation[]
   selfEvaluation   SelfEvaluation[]
   tuning           Tuning[]

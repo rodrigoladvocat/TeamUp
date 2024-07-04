@@ -4,6 +4,7 @@ import { UserDto } from "../dto/UserDto";
 import { ErrorResponseDto } from "../dto/ErrorResponseDto";
 import { api } from "../services/apiService";
 import { useLocalStorage } from "@uidotdev/usehooks";
+import { useCycle } from "@/hooks/useCycle";
 
 
 interface AuthContextModel {
@@ -29,6 +30,8 @@ export const AuthProvider: React.FC<Props> = ({ children }) => {
   const [ aiMessage, setAiMessage ] = useLocalStorage<string | null>("aiMessage", null); // AI improvement suggestions => collaborator's home page
 
   const [isAuthenticated, setIsAuthenticated] = useLocalStorage<boolean>("isauthenticated", false);
+
+  const {_cycle} = useCycle();
 
   const Login = useCallback(async (email: string, password: string) => {
 
@@ -60,6 +63,8 @@ export const AuthProvider: React.FC<Props> = ({ children }) => {
       localStorage.removeItem("@AutoEval.Data");
       localStorage.removeItem("@OthersEval.Data");
       localStorage.removeItem("aiMessage");
+      
+      if (_cycle )localStorage.removeItem(`sentEmail_${_cycle.id}`);
       
       // reset the state
       setUser(null); 
