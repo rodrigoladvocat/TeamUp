@@ -43,9 +43,6 @@ function App() {
 
 
     React.useEffect(() => {
-        if (!isAuthenticated) {
-            navigate('/login');
-          }
       
         if (user) { // user is always (should be) defined when isAuthenticated (true)
             callAllUpdates(user.id, false);
