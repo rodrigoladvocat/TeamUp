@@ -1,9 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Menu } from "../../../components/Menu";
 import Tabs from "../../../components/Tabs";
 import Header from "../../../components/Header";
 import Accordion from "../../../components/Accordion";
-
 
 import ReadOnlyEvaluation from "../../../components/ReadOnlyEvaluation";
 import GradePicker from "../../../components/GradePicker";
@@ -11,6 +10,7 @@ import TagGrade from "../../../components/TagGrade";
 import B from "../../../components/GradeForm";
 
 import { getAutoEval } from "@/utils/getAutoEval";
+import { getTuningByUserAndCycleId } from "@/utils/getTuningByUserAndCycleId";
 
 import { useMenu } from "../../../context/MenuContext";
 
@@ -39,6 +39,8 @@ const GradesPage: React.FC = () => {
 
   const tabLabels = ["Análise", "Histórico"];
   const [selectedTabIndex, setSelectedTabIndex] = useState(0);
+  const [autoEvalData, setAutoEvalData] = useState<any>(null);
+  const [tuningData, setTuningData] = useState<any>(null);
 
   function handleChangeTab(newIndex: number) {
     console.log("Selecionada a aba:", newIndex);
@@ -48,6 +50,21 @@ const GradesPage: React.FC = () => {
     console.log("Comentário recebido:", comment);
     console.log("Nota recebida:", grade);
   };
+
+  useEffect(() => {
+    // Simulando os parâmetros userId e cycleId, substitua conforme necessário
+    const userId = 1;
+    const cycleId = 1;
+    getAutoEval(userId, cycleId).then((data) => setAutoEvalData(data));
+}, []);
+
+useEffect(() => {
+  // Simulando os parâmetros userId e cycleId, substitua conforme necessário
+  const userId = 1;
+  const cycleId = 1;
+  getTuningByUserAndCycleId(userId, cycleId).then((data) => setTuningData(data));
+}, []);
+
 
   return (
     <div className="flex w-full p-6 min-h-screen bg-general-background text-white">
@@ -109,84 +126,88 @@ const GradesPage: React.FC = () => {
                         <SelectItem value="system">System</SelectItem>
                       </SelectContent>
                   </Select>
+                  {autoEvalData && tuningData && (
+                    <>
+                  
                   <div className="flex items-center pl-[10px] pt-[38px] pb-[1.375rem]">
                     <p className="pb-5 text-28 text-purple-text font-bold text-left mb-0 flex-shrink-0">
                       Autoavaliação
                     </p>
                     <div className="border-2 border-[#A28BFE] gap-[57px] rounded-2xl flex items-center space-x-2 p-2 ml-auto">
-                        <p className="flex-1 font-16">Média final: 4</p>
-                        <TagGrade grade={10}/>
+                        <p className="flex-1 font-16">Média final: {tuningData.grade ? tuningData.grade.toFixed(2) : 'N/A'}g</p>
+                        <TagGrade grade={tuningData.grade}/>
                     </div>
                   </div>
 
+                      <Table>
+                        <TableHeader className="bg-[#444444]">
+                          <TableRow>
+                            <TableHead className="text-20 font-bold">Critérios comportamentais</TableHead>
+                            <TableHead className="text-18 text-center font-bold">Nota da autoavaliação</TableHead>
+                            <TableHead className="text-18 text-center font-bold">Nota final</TableHead>
+                          </TableRow>
+                        </TableHeader>
+                        <TableBody>
+                          <TableRow>
+                            <TableCell className="text-18 text-left">1. Sentimento de dono</TableCell>
+                            <TableCell className="text-16 text-center">{autoEvalData.ownershipMentalityGrade}</TableCell>
+                            <TableCell className="text-16 text-center">{tuningData.ownershipMentalityGrade}</TableCell>
+                          </TableRow>
+                          <TableRow>
+                            <TableCell className="text-18 text-left">2. Resiliência nas adversidades</TableCell>
+                            <TableCell className="text-16 text-center">{autoEvalData.resilienceAdversityGrade}</TableCell>
+                            <TableCell className="text-16 text-center">{tuningData.resilienceAdversityGrade}</TableCell>
+                          </TableRow>
+                          <TableRow>
+                            <TableCell className="text-18 text-left">3. Organização no trabalho</TableCell>
+                            <TableCell className="text-16 text-center">{autoEvalData.outOfTheBoxThinkingBehavioralGrade}</TableCell>
+                            <TableCell className="text-16 text-center">{tuningData.outOfTheBoxThinkingBehavioralGrade}</TableCell>
+                          </TableRow>
+                          <TableRow>
+                            <TableCell className="text-18 text-left">4. Capacidade de aprender</TableCell>
+                            <TableCell className="text-16 text-center">{autoEvalData.learningAgilityGrade}</TableCell>
+                            <TableCell className="text-16 text-center">{tuningData.learningAgilityGrade}</TableCell>
+                          </TableRow>
+                          <TableRow>
+                            <TableCell className="text-18 text-left">5. Trabalho em equipe</TableCell>
+                            <TableCell className="text-16 text-center">{autoEvalData.teamworkGrade}</TableCell>
+                            <TableCell className="text-16 text-center">{tuningData.teamworkGrade}</TableCell>
+                          </TableRow>
+                        </TableBody>
+                        <div className="pt-[1.75rem] "></div>
+                        <TableHeader className="bg-[#444444]">
+                          <TableRow>
+                            <TableHead className="text-20 font-bold">Critérios de execução</TableHead>
+                            <TableHead className="text-18 text-center font-semibold font-bold">Nota da autoavaliação</TableHead>
+                            <TableHead className="text-18 text-center font-semibold font-bold">Nota final</TableHead>
+                          </TableRow>
+                        </TableHeader>
+                        <TableBody>
+                          <TableRow>
+                            <TableCell className="text-18 text-left">1. Entregar com qualidade</TableCell>
+                            <TableCell className="text-16 text-center">{autoEvalData.deliveringQualityGrade}</TableCell>
+                            <TableCell className="text-16 text-center">{tuningData.deliveringQualityGrade}</TableCell>
+                          </TableRow>
+                          <TableRow>
+                            <TableCell className="text-18 text-left">2. Atender aos prazos</TableCell>
+                            <TableCell className="text-16 text-center">{autoEvalData.meetingDeadlinesGrade}</TableCell>
+                            <TableCell className="text-16 text-center">{tuningData.meetingDeadlinesGrade}</TableCell>
+                          </TableRow>
+                          <TableRow>
+                            <TableCell className="text-18 text-left">3. Fazer mais com menos</TableCell>
+                            <TableCell className="text-16 text-center">{autoEvalData.doingMoreWithLessGrade}</TableCell>
+                            <TableCell className="text-16 text-center">{tuningData.doingMoreWithLessGrade}</TableCell>
+                          </TableRow>
+                          <TableRow>
+                            <TableCell className="text-18 text-left">4. Pensar fora da caixa</TableCell>
+                            <TableCell className="text-16 text-center">{autoEvalData.outOfTheBoxThinkingExecutionGrade}</TableCell>
+                            <TableCell className="text-16 text-center">{tuningData.outOfTheBoxThinkingExecutionGrade}</TableCell>
+                          </TableRow>
+                        </TableBody>
+                      </Table>
+                    </>
+                  )}
                   
-                  <Table>
-                      <TableHeader className="bg-[#444444]">
-                        <TableRow>
-                          <TableHead className="text-20 font-bold">Critérios comportamentais</TableHead>
-                          <TableHead className="text-18 text-center font-bold">Nota da autoavaliação</TableHead>
-                          <TableHead className="text-18 text-center font-bold">Nota final</TableHead>
-                        </TableRow>
-                      </TableHeader>
-                      <TableBody>
-                        <TableRow>
-                          <TableCell className="text-18 text-left">1. Sentimento de dono</TableCell>
-                          <TableCell className="text-16 text-center">0 </TableCell>
-                          <TableCell className="text-16 text-center">0 </TableCell>
-                        </TableRow>
-                        <TableRow>
-                          <TableCell className="text-18 text-left">2. Resiliência nas adversidades</TableCell>
-                          <TableCell className="text-16 text-center">0 </TableCell>
-                          <TableCell className="text-16 text-center">0 </TableCell>
-                        </TableRow>
-                        <TableRow>
-                          <TableCell className="text-18 text-left">3. Organização no trabalho</TableCell>
-                          <TableCell className="text-16 text-center">0 </TableCell>
-                          <TableCell className="text-16 text-center">0 </TableCell>
-                        </TableRow>
-                        <TableRow>
-                          <TableCell className="text-18 text-left">4. Capacidade de aprender</TableCell>
-                          <TableCell className="text-16 text-center">0 </TableCell>
-                          <TableCell className="text-16 text-center">0 </TableCell>
-                        </TableRow>
-                        <TableRow>
-                          <TableCell className="text-18 text-left">5. Trabalho em equipe</TableCell>
-                          <TableCell className="text-16 text-center">0 </TableCell>
-                          <TableCell className="text-16 text-center">0 </TableCell>
-                        </TableRow>
-                      </TableBody>
-                      <div className="pt-[1.75rem] "></div>
-                      <TableHeader className="bg-[#444444]">
-                        <TableRow>
-                          <TableHead className="text-20 font-bold">Critérios de execução</TableHead>
-                          <TableHead className="text-18 text-center font-semibold font-bold">Nota da autoavaliação</TableHead>
-                          <TableHead className="text-18 text-center font-semibold font-bold">Nota final</TableHead>
-                        </TableRow>
-                      </TableHeader>
-                      <TableBody>
-                        <TableRow>
-                          <TableCell className="text-18 text-left">1. Entregar com qualidade</TableCell>
-                          <TableCell className="text-16 text-center">0 </TableCell>
-                          <TableCell className="text-16 text-center">0 </TableCell>
-                        </TableRow>
-                        <TableRow>
-                          <TableCell className="text-18 text-left">2. Atender aos prazos </TableCell>
-                          <TableCell className="text-16 text-center">0 </TableCell>
-                          <TableCell className="text-16 text-center">0 </TableCell>
-                        </TableRow>
-                        <TableRow>
-                          <TableCell className="text-18 text-left">3. Fazer mais com menos</TableCell>
-                          <TableCell className="text-16 text-center">0 </TableCell>
-                          <TableCell className="text-16 text-center">0 </TableCell>
-                        </TableRow>
-                        <TableRow>
-                          <TableCell className="text-18 text-left">4. Pensar fora da caixa</TableCell>
-                          <TableCell className="text-16 text-center">0 </TableCell>
-                          <TableCell className="text-16 text-center">0 </TableCell>
-                        </TableRow>
-                      </TableBody>
-                      
-                  </Table>
                   <p className="pb-5 text-28 text-purple-text font-bold text-left pl-[10px] pt-[1.813rem] mb-0">
                     Avaliação 360°
                   </p>
