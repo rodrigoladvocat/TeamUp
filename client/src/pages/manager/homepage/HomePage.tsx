@@ -17,6 +17,9 @@ import ProfilePictureSequence from "../../../components/ProfilePictureSequence";
 import { average } from "@/utils/average";
 import { useMenu } from "@/context/MenuContext";
 import { useAuth } from "@/hooks/AuthUser";
+import { useNavigate } from "react-router-dom";
+import { useCycle } from "@/hooks/useCycle";
+import calculateDaysBetween from "@/utils/dateTime/calculateDaysBetween";
 
 class Title_Grade {
   constructor(public title: string, public grade: number) {
@@ -29,9 +32,9 @@ export default function ManagerHomePage(): JSX.Element {
 
     // const { setMenu } = useMenu();
 
-    const {user} = useAuth();
+    const {user, isAuthenticated} = useAuth();
     const [ cycleId, setCycleId ] = useState<number | null>(null);
-    const [cycle, setCycle] = useState<any>(null);
+    const [ cycle, setCycle ] = useState<any>(null);
     const [ tuningData, setTuningData ] = useState<string[]>([]);
     const [ picturesArrayExcepcional, setPicturesArrayExcepcional ] = useState<string[]>([]);
     const [ picturesArrayMuitoBom, setPicturesArrayMuitoBom ] = useState<string[]>([]);
@@ -39,6 +42,21 @@ export default function ManagerHomePage(): JSX.Element {
     const [ picturesArrayPrecisoMelhorar, setPicturesArrayPrecisoMelhorar ] = useState<string[]>([]); 
     const [ bestGrades, setBestGrades ] = useState<any[]>([]); // 4 items
     const [ worstGrades, setWorstGrades ] = useState<any[]>([]); // 4 items
+
+    const {_cycle, endDate, daysToFinish, callAllUpdates} = useCycle();
+
+    const navigate = useNavigate();
+
+
+    useEffect(() => {
+      if (!isAuthenticated) {
+        navigate('/login');
+      }
+  
+      if (user) { // user is always (should be) defined when isAuthenticated (true)
+        callAllUpdates(user.id, true);
+      }
+    }, []);
 
     useEffect(() => {
       // setMenu(0);
@@ -143,7 +161,7 @@ export default function ManagerHomePage(): JSX.Element {
       outOfTheBoxThinkingExecutionAverage = average(outOfTheBoxThinkingExecutionGrades);
 
       let averagesList: Title_Grade[] = [
-        new Title_Grade("OwnerShip Mentality", ownerShipMentalityAverage),
+        new Title_Grade("Sentimento de dono", ownerShipMentalityAverage),
         new Title_Grade("Learning Agility", learningAgilityAverage),
         new Title_Grade("Resilience Adversity", resilienceAdversityAverage),
         new Title_Grade("Teamwork", teamworkAverage),
@@ -171,7 +189,7 @@ export default function ManagerHomePage(): JSX.Element {
 
         <main className="flex-1 p-6 bg-general-background h-[920px] w-[64.25rem]">
 
-          <Header userName={user ? user.name : "null"} subtitle="teste subtitulo" profileImage="/profile.jpg" title="Página inicial"/>
+          <Header userName={user ? user.name : "null"} profileImage="/profile.jpg" title="Página inicial"/>
           
           <div className="flex flex-row gap-x-[1rem] max-w-[64.25rem] mb-6">
             <div className="flex-1 col-span-2 bg-content-background p-4 pl-5 rounded-2xl w-[45rem]">
@@ -182,15 +200,15 @@ export default function ManagerHomePage(): JSX.Element {
                 <img src={flag} alt="flag" className="pr-3" />
                 <p className="text-left">
                   O ciclo atual{" "}
-                  <span className="text-purple-text">fecha em 10 dias</span>{" "}
-                  (Data de fechamento: 10/06/24)
+                  <span className="text-purple-text">fecha em {daysToFinish} dias</span>{" "}
+                  (Data de fechamento: {endDate})
                 </p>
               </div>
 
               <div className="flex items-start pt-8">
                 <img src={flag} alt="flag" className="pr-3" />
                 <p className="text-left">
-                  Sua nota final do ciclo avaliativo de 2023.2 já está
+                  Sua nota final do ciclo avaliativo de {cycle ? cycle.cycleName : "not found"} já está
                   disponível na página Notas.
                 </p>
               </div>
@@ -206,13 +224,13 @@ export default function ManagerHomePage(): JSX.Element {
             </div>
           </div>
 
-          <div className="flex align-center mb-6 h-[290px] bg-content-background pl-5 pr-4 rounded-2xl">
+          <div className="flex align-center mb-6 h-[270px] bg-content-background pl-5 pr-4 rounded-2xl">
             <div className="flex-1">
                 <h2 className="text-20 text-purple-text font-bold text-left mt-3">
                     Análise
                 </h2>
 
-                <div className="text-center mt-8 w-[400px]">
+                <div className="text-center mt-6 w-[400px]">
                     <ul>
                         <li className="text-left text-green font-bold mb-10">
                             <span>Critérios com as maiores notas</span>
@@ -231,11 +249,11 @@ export default function ManagerHomePage(): JSX.Element {
             </div>
 
             <div>
-              <img src={vector} alt="vector" className="my-5"/>
+              <img src={vector} alt="vector" className="my-3"/>
             </div>
             
             <div className="flex-1 flex justify-center items-center">
-                <div className="ml-8 mt-5 w-[400px]">
+                <div className="ml-8 mt-2 w-[400px]">
                     <ul>
                     <li className="text-left text-red font-bold mb-10">
                             <span>Critérios com as menores notas</span>

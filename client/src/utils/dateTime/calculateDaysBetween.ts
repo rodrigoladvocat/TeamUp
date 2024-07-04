@@ -8,11 +8,16 @@ export default function calculateDaysBetween(startDate: string, endDate: string)
   const start = parseDate(startDate);
   const end = parseDate(endDate);
 
+  console.log('start:', start);
+  console.log('end:', end);
+
   // Calculate the difference in time
   const timeDifference = end.getTime() - start.getTime();
 
   // Convert time difference from milliseconds to days
   const dayDifference = timeDifference / (1000 * 3600 * 24);
+
+  console.log('dayDifference:', dayDifference);
 
   return dayDifference;
 }

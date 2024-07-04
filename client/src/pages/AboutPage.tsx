@@ -16,7 +16,7 @@ export default function AboutPage(): JSX.Element {
   }, []);
 
   return (
-      <div className="flex flex-row w-screen h-screen justify-center max-h-screen p-6 bg-general-background text-white">
+      <div className="flex w-screen h-screen justify-center max-h-screen p-6 bg-general-background text-white">
         <div className="flex">
           <aside>
             <Menu></Menu>
