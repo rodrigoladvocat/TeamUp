@@ -44,6 +44,8 @@ const GradesPage: React.FC = () => {
   const [selectedTabIndex, setSelectedTabIndex] = useState(0);
   const [autoEvalData, setAutoEvalData] = useState<any>(null);
   const [tuningData, setTuningData] = useState<any>(null);
+  const [selectedCycleId, setSelectedCycleId] = useState<number | null>(null);
+
   const {user} = useAuth();
 
   const [cycles, setCycles] = useState<Cycle[]>([]);
@@ -63,18 +65,48 @@ const GradesPage: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    const userId = 1;
-    const cycleId = 1;
-    getAutoEval(userId, cycleId).then((data) => setAutoEvalData(data));
-}, []);
-
-
-useEffect(() => {
-  const userId = 1;
-  const cycleId = 1;
-  getTuningByUserAndCycleId(userId, cycleId).then((data) => setTuningData(data));
-}, []);
-
+    if (user && selectedCycleId) {
+      getAutoEval(user.id, selectedCycleId).then((autoEvalData) => {
+        if (autoEvalData === null) {
+          setAutoEvalData({
+            ownershipMentalityGrade: 0,
+            learningAgilityGrade: 0,
+            resilienceAdversityGrade: 0,
+            teamworkGrade: 0,
+            outOfTheBoxThinkingBehavioralGrade: 0,
+            deliveringQualityGrade: 0,
+            meetingDeadlinesGrade: 0,
+            doingMoreWithLessGrade: 0,
+            outOfTheBoxThinkingExecutionGrade: 0
+          });
+        } else {
+          setAutoEvalData(autoEvalData);
+        }
+      });
+    }
+  }, [user, selectedCycleId]);
+  
+  useEffect(() => {
+    if (user && selectedCycleId) {
+      getTuningByUserAndCycleId(user.id, selectedCycleId).then((tuningData) => {
+        if (tuningData === null) {
+          setTuningData({
+            ownershipMentalityGrade: 0,
+            learningAgilityGrade: 0,
+            resilienceAdversityGrade: 0,
+            teamworkGrade: 0,
+            outOfTheBoxThinkingBehavioralGrade: 0,
+            deliveringQualityGrade: 0,
+            meetingDeadlinesGrade: 0,
+            doingMoreWithLessGrade: 0,
+            outOfTheBoxThinkingExecutionGrade: 0
+          });
+        } else {
+          setTuningData(tuningData);
+        }
+      });
+    }
+  }, [user, selectedCycleId]);
 
   return (
     <div className="flex w-full p-6 min-h-screen bg-general-background text-white">
@@ -84,7 +116,7 @@ useEffect(() => {
         </aside>
         <main className="flex-1 p-6 bg-general-background h-[920px]">
 
-          <Header userName={ user ? user.name : "null" } profileImage={ user ? user.imgUrl : "null" } title="Página inicial"/>
+          <Header userName={ user ? user.name : "null" } profileImage={ user ? user.imgUrl : "null" } title="Notas"/>
 
           <div className="mb-6 w-[64.25rem] h-full">
             <Tabs type="default" tabs={tabLabels} onChange={handleChangeTab} />
@@ -123,7 +155,7 @@ useEffect(() => {
                   <p className="text-20 text-white text-left pt-[35px] pb-[32px] pl-[10px] mb-0">
                     Selecione o ciclo que você deseja consultar
                   </p>
-                  <Select>
+                  <Select onValueChange={value => setSelectedCycleId(Number(value))}>
                       <SelectTrigger className="border-2 border-[#A28BFE] rounded-2xl bg-content-background h-[52px] w-[288px]">
                         <SelectValue placeholder="Selecione o semestre" />
                       </SelectTrigger>
