@@ -11,6 +11,9 @@ import B from "../../../components/GradeForm";
 
 import { getAutoEval } from "@/utils/getAutoEval";
 import { getTuningByUserAndCycleId } from "@/utils/getTuningByUserAndCycleId";
+import { Cycle, getCycles } from "@/utils/getCycles";
+
+import { useAuth } from "@/hooks/AuthUser";
 
 import { useMenu } from "../../../context/MenuContext";
 
@@ -41,6 +44,10 @@ const GradesPage: React.FC = () => {
   const [selectedTabIndex, setSelectedTabIndex] = useState(0);
   const [autoEvalData, setAutoEvalData] = useState<any>(null);
   const [tuningData, setTuningData] = useState<any>(null);
+  const {user} = useAuth();
+
+  const [cycles, setCycles] = useState<Cycle[]>([]);
+
 
   function handleChangeTab(newIndex: number) {
     console.log("Selecionada a aba:", newIndex);
@@ -52,14 +59,17 @@ const GradesPage: React.FC = () => {
   };
 
   useEffect(() => {
-    // Simulando os parâmetros userId e cycleId, substitua conforme necessário
+    getCycles().then(setCycles);
+  }, []);
+
+  useEffect(() => {
     const userId = 1;
     const cycleId = 1;
     getAutoEval(userId, cycleId).then((data) => setAutoEvalData(data));
 }, []);
 
+
 useEffect(() => {
-  // Simulando os parâmetros userId e cycleId, substitua conforme necessário
   const userId = 1;
   const cycleId = 1;
   getTuningByUserAndCycleId(userId, cycleId).then((data) => setTuningData(data));
@@ -73,11 +83,8 @@ useEffect(() => {
           <Menu />
         </aside>
         <main className="flex-1 p-6 bg-general-background h-[920px]">
-          <Header
-            userName="Pedro Almeida"
-            profileImage="/profile.jpg"
-            title="Notas"
-          />
+
+          <Header userName={ user ? user.name : "null" } profileImage={ user ? user.imgUrl : "null" } title="Página inicial"/>
 
           <div className="mb-6 w-[64.25rem] h-full">
             <Tabs type="default" tabs={tabLabels} onChange={handleChangeTab} />
@@ -120,11 +127,15 @@ useEffect(() => {
                       <SelectTrigger className="border-2 border-[#A28BFE] rounded-2xl bg-content-background h-[52px] w-[288px]">
                         <SelectValue placeholder="Selecione o semestre" />
                       </SelectTrigger>
+
+                      
                       <SelectContent className="bg-content-background">
-                        <SelectItem value="light">Light</SelectItem>
-                        <SelectItem value="dark">Dark</SelectItem>
-                        <SelectItem value="system">System</SelectItem>
+                      {cycles.map((cycle) => (
+                        <SelectItem key={cycle.id} value={cycle.id.toString()}>{cycle.cycleName}</SelectItem>
+                      ))}
                       </SelectContent>
+                      
+                      
                   </Select>
                   {autoEvalData && tuningData && (
                     <>
@@ -134,7 +145,7 @@ useEffect(() => {
                       Autoavaliação
                     </p>
                     <div className="border-2 border-[#A28BFE] gap-[57px] rounded-2xl flex items-center space-x-2 p-2 ml-auto">
-                        <p className="flex-1 font-16">Média final: {tuningData.grade ? tuningData.grade.toFixed(2) : 'N/A'}g</p>
+                        <p className="flex-1 font-16">Média final: {tuningData.grade ? tuningData.grade.toFixed(2) : 'N/A'}</p>
                         <TagGrade grade={tuningData.grade}/>
                     </div>
                   </div>
