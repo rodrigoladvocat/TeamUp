@@ -18,7 +18,7 @@ interface CollaboratorProps {
   state: string;
   cpf: string;
   bio: string;
-  admissionDate: Date;
+  admissionDate: string;
 }
 
 const Profile = () => {
@@ -114,7 +114,7 @@ const Profile = () => {
                   <span className="text-primary text-16">
                     Data de admissão:{" "}
                   </span>
-                  <span>{user.admissionDate.toLocaleDateString()}</span>
+                  <span>{user.admissionDate}</span>
                 </div>
                 <div className="pt-24 text-primary text-16">
                   Status do colaborador:
