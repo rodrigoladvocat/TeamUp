@@ -273,14 +273,17 @@ const GradesPage: React.FC = () => {
                       </Table>
                     </>
                   )}
+                  { othersEvalData.length > 0 && // doesnt bug if there are no evaluations (this happens )
+                  <>
                   <p className="pb-5 text-28 text-purple-text font-bold text-left pl-[10px] pt-[1.813rem] mb-0">
                     Avaliação 360°
                   </p>
                   <p className="text-16 text-text text-left pl-[10px] mb-4">
                     Veja abaixo as avaliações que você fez dos demais colaboradores neste ciclo.
                   </p>
-                  <div className="flex flex-col items-center justify-center pt-10 space-y-4">
+                  <div className="flex flex-col items-center justify-center pt-3 space-y-4">
                     {othersEvalData.map((evalData: any) => (
+                      evalData.cycleId == selectedCycleId && // filter by selected cycle
                       <RoundEvaluationForm
                         key={evalData.evaluatedUserId}
                         profileUrl={evalData.imgUrl}
@@ -291,6 +294,8 @@ const GradesPage: React.FC = () => {
                       />
                     ))}
                   </div>
+                  </>
+                  }       
                 </>
               )}
             </div>
