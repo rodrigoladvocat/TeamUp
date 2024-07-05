@@ -194,7 +194,7 @@ export default function CollaboratorHomePage(): JSX.Element {
   }, [prompt]);
 
   return (
-    <main className="flex justify-center h-screen max-h-screen p-6 bg-general-background text-white">
+    <main className="flex justify-center w-[1440px] h-screen max-h-screen p-6 bg-general-background text-white">
       <div className="flex">
         <aside>
           <Menu></Menu>

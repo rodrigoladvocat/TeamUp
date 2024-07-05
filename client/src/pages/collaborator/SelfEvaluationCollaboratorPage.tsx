@@ -4,7 +4,7 @@ import { Menu } from "@/components/Menu";
 import { useAuth } from "@/hooks/AuthUser";
 import arrow_left_circle from "../../assets/arrow-left-circle.svg";
 import defaultProfileImage from '../../assets/default_profile_image.png';
-import bell_icon from "../../assets/bell.svg";
+import checkmark from "@/assets/checkmark.svg";
 import Tabs from "@/components/Tabs";
 import TagStage from "@/components/TagStage";
 import {
@@ -84,8 +84,8 @@ function FormPart({
         />
       </div>
 
-      <textarea rows={5}
-        className="h-40 w-full bg-white rounded-2xl text-wrap text-black p-3 font-normal resize-none"
+      <textarea rows={4}
+        className="h-[112px] w-full bg-white rounded-2xl text-wrap text-black p-3 font-normal resize-none"
         placeholder="Escreva aqui como você se avalia em relação a esse critério."
         onChange={(event) => {onCommentChange(event.target.value)}}
         value={commentInitialValue}
@@ -181,12 +181,14 @@ function execution_tab(
 export default function SelfEvaluationCollaboratorPage(): JSX.Element {
   const [ selectedTab, setSelectedTab ] = useState(0);
   const [ isLoading, setIsLoading ] = useState(false);
+  const [ isSubmitted, setIsSubmitted ] = useState(false);
   const [ behaviourGrades, setBehaviourGrades ] = useState<number[]>(Array(5).fill(-1));
   const [ behaviourComments, setBehaviourComments ] = useState<string[]>(Array(5).fill(""));
   const [ executionGrades, setExecutionGrades ] = useState<number[]>(Array(4).fill(-1));
   const [ executionComments, setExecutionComments ] = useState<string[]>(Array(4).fill(""));
   const { isAuthenticated, user } = useAuth();
   const { _cycle, endDate, endTime, startDate, callAllUpdates, selfEvalInfo } = useCycle();
+
 
   const navigate = useNavigate();
 
@@ -316,30 +318,35 @@ export default function SelfEvaluationCollaboratorPage(): JSX.Element {
     };
 
     setIsLoading(true);
-    await api.post("/self-evaluation", body).then((res: AxiosResponse) => {
-      console.log("Deu tudo certo.");
-      console.log("==============");
-      console.log(behaviourGrades);
-      console.log(executionGrades);
-      console.log(body);
-      console.log("==============");
-      console.log(res);
-      console.log("--------------");
-      console.log(res.data);
-      console.log("==============");
-      setIsLoading(false);
-      navigate("/evaluations");
-    }).catch((e: AxiosError<ErrorResponse>) => {
-      console.log(behaviourGrades);
-      console.log(executionGrades);
-      console.log(body);
-      console.log(e);
-    });
+    setIsSubmitted(true);
+    setTimeout(() => {
+      api.post("/self-evaluation", body).then((res: AxiosResponse) => {
+        console.log("Deu tudo certo.");
+        console.log("==============");
+        console.log(behaviourGrades);
+        console.log(executionGrades);
+        console.log(body);
+        console.log("==============");
+        console.log(res);
+        console.log("--------------");
+        console.log(res.data);
+        console.log("==============");
+        setIsLoading(false);
+        navigate("/evaluations");
+      }).catch((e: AxiosError<ErrorResponse>) => {
+        setIsLoading(false);
+        setIsSubmitted(false);
+        console.log(behaviourGrades);
+        console.log(executionGrades);
+        console.log(body);
+        console.log(e);
+      });
+    }, 1500);
     
   }
   
   return(
-    <main className="flex flex-row w-screen h-screen max-h-screen p-6 bg-gray-900">
+    <main className="flex flex-row w-[1440px] justify-center h-screen max-h-screen p-6">
 
       <aside>
         <Menu></Menu>
@@ -366,23 +373,15 @@ export default function SelfEvaluationCollaboratorPage(): JSX.Element {
               </div>
             </span>
           </div>
-
-          <div className="flex flex-row items-center">
+          <span className="flex flex-row items-center ml-[32px]">
             <img
-              src={bell_icon}
-              className={"w-[32px] h-[24px]"}
-              alt="Bell icon"
+              src={user?.imgUrl || ""}
+              onError={(e) => { e.currentTarget.src = defaultProfileImage; }}
+              className={"size-[54px] rounded-full"}
+              alt="Profile Image"
             />
-            <span className="flex flex-row items-center ml-[32px]">
-              <img
-                src={user?.imgUrl || ""}
-                onError={(e) => { e.currentTarget.src = defaultProfileImage; }}
-                className={"size-[54px] rounded-full"}
-                alt="Profile Image"
-              />
-              <p className="ml-2 font-normal text-[20px] leading-[30px]">{user?.name || "Erro carregando nome"}</p>
-            </span>
-          </div>
+            <p className="ml-2 font-normal text-[20px] leading-[30px]">{user?.name || "Erro carregando nome"}</p>
+          </span>
         </header>
 
         <section className="flex flex-row justify-between mt-11">
@@ -411,7 +410,7 @@ export default function SelfEvaluationCollaboratorPage(): JSX.Element {
               <Button variant="ghost" size="default"
                 className="bg-transparent w-[168px] h-[48px] border-solid border-1 border-white" 
                 onClick={() => {handleSubmitForm("save")}}
-                disabled={selfEvalInfo.isFinalized ? true : false }
+                disabled={selfEvalInfo.isFinalized}
                 >
                 Salvar e continuar
               </Button>
@@ -440,14 +439,21 @@ export default function SelfEvaluationCollaboratorPage(): JSX.Element {
                     :
                     <Button variant="default" size="default"
                     className="bg-primary w-[168px] h-[48px]" 
-                    disabled={selfEvalInfo.isFinalized ? true : false}
+                    disabled={selfEvalInfo.isFinalized}
                     >
                       Enviar
                     </Button>
                   }
                 </DialogTrigger>
-                <DialogContent className="bg-[#D9D9D9] w-[812px] flex flex-col" hasClose={false}>
-                  
+                <DialogContent className={`bg-purple-200 w-[812px] flex flex-col border-solid border-2 border-purple-500 ${isSubmitted ? 'items-center justify-center': ''}`} hasClose={false}>
+                { isSubmitted 
+                ? 
+                  <>
+                    <img src={checkmark} className=""/>
+                    <p className="font-semibold text-[32px] leading-[48px] text-black">Avaliação Enviada!</p>
+                  </>
+                :
+                  <>
                   <DialogHeader className="flex flex-col items-center">
                     <DialogTitle className="font-bold text-[32px] leading-[48px] text-black">
                       Tem certeza que deseja enviar a avaliação?
@@ -459,17 +465,21 @@ export default function SelfEvaluationCollaboratorPage(): JSX.Element {
                     
                   <DialogFooter className="">
                     <div className="flex flex-row justify-between items-center w-full mt-8">
-                      <DialogClose className="py-[8.5px] px-[68.5px] text-black bg-primary border-none">
+                      <DialogClose className="w-[168px] h-[48px] py-[8.5px] px-[68.5px] text-black bg-purple-200 border-solid border-1 border-content-background">
                         Não
                       </DialogClose>
-                      <Button variant="default" 
+
+                      <Button
+                        variant="default"
                         onClick={() => {handleSubmitForm("finish")}}
-                        className="py-[12px] px-[68.5px] text-black bg-primary border-none"
-                        >
+                        className="w-[168px] h-[48px] py-[12px] px-[68.5px] text-black bg-primary border-none"
+                      >
                         Sim
                       </Button>
                     </div>
                   </DialogFooter>
+                  </>
+                }
                 </DialogContent>
               </Dialog>
               

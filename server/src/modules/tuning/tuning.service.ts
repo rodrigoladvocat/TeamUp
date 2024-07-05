@@ -84,21 +84,29 @@ export class TuningService {
         });
 
         const inProgressUsers = new Set([
-            ...selfEvaluations.filter(se => !se.isFinalized),
-            ...othersEvaluations.filter(se => !se.isFinalized)
+            ...selfEvaluations
+                .filter(se => !se.isFinalized)
+                .map(se => se.userId),
+            ...othersEvaluations
+                .filter(se => !se.isFinalized)
+                .map(se => se.evaluatorUserId)
         ]);
         const finilizedUsers = new Set([
-            ...selfEvaluations.filter(se => se.isFinalized),
-            ...othersEvaluations.filter(se => se.isFinalized)
+            ...selfEvaluations
+                .filter(se => se.isFinalized)
+                .map(se => se.userId),
+            ...othersEvaluations
+                .filter(se => se.isFinalized)
+                .map(se => se.evaluatorUserId)
         ]);
 
         return collaborators.map(c => {
             let stage: "Não iniciado" | "Em andamento" | "Concluída" = "Não iniciado";
 
-            if (inProgressUsers.has({ userId: c.id, isFinalized: false })) {
+            if (inProgressUsers.has(c.id)) {
                 stage = "Em andamento";
             }
-            else if (finilizedUsers.has({ userId: c.id, isFinalized: true })) {
+            else if (finilizedUsers.has(c.id)) {
                 stage = "Concluída";
             }
 

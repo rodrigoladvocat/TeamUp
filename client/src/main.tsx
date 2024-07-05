@@ -14,10 +14,10 @@ import { MenuProvider } from "./context/MenuContext";
 import { RedirectByUserType } from './utils/RedirectByUserType';
 import { AuthProvider } from './context/AuthContext';
 import { CycleProvider } from './context/CycleContext';
-import './global.css';
 import GradesManagerPage from './pages/manager/GradesManagerPage/GradesManagerPage';
 import CollaboratorProfile from './pages/CollaboratorProfilePage';
 import UserProfile from './pages/UserProfile';
+import FinalEvaluationManagerPage from './pages/manager/FinalEvaluation/FinalEvaluationManager';
 import CycleManagerPage from './pages/manager/CycleManagerPage';
 import OthersEvaluationCollaboratorPage from './pages/collaborator/OthersEvaluationCollaboratorPage';
 import './global.css';
@@ -61,17 +61,23 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
             collaboratorPage={CycleCollaboratorPage}
             />
           } />
+          <Route path="/evaluations/:id" element={
+            <RedirectByUserType
+            managerPage={FinalEvaluationManagerPage}
+            collaboratorPage={ErrorPage}
+            />
+          } />
 
           {/* 2 rotas para os 2 fluxos de avaliação */}
           <Route path="/self-evaluation" element={
             <RedirectByUserType
-            managerPage={ErrorPage} // TODO substituir por SelfEvaluationManagerPage
+            managerPage={ErrorPage}
             collaboratorPage={SelfEvaluationCollaboratorPage}
             />
           } />
           <Route path="/others-evaluation" element={
             <RedirectByUserType
-            managerPage={ErrorPage} // TODO substituir por OthersEvaluationManagerPage
+            managerPage={ErrorPage}
             collaboratorPage={OthersEvaluationCollaboratorPage}
             />
           } />
