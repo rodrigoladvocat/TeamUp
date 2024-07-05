@@ -7,6 +7,8 @@ import Card from "@/components/Card";
 import { Link } from "react-router-dom";
 import { useSearchBar } from "@/context/SearchBarContext";
 import { useMenu } from "@/context/MenuContext";
+import { useAuth } from "@/hooks/AuthUser";
+import { useNavigate } from "react-router-dom";
 
 interface CollaboratorProps {
   name: string;
@@ -17,12 +19,19 @@ interface CollaboratorProps {
 }
 
 const About = () => {
+  const { user, isAuthenticated } = useAuth();
   const { setMenu } = useMenu();
   const [collaborators, setCollaborators] = useState<CollaboratorProps[]>([]);
   const { search } = useSearchBar();
 
-    useEffect(() => {
-        setMenu(1);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+      if (!isAuthenticated) {
+        navigate('/login');
+      }
+
+      setMenu(1);
     }, [])
 
   useEffect(() => {
@@ -55,9 +64,9 @@ const About = () => {
 
         <main className="flex-1 w-[64.25rem] p-6 bg-general-background">
           <Header
-            userName="Pedro Almeida"
+            userName={user ? user.name : "Usuário"}
             subtitle="Selecione o colaborador que deseja visualizar informações sobre"
-            profileImage="/profile.jpg"
+            profileImage={user ? user.imgUrl : ""}
             title="Sobre a Plataforma"
           />
 
