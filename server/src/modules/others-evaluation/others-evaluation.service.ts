@@ -164,6 +164,11 @@ export class OthersEvaluationService {
         });
     }
 
+    async evaluatorGetsAllEval(evaluatorId: number) {
+        return await this.prisma.othersEvaluation.findMany({
+            where: { evaluatorUserId: evaluatorId }
+        });
+    }
 
     async findEvaluation(evaluatorUserId: number, evaluatedUserId: number, cycleId: number) {
         return await this.prisma.othersEvaluation.findFirst({

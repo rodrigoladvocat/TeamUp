@@ -2,7 +2,7 @@ import { api } from "@/services/apiService";
 
 export async function getOthersEvalByUID(userId: number) {
     try{
-        const response = await api.get("/others-evaluation/latest-cycle/" + userId );
+        const response = await api.get("/others-evaluation/" + userId );
         return response.data;
     }
     catch (error) {

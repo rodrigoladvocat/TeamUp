@@ -77,9 +77,9 @@ export default function AboutPage(): JSX.Element {
                     </p>
                   </div>
 
-                  <div className="p-4 text-center w-[14.313rem] h-[12.5rem]">
+                  <div className="p-4 text-center h-[12.5rem]">
                     {!user?.isManager ? (
-                      <>
+                      <div className="w-[14.313rem]">
                         <div className="flex justify-center ">
                           <img
                             src={img_historic}
@@ -95,7 +95,7 @@ export default function AboutPage(): JSX.Element {
                           Acompanhe o resultado de todas as avaliações que você
                           participou ao longo dos anos.
                         </p>
-                      </>
+                      </div>
                     ) : (
                       <>
                         <div className="flex justify-center items-center">
