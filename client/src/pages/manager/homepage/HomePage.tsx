@@ -198,18 +198,26 @@ export default function ManagerHomePage(): JSX.Element {
               </p>
               <div className="flex items-start pt-8">
                 <img src={flag} alt="flag" className="pr-3" />
-                <p className="text-left">
-                  O ciclo atual{" "}
-                  <span className="text-purple-text">fecha em {daysToFinish} dias</span>{" "}
-                  (Data de fechamento: {endDate})
-                </p>
+                {
+                  daysToFinish > 0 ? <p className="text-left">
+                    O ciclo atual{" "}
+                    <span className="text-purple-text">fecha em {daysToFinish} dias</span>{" "}
+                    (Data de fechamento: {endDate})
+                  </p>
+                  :
+                  <p className="text-left">
+                    O ciclo atual{" "}
+                    <span className="text-purple-text">fechou</span>{" "}
+                    (Data de fechamento: {endDate})
+                  </p>
+                }
               </div>
 
               <div className="flex items-start pt-8">
                 <img src={flag} alt="flag" className="pr-3" />
                 <p className="text-left">
-                  Sua nota final do ciclo avaliativo de {cycle ? cycle.cycleName : "not found"} já está
-                  disponível na página Notas.
+                  As notas do ciclo {cycle ? cycle.cycleName : "not found"} já estão
+                  disponíveis.
                 </p>
               </div>
             </div>

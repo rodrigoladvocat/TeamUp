@@ -129,9 +129,12 @@ export const CycleProvider: React.FC<Props> = ({ children }) => {
 
     const cycleData: GetLatestCycleResponseDto = JSON.parse(localStorage.getItem('@Cycle.Data') || "{}");
     if (cycleData.id) {
+      const curr_date_before_formatting = (new Date()).toString();
+      const curr_date = parseDate(curr_date_before_formatting, 'YYYY-MM-DD', 'DD/MM/YYYY');
+
       const startDate = parseDate(cycleData.initialDate, 'YYYY-MM-DD', 'DD/MM/YYYY');
       const endDate = parseDate(cycleData.finalDate, 'YYYY-MM-DD', 'DD/MM/YYYY');
-      const daysToFinish = calculateDaysBetween(startDate, endDate);
+      const daysToFinish = calculateDaysBetween(curr_date, endDate);
       const tunningEndDate = new Date(endDate);
       
       const parsedData: ParsedCycleInfo = {
@@ -215,10 +218,12 @@ export const CycleProvider: React.FC<Props> = ({ children }) => {
     await api.get(
       "/cycle/latest"
     ).then((res: AxiosResponse<GetLatestCycleResponseDto>) => {
+      const curr_date_before_formatting = (new Date()).toString();
+      const curr_date = parseDate(curr_date_before_formatting, 'YYYY-MM-DD', 'DD/MM/YYYY');
 
       const startDate = parseDate(res.data.initialDate, 'YYYY-MM-DD', 'DD/MM/YYYY');
       const endDate = parseDate(res.data.finalDate, 'YYYY-MM-DD', 'DD/MM/YYYY');
-      const daysToFinish = calculateDaysBetween(startDate, endDate);
+      const daysToFinish = calculateDaysBetween(curr_date, endDate);
       const tunningEndDate = new Date(endDate);
       const parsedData: ParsedCycleInfo = {
         startDate: startDate,
