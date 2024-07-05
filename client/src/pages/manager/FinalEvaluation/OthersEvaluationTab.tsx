@@ -60,7 +60,13 @@ const OtherEvaluationTab = () => {
   }, []);
 
   if (!additionalData) {
-    return null; // or some loading indicator
+    return (
+      <>
+        <h1 className="text-primary font-bold text-[32px] leading[48px] pb-2 text-center">
+          Não existem avaliações ainda.
+        </h1>
+      </>
+    );
   }
   console.log(additionalData);
   return (

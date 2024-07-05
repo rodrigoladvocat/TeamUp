@@ -123,9 +123,7 @@ function SelfEvalFormPart({
         ></CardeDeNota>
       </div>
 
-      <div
-        className="h-[112px] w-full bg-white rounded-2xl text-wrap p-3 font-normal resize-none text-left text-black"
-      >
+      <div className="h-[112px] w-full bg-white rounded-2xl text-wrap p-3 font-normal resize-none text-left text-black">
         {commentInitialValue}
       </div>
     </div>
@@ -158,7 +156,13 @@ const SelfEvaluationTab = () => {
   console.log("Auto evaluation data:", autoEval);
 
   if (!autoEval) {
-    return <></>;
+    return (
+      <>
+        <h1 className="text-primary font-bold text-[32px] leading[48px] pb-2 text-center">
+          Não existem avaliações ainda.
+        </h1>
+      </>
+    );
   }
   const info = transformDataToArray(autoEval);
 
