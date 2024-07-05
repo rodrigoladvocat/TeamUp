@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { ErrorResponse, useNavigate } from "react-router-dom";
 import arrow_left_circle from "../../assets/arrow-left-circle.svg";
 import defaultProfileImage from '../../assets/default_profile_image.png';
-import bell_icon from "../../assets/bell.svg";
+import checkmark from "@/assets/checkmark.svg";
 import { useAuth } from "@/hooks/AuthUser";
 import { useCycle } from "@/hooks/useCycle";
 import { Menu } from "@/components/Menu";
@@ -27,6 +27,7 @@ export default function OthersEvaluationCollaboratorPage(): JSX.Element {
   const [ collaborators, setCollaboratos ] = useState<UserDto[]>([]);
   const [ map, setMap ] = useState<Map<CollaboratorId, Eval>>(new Map());
   const [ isLoading, setIsLoading ] = useState(false);
+  const [ isSubmitted, setIsSubmitted ] = useState(false);
   const [ dummyState, forceUpdate ] = useState(0);
   const [ search, setSearch ] = useState("");
   const { isAuthenticated, user } = useAuth();
@@ -122,25 +123,30 @@ export default function OthersEvaluationCollaboratorPage(): JSX.Element {
     });
 
     setIsLoading(true);
-    api.post(
-      `/others-evaluation/submit-evaluation/latest-cycle/${user?.id}`, 
-      body
-    ).then((res: AxiosResponse) => {
-      console.log("Deu tudo certo.");
-      console.log("==============");
-      console.log(map);
-      console.log(parsedMap);
-      console.log(body);
-      console.log("==============");
-      console.log(res);
-      console.log("--------------");
-      console.log(res.data);
-      console.log("==============");
-      setIsLoading(false);
-      navigate("/evaluations");
-    }).catch((e: AxiosError<ErrorResponse>) => {
-      console.log(e);
-    });
+    setIsSubmitted(true);
+    setTimeout(() => {
+      api.post(
+        `/others-evaluation/submit-evaluation/latest-cycle/${user?.id}`, 
+        body
+      ).then((res: AxiosResponse) => {
+        console.log("Deu tudo certo.");
+        console.log("==============");
+        console.log(map);
+        console.log(parsedMap);
+        console.log(body);
+        console.log("==============");
+        console.log(res);
+        console.log("--------------");
+        console.log(res.data);
+        console.log("==============");
+        setIsLoading(false);
+        navigate("/evaluations");
+      }).catch((e: AxiosError<ErrorResponse>) => {
+        setIsLoading(false);
+        setIsSubmitted(false);
+        console.log(e);
+      });
+    }, 1500);
   }
 
 
@@ -163,7 +169,7 @@ export default function OthersEvaluationCollaboratorPage(): JSX.Element {
   });
 
   return (
-    <main className="flex flex-row w-screen h-screen max-h-screen p-6 bg-gray-900">
+    <main className="flex flex-row w-[1440px] h-screen max-h-screen p-6">
       
       <aside>
         <Menu></Menu>
@@ -190,22 +196,15 @@ export default function OthersEvaluationCollaboratorPage(): JSX.Element {
             </span>
           </div>
 
-          <div className="flex flex-row items-center">
+          <span className="flex flex-row items-center ml-[32px]">
             <img
-              src={bell_icon}
-              className={"w-[32px] h-[24px]"}
-              alt="Bell icon"
+              src={user?.imgUrl || ""}
+              onError={(e) => { e.currentTarget.src = defaultProfileImage; }}
+              className={"size-[54px] rounded-full"}
+              alt="Profile Image"
             />
-            <span className="flex flex-row items-center ml-[32px]">
-              <img
-                src={user?.imgUrl || ""}
-                onError={(e) => { e.currentTarget.src = defaultProfileImage; }}
-                className={"size-[54px] rounded-full"}
-                alt="Profile Image"
-              />
-              <p className="ml-2 font-normal text-[20px] leading-[30px]">{user?.name || "Fulano"}</p>
-            </span>
-          </div>
+            <p className="ml-2 font-normal text-[20px] leading-[30px]">{user?.name || "Fulano"}</p>
+          </span>
         </header>
 
         <section className="flex flex-col justify-start space-y-[32px] mt-[20px] mb-[24px]">
@@ -248,7 +247,7 @@ export default function OthersEvaluationCollaboratorPage(): JSX.Element {
           </form>
           
           <section className="flex flex-col mt-14 mb-14">
-            <p className="font-normal text-[16px] leading-[24px] text-white text-wrap text-left w-[55%]">
+            <p className="font-normal text-[16px] leading-[24px] text-white text-wrap text-left">
               Depois que você enviar não será mais possível editar, se você ainda não terminou ou quiser fazer edições futuras salve e continue a utilizar a plataforma.
             </p>
             <div className="flex flex-row justify-between items-center mt-[60px] px-[15%]">
@@ -291,8 +290,15 @@ export default function OthersEvaluationCollaboratorPage(): JSX.Element {
                     </Button>
                   }
                 </DialogTrigger>
-                <DialogContent className="bg-[#D9D9D9] w-[812px] flex flex-col" hasClose={false}>
-                  
+                <DialogContent className={`bg-purple-200 w-[812px] flex flex-col border-solid border-2 border-purple-500 ${isSubmitted ? 'items-center justify-center': ''}`} hasClose={false}>
+                { isSubmitted 
+                ? 
+                  <>
+                    <img src={checkmark} className=""/>
+                    <p className="font-semibold text-[32px] leading-[48px] text-black">Avaliação Enviada!</p>
+                  </>
+                :
+                  <>
                   <DialogHeader className="flex flex-col items-center">
                     <DialogTitle className="font-bold text-[32px] leading-[48px] text-black">
                       Tem certeza que deseja enviar a avaliação?
@@ -304,17 +310,21 @@ export default function OthersEvaluationCollaboratorPage(): JSX.Element {
                     
                   <DialogFooter className="">
                     <div className="flex flex-row justify-between items-center w-full mt-8">
-                      <DialogClose className="py-[8.5px] px-[68.5px] text-black bg-primary border-none">
+                      <DialogClose className="w-[168px] h-[48px] py-[8.5px] px-[68.5px] text-black bg-purple-200 border-solid border-1 border-content-background">
                         Não
                       </DialogClose>
-                      <Button variant="default" 
+
+                      <Button
+                        variant="default"
                         onClick={() => {handleSubmitForm("finish")}}
-                        className="py-[12px] px-[68.5px] text-black bg-primary border-none"
-                        >
+                        className="w-[168px] h-[48px] py-[12px] px-[68.5px] text-black bg-primary border-none"
+                      >
                         Sim
                       </Button>
                     </div>
                   </DialogFooter>
+                  </>
+                }
                 </DialogContent>
               </Dialog>
               

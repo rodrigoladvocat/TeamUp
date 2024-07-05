@@ -39,9 +39,9 @@ export default function GradeForm({
                 <div key={i} className="flex flex-col space-y-2 ">
                   <p className="font-semibold">{gradeOption}</p>
                   <CircleCheckbox
-                    value={i}
+                    value={i as Grade}
                     name={`feedback choice ${i}`}
-                    checked={gradeOptions[grade] === gradeOption}
+                    checked={grade === gradeOption}
                     onChange={() => {}}
                   />
                 </div>
@@ -53,14 +53,11 @@ export default function GradeForm({
         </div>
       </div>
 
-      <textarea
-        rows={5}
-        className="h-40 bg-white rounded-b-2xl text-wrap text-black p-3 font-normal resize-none placeholder:text-[#868686]"
-        name={`Comment of ${name}`}
-        placeholder={text}
-        onChange={() => {}}
-        readOnly
-      ></textarea>
+      <div
+        className="h-[180px] w-full bg-white rounded-b-2xl text-wrap p-3 font-normal resize-none text-left text-black"
+      >
+        {text}
+      </div>
     </div>
   );
 }

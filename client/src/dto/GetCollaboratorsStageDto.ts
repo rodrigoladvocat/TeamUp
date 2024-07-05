@@ -1,7 +1,7 @@
 
 
 export interface GetCollaboratorsStageDto {
-  userId: number;
+  id: number;
   name: string;
   email: string;
   role: string;

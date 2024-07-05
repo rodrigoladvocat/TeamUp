@@ -4,12 +4,12 @@ import { Menu } from "@/components/Menu";
 import { useAuth } from "@/hooks/AuthUser";
 import { useCycle } from "@/hooks/useCycle";
 import defaultProfileImage from '../../assets/default_profile_image.png';
-import bell_icon from "../../assets/bell.svg";
 import { api } from "@/services/apiService";
 import { AxiosResponse } from "axios";
 import TagStage from "@/components/TagStage";
 import { GetCollaboratorsStageDto } from "@/dto/GetCollaboratorsStageDto";
 import { Button } from "@/components/ui/button";
+import { useMenu } from "@/context/MenuContext";
 
 
 
@@ -17,6 +17,7 @@ export default function CycleManagerPage(): JSX.Element {
   const [ collaborators, setCollaboratos ] = useState<GetCollaboratorsStageDto[]>([]);
   const { isAuthenticated, user } = useAuth();
   const { endDate, daysToFinish, callAllUpdates, tunningEndDate, isOngoingOrEnded } = useCycle();
+  const { setMenu } = useMenu();
 
   const navigate = useNavigate();
 
@@ -31,6 +32,8 @@ export default function CycleManagerPage(): JSX.Element {
       navigate('/login');
     }
 
+    setMenu(2);
+
     if (user) { // user is always (should be) defined when isAuthenticated (true)
       callAllUpdates(user.id, false);
     }
@@ -38,11 +41,14 @@ export default function CycleManagerPage(): JSX.Element {
     api.get("/tuning/collaborators-stage").then((res: AxiosResponse<GetCollaboratorsStageDto[]>) => {
       setCollaboratos(res.data);
     });
+
+    console.log(collaborators);
+    console.log(counts);
   }, []);
 
 
   return(
-    <main className="flex flex-row w-screen h-screen max-h-screen p-6 bg-gray-900">
+    <main className="flex flex-row w-[1440px] h-screen max-h-screen p-6">
 
       <aside>
         <Menu></Menu>
@@ -60,22 +66,15 @@ export default function CycleManagerPage(): JSX.Element {
             </span>
           </div>
 
-          <div className="flex flex-row items-center">
+          <span className="flex flex-row items-center ml-[32px]">
             <img
-              src={bell_icon}
-              className={"w-[32px] h-[24px]"}
-              alt="Bell icon"
+              src={user?.imgUrl || ""}
+              onError={(e) => { e.currentTarget.src = defaultProfileImage; }}
+              className={"size-[54px] rounded-full"}
+              alt="Profile Image"
             />
-            <span className="flex flex-row items-center ml-[32px]">
-              <img
-                src={user?.imgUrl || ""}
-                onError={(e) => { e.currentTarget.src = defaultProfileImage; }}
-                className={"size-[54px]"}
-                alt="Profile Image"
-              />
-              <p className="ml-2 font-normal text-[20px] leading-[30px]">{user?.name || "Erro carregando nome"}</p>
-            </span>
-          </div>
+            <p className="ml-2 font-normal text-[20px] leading-[30px]">{user?.name || "Erro carregando nome"}</p>
+          </span>
         </header>
 
         <section className="flex flex-col mt-8">
@@ -123,7 +122,7 @@ export default function CycleManagerPage(): JSX.Element {
                   : <Button className="bg-primary max-w-fit text-14 leading-[21px] text-[#263238]"
                       variant={"default"} 
                       size={"default"}
-                      onClick={() => navigate(`/evaluations/${collaborator.userId}`)}
+                      onClick={() => navigate(`/evaluations/${collaborator.id}`)}
                     >
                     Avaliar
                   </Button>

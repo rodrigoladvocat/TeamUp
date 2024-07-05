@@ -57,7 +57,7 @@ const Profile = () => {
   }
   console.log(user.imgUrl);
   return (
-    <div className="flex flex-1 p-6 min-h-screen bg-gray-900 text-white">
+    <div className="flex flex-1 p-6 min-h-screen text-white">
       <div className="flex flex-1">
         <aside>
           <div>
@@ -65,7 +65,7 @@ const Profile = () => {
           </div>
         </aside>
 
-        <main className="flex-1 p-6 bg-general-background">
+        <main className="flex-1 p-6">
           <header className="flex justify-between items-center mb-3">
             <h1 className="text-32 text-left text-purple-text font-bold">
               <div className="flex flex-row">
