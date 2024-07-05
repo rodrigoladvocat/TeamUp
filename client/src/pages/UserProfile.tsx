@@ -42,7 +42,7 @@ const UserProfile = () => {
           <Header
             userName={user?.name || ""}
             profileImage={user?.imgUrl || ""}
-            title="Sobre a Plataforma"
+            title="Meu Perfil"
           />
 
           <div className="flex-1 bg-content-background h-[820px] max-w-[64.25rem] mt-8">

@@ -17,8 +17,8 @@ export default function AboutPage(): JSX.Element {
   }, []);
 
   return (
-    <div className="flex flex-row w-screen h-screen justify-center max-h-screen p-6 bg-general-background text-white">
-      <div className="flex">
+    <div className="flex flex-row h-screen justify-center max-h-screen p-6 bg-general-background text-white flex-1">
+      <div className="flex pl-[17px]">
         <aside>
           <Menu></Menu>
         </aside>
@@ -30,7 +30,7 @@ export default function AboutPage(): JSX.Element {
             title="Sobre a Plataforma"
           />
 
-          <div className="flex-1 bg-content-background h-[780px] max-w-[64.25rem]">
+          <div className="flex-1 bg-content-background h-[780px] max-w-[64.25rem] mt-6">
             <div className="flex-1 bg-content-background p-8 pt-4 pb-2 ">
               <div className="text-left text-32 text-purple-text font-poppins font-bold">
                 Propósito
