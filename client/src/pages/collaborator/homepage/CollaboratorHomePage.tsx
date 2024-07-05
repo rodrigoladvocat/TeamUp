@@ -210,7 +210,7 @@ export default function CollaboratorHomePage(): JSX.Element {
           <section className="flex flex-row mt-[27px] gap-x-[1rem]">
             <div className="flex flex-col p-4 pl-5 rounded-2xl w-[45rem] bg-content-background">
               <p className="font-bold text-28 leading-[42px] text-purple-text text-left">
-                Bem vindo de volta Pedro!
+                Bem vindo de volta, {user ? user.name : "Usuário"}!
               </p>
               <div className="flex items-start pt-8">
                 <img src={flag} alt="flag" className="pr-3" />
