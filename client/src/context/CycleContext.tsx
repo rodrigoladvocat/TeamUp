@@ -47,11 +47,13 @@ interface ParsedCycleInfo {
 interface SelfEvalInfo extends GetSelffEvalByUserCycleIdsDto {
   selfEvalStage: stage;
   selfLastUpdated: string; // Format: DD/MM/YYYY
+  selfLastUpdatedTime?: string; // Format: HH:mm
 }
 interface OthersEvalInfo {
   evaluatedUserId: number[];
   othersEvalStage: stage[];
   othersLastUpdated: string[]; // Format: DD/MM/YYYY
+  othersLastUpdatedTime?: string[]; // Format: HH:mm
   grade: number[];
   comment: string[];
 }
@@ -267,6 +269,7 @@ export const CycleProvider: React.FC<Props> = ({ children }) => {
       if (res.data) {
         parsedData.selfEvalStage = res.data.isFinalized ? "Entregue" : "Em andamento";
         parsedData.selfLastUpdated = parseDate(res.data.lastUpdated, 'YYYY-MM-DD', 'DD/MM/YYYY');
+        parsedData.selfLastUpdatedTime = parseTime(res.data.lastUpdated);
       }
 
       localStorage.setItem('@AutoEval.Data', JSON.stringify(parsedData));
@@ -302,6 +305,7 @@ export const CycleProvider: React.FC<Props> = ({ children }) => {
         parsedData.evaluatedUserId = res.data.map((row) => row.evaluatedUserId);
         parsedData.othersEvalStage = res.data.map((row) => row.isFinalized ? "Entregue" : "Em andamento");
         parsedData.othersLastUpdated = res.data.map((row) => row.lastUpdated);
+        parsedData.othersLastUpdatedTime = res.data.map((row) => parseTime(row.lastUpdated));
         parsedData.comment = res.data.map((row) => row.comment);
         parsedData.grade = res.data.map((row) => row.grade);
       }

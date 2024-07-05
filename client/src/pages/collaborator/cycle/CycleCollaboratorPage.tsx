@@ -12,6 +12,7 @@ import { useNavigate } from "react-router-dom";
 import TagStage from "@/components/TagStage";
 import { stage } from "@/utils/types/stageType";
 import { useMenu } from "@/context/MenuContext";
+import { spawn } from "child_process";
 
 
 
@@ -20,10 +21,12 @@ export default function CycleCollaboratorPage(): JSX.Element {
   const { _cycle, endDate, endTime, startDate, selfEvalInfo, othersEvalInfo, callAllUpdates } = useCycle();
   const { user, isAuthenticated } = useAuth();
   const [othersLastUpdated, setOthersLastUpdated] = useState(null);
+  const [ othersLastUpdatedTime, setOthersLastUpdatedTime ] = useState(null);
   const [cycle, setCycle] = useState<any>(null);
   const {setMenu} = useMenu();
 
   const formatter = new Intl.DateTimeFormat(undefined, { year: 'numeric', month: '2-digit', day: '2-digit' });
+  const formatterTime = new Intl.DateTimeFormat(undefined, { hour: '2-digit', minute: '2-digit' });
 
 
   useEffect(() => {
@@ -54,7 +57,7 @@ export default function CycleCollaboratorPage(): JSX.Element {
     let auxOthersLastUpdated: any = null;
     othersEvalInfo.othersLastUpdated.forEach((date: string) => {
       if (auxOthersLastUpdated === null) {
-        auxOthersLastUpdated = date;
+          auxOthersLastUpdated = date;
       } else {
         if (new Date(date) > new Date(auxOthersLastUpdated)) {
           auxOthersLastUpdated = date;
@@ -63,9 +66,12 @@ export default function CycleCollaboratorPage(): JSX.Element {
     });
 
     if (auxOthersLastUpdated !== null) {
-      auxOthersLastUpdated = formatter.format(new Date(auxOthersLastUpdated));
+      let formatted_date: any = formatter.format(new Date(auxOthersLastUpdated));
+      setOthersLastUpdated(formatted_date);
+
+      let formatted_time: any = formatterTime.format(new Date(auxOthersLastUpdated));
+      setOthersLastUpdatedTime(formatted_time);
     }
-    setOthersLastUpdated(auxOthersLastUpdated)
 
   }, [othersEvalInfo])
 
@@ -164,7 +170,7 @@ export default function CycleCollaboratorPage(): JSX.Element {
                         </Button>
                       </div>
                       <div className="flex-1 flex items-center justify-center text-[#D3C8FF]">
-                        <p>{selfEvalInfo.selfLastUpdated || "----"}</p>
+                        <p>{selfEvalInfo.selfLastUpdated && selfEvalInfo.selfLastUpdatedTime ? <span>{selfEvalInfo.selfLastUpdated} às {selfEvalInfo.selfLastUpdatedTime}</span> : "----"}</p>
                       </div>
                       <div className="flex-1 flex items-center justify-center">
                         <TagStage stage={selfEvalInfo.selfEvalStage}/>
@@ -180,7 +186,7 @@ export default function CycleCollaboratorPage(): JSX.Element {
                         </Button>
                       </div>
                       <div className="flex-1 flex items-center justify-center text-[#D3C8FF]">
-                        <p>{othersLastUpdated === null ? "----" : othersLastUpdated}</p>
+                        <p>{othersLastUpdated && othersLastUpdatedTime ? <span>{othersLastUpdated} às {othersLastUpdatedTime}</span> : "----"}</p>
                       </div>
                       <div className="flex-1 flex items-center justify-center">
                         <TagStage stage={calculateOthersStage(othersEvalInfo.othersEvalStage)}/>
