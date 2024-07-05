@@ -1,6 +1,6 @@
 export function getPrompt(prompt: number[], userRole: string): string {
     const base_prompt = `
-                            Crie um pequeno parágrafo (de até 200 caracteres e não coloque aspas na sua resposta) com sugestões de melhorias para um colaborador baseado nos seguintes critérios de desempenho e suas respectivas notas. Responda como se estivesse diretamente falando com o colaborador, oferecendo dicas concisas para melhorar seu desempenho.
+                            Crie um pequeno parágrafo (de até 150 caracteres e não coloque aspas na sua resposta) com sugestões de melhorias para um colaborador baseado nos seguintes critérios de desempenho e suas respectivas notas. Responda como se estivesse diretamente falando com o colaborador, oferecendo dicas concisas para melhorar seu desempenho.
                             Não se esqueça de ser respeitoso e construtivo em suas sugestões. Não mencione o nome do colaborador.
 
                             Critérios:
