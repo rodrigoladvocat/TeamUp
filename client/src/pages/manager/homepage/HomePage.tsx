@@ -189,7 +189,7 @@ export default function ManagerHomePage(): JSX.Element {
 
         <main className="flex-1 p-6 bg-general-background h-[920px] w-[64.25rem]">
 
-          <Header userName={user ? user.name : "null"} profileImage="/profile.jpg" title="Página inicial"/>
+          <Header userName={user ? user.name : "null"} profileImage={user ? user.imgUrl : ""} title="Página inicial"/>
           
           <div className="flex flex-row gap-x-[1rem] max-w-[64.25rem] mb-6">
             <div className="flex-1 col-span-2 bg-content-background p-4 pl-5 rounded-2xl w-[45rem]">
