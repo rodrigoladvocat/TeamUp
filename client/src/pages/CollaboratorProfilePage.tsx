@@ -5,6 +5,7 @@ import { Link, useParams } from "react-router-dom";
 import arrowBack from "../assets/arrow-back-circle.svg";
 import { AuthContext } from "@/context/AuthContext";
 import defaultProfileImage from "@/assets/default_profile_image.png";
+import { useMenu } from "@/context/MenuContext";
 
 interface CollaboratorProps {
   name: string;
@@ -22,6 +23,8 @@ interface CollaboratorProps {
 }
 
 const Profile = () => {
+  const { setMenu } = useMenu();
+  setMenu(1);
   const { id } = useParams<{ id?: string }>();
   const [user, setUser] = useState<CollaboratorProps | null>(null);
   const auth = useContext(AuthContext);
@@ -44,32 +47,29 @@ const Profile = () => {
 
   if (!user) {
     return (
-      <div className="flex flex-1 p-6 min-h-screen bg-gray-900 text-white">
-        <div className="flex flex-1">
+      <div className="flex flex-row w-screen h-screen justify-center max-h-screen p-6 bg-general-background text-white">
+        <div className="flex">
           <aside>
-            <div>
-              <Menu></Menu>
-            </div>
+            <Menu></Menu>
           </aside>
+          <main className="flex-1 p-6 h-[820px] w-[64.25rem]"></main>
         </div>
       </div>
     );
   }
-  console.log(user.imgUrl);
+
   return (
-    <div className="flex flex-1 p-6 min-h-screen text-white">
-      <div className="flex flex-1">
+    <div className="flex flex-row w-screen h-screen justify-center max-h-screen p-6 bg-general-background text-white">
+      <div className="flex">
         <aside>
-          <div>
-            <Menu></Menu>
-          </div>
+          <Menu></Menu>
         </aside>
 
-        <main className="flex-1 p-6">
+        <main className="flex-1 p-6 h-[820px] w-[64.25rem]">
           <header className="flex justify-between items-center mb-3">
             <h1 className="text-32 text-left text-purple-text font-bold">
               <div className="flex flex-row">
-                <Link to={"/dev"}>
+                <Link to={"/grades"}>
                   <div className="pr-2 pt-1">
                     <img src={arrowBack} alt="Arrow Back" />
                   </div>
@@ -84,13 +84,15 @@ const Profile = () => {
                 </div>
               </div>
             </h1>
-            <div className="flex items-center">
-              <img
-                src={auth.user?.imgUrl}
-                alt={auth.user?.name}
-                className="w-10 h-10 rounded-full mr-2"
-              />
-              <span>{auth.user?.name}</span>
+            <div className="flex items-start flex-col self-start">
+              <div className="flex flex-row items-center">
+                <img
+                  src={auth.user?.imgUrl}
+                  alt={auth.user?.name}
+                  className="w-10 h-10 rounded-full mr-2"
+                />
+                <span>{auth.user?.name}</span>
+              </div>
             </div>
           </header>
           <div className="flex flex-1 bg-[#212020] h-[820px] mt-4 overflow-y-auto">
@@ -124,9 +126,11 @@ const Profile = () => {
                     <div className="py-3 text-[12px] ">Ativo</div>
                   </div>
                 </div>
-                <button className="bg-primary text-[#263238] text-16 font-medium">
-                  Visualizar notas
-                </button>
+                <Link to={`/grades/collaborator/${id}/grades`}>
+                  <button className="bg-primary text-[#263238] text-16 font-medium">
+                    Visualizar notas
+                  </button>
+                </Link>
               </div>
 
               <div className="w-[384px]">
