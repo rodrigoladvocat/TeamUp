@@ -19,7 +19,7 @@ export default function Header({
   // TODO: Fazer o sininho funcionando
   // TODO: Melhorar o css para ficar IGUAL o figma em todas as telas que usam o Header.
   return (
-    <header className="flex justify-between items-center mb-3 max-w-[64.25rem]"> {/*setting a max width*/}
+    <header className="flex justify-between items-start mb-3 max-w-[64.25rem]"> {/*setting a max width*/}
       {backLink && 
       <>
       {/* TODO: seta para voltar */}

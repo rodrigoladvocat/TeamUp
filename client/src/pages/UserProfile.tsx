@@ -1,9 +1,16 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { Menu } from "@/components/Menu";
 import { AuthContext } from "@/context/AuthContext";
 import Header from "@/components/Header";
+import { useMenu } from "@/context/MenuContext";
 
 const UserProfile = () => {
+  const { setMenu } = useMenu();
+
+  useEffect(() => {
+    setMenu(-1);
+  }, []);
+
   const auth = useContext(AuthContext);
   const user = auth.user;
   const formattedDate = user?.admissionDate
@@ -25,21 +32,20 @@ const UserProfile = () => {
   }
 
   return (
-    <div className="flex flex-1 p-6 min-h-screen bg-gray-900 text-white">
-      <div className="flex flex-1">
+    <div className="flex flex-row w-screen h-screen justify-center max-h-screen p-6 bg-general-background text-white">
+      <div className="flex">
         <aside>
-          <div>
-            <Menu></Menu>
-          </div>
+          <Menu></Menu>
         </aside>
 
-        <main className="flex-1 p-6 bg-general-background">
+        <main className="flex-1 p-6 bg-general-background h-[920px] w-[64.25rem]">
           <Header
             userName={user?.name || ""}
             profileImage={user?.imgUrl || ""}
             title="Meu Perfil"
           />
-          <div className="flex flex-1 bg-[#212020] h-[820px] mt-4 overflow-y-auto">
+
+          <div className="flex-1 bg-content-background h-[820px] max-w-[64.25rem] mt-8">
             <div className="flex flex-wrap flex-1 justify-evenly gap-x-[52px] pt-10 flex-row">
               <div className="">
                 <img
@@ -65,9 +71,6 @@ const UserProfile = () => {
                     <div className="py-3 text-[12px] ">Ativo</div>
                   </div>
                 </div>
-                <button className="bg-primary text-[#263238] text-16 font-medium">
-                  Download do currículo
-                </button>
               </div>
 
               <div className="w-[384px]">

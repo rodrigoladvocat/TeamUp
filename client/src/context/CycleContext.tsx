@@ -47,11 +47,13 @@ interface ParsedCycleInfo {
 interface SelfEvalInfo extends GetSelffEvalByUserCycleIdsDto {
   selfEvalStage: stage;
   selfLastUpdated: string; // Format: DD/MM/YYYY
+  selfLastUpdatedTime?: string; // Format: HH:mm
 }
 interface OthersEvalInfo {
   evaluatedUserId: number[];
   othersEvalStage: stage[];
   othersLastUpdated: string[]; // Format: DD/MM/YYYY
+  othersLastUpdatedTime?: string[]; // Format: HH:mm
   grade: number[];
   comment: string[];
 }
@@ -129,9 +131,12 @@ export const CycleProvider: React.FC<Props> = ({ children }) => {
 
     const cycleData: GetLatestCycleResponseDto = JSON.parse(localStorage.getItem('@Cycle.Data') || "{}");
     if (cycleData.id) {
+      const curr_date_before_formatting = (new Date()).toString();
+      const curr_date = parseDate(curr_date_before_formatting, 'YYYY-MM-DD', 'DD/MM/YYYY');
+
       const startDate = parseDate(cycleData.initialDate, 'YYYY-MM-DD', 'DD/MM/YYYY');
       const endDate = parseDate(cycleData.finalDate, 'YYYY-MM-DD', 'DD/MM/YYYY');
-      const daysToFinish = calculateDaysBetween(startDate, endDate);
+      const daysToFinish = calculateDaysBetween(curr_date, endDate);
       const tunningEndDate = new Date(endDate);
       
       const parsedData: ParsedCycleInfo = {
@@ -215,10 +220,12 @@ export const CycleProvider: React.FC<Props> = ({ children }) => {
     await api.get(
       "/cycle/latest"
     ).then((res: AxiosResponse<GetLatestCycleResponseDto>) => {
+      const curr_date_before_formatting = (new Date()).toString();
+      const curr_date = parseDate(curr_date_before_formatting, 'YYYY-MM-DD', 'DD/MM/YYYY');
 
       const startDate = parseDate(res.data.initialDate, 'YYYY-MM-DD', 'DD/MM/YYYY');
       const endDate = parseDate(res.data.finalDate, 'YYYY-MM-DD', 'DD/MM/YYYY');
-      const daysToFinish = calculateDaysBetween(startDate, endDate);
+      const daysToFinish = calculateDaysBetween(curr_date, endDate);
       const tunningEndDate = new Date(endDate);
       const parsedData: ParsedCycleInfo = {
         startDate: startDate,
@@ -262,6 +269,7 @@ export const CycleProvider: React.FC<Props> = ({ children }) => {
       if (res.data) {
         parsedData.selfEvalStage = res.data.isFinalized ? "Entregue" : "Em andamento";
         parsedData.selfLastUpdated = parseDate(res.data.lastUpdated, 'YYYY-MM-DD', 'DD/MM/YYYY');
+        parsedData.selfLastUpdatedTime = parseTime(res.data.lastUpdated);
       }
 
       localStorage.setItem('@AutoEval.Data', JSON.stringify(parsedData));
@@ -297,6 +305,7 @@ export const CycleProvider: React.FC<Props> = ({ children }) => {
         parsedData.evaluatedUserId = res.data.map((row) => row.evaluatedUserId);
         parsedData.othersEvalStage = res.data.map((row) => row.isFinalized ? "Entregue" : "Em andamento");
         parsedData.othersLastUpdated = res.data.map((row) => row.lastUpdated);
+        parsedData.othersLastUpdatedTime = res.data.map((row) => parseTime(row.lastUpdated));
         parsedData.comment = res.data.map((row) => row.comment);
         parsedData.grade = res.data.map((row) => row.grade);
       }

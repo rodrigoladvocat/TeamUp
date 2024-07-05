@@ -24,7 +24,7 @@ import { useNavigate } from "react-router-dom";
 import { getLastCycle } from "@/utils/getLastCycle";
 import { getTuningByUserAndCycleId } from "@/utils/getTuningByUserAndCycleId";
 
-import runAI from "../../../../gemini_api/index"
+import runAI from "../../../../gemini_api/index";
 
 function stars(fill: 1 | 2 | 3 | 4 | 5) {
   const starArray = new Array(5).fill(null);
@@ -119,22 +119,30 @@ const CustomDot = (props: any) => {
 };
 
 export default function CollaboratorHomePage(): JSX.Element {
-  
   const { user, isAuthenticated, aiMessage, setAiMessage } = useAuth();
-  const { _cycle, endDate, endTime, startDate, daysToFinish, callAllUpdates, selfEvalInfo } = useCycle();
-  const [ lastCycleId, setLastCycleId ] = useState(null);
-  const [ lastTuning, setLastTuning ] = useState<any>(null);
+  const {
+    _cycle,
+    endDate,
+    endTime,
+    startDate,
+    daysToFinish,
+    callAllUpdates,
+    selfEvalInfo,
+  } = useCycle();
+  const [lastCycleId, setLastCycleId] = useState(null);
+  const [lastTuning, setLastTuning] = useState<any>(null);
 
-  const [ prompt, setPrompt ] = useState<number[] | null>(null); // array of grades or null if there is no tuning
+  const [prompt, setPrompt] = useState<number[] | null>(null); // array of grades or null if there is no tuning
 
   const navigate = useNavigate();
 
   useEffect(() => {
     if (!isAuthenticated) {
-      navigate('/login');
+      navigate("/login");
     }
 
-    if (user) { // user is always (should be) defined when isAuthenticated (true)
+    if (user) {
+      // user is always (should be) defined when isAuthenticated (true)
       callAllUpdates(user.id, true);
     }
   }, []);
@@ -145,21 +153,21 @@ export default function CollaboratorHomePage(): JSX.Element {
         if (cycle) {
           setLastCycleId(cycle.id);
         }
-      })
+      });
     }
-  }, [user])
+  }, [user]);
 
   useEffect(() => {
     if (lastCycleId && user) {
-      getTuningByUserAndCycleId(user.id, lastCycleId)
-      .then((tuning) => {
+      getTuningByUserAndCycleId(user.id, lastCycleId).then((tuning) => {
         setLastTuning(tuning);
-      })
+      });
     }
-  }, [lastCycleId])
+  }, [lastCycleId]);
 
   useEffect(() => {
-    if( lastTuning && aiMessage === null) { // setting the prompt grades
+    if (lastTuning && aiMessage === null) {
+      // setting the prompt grades
 
       let auxPrompt: number[] = [];
       auxPrompt.push(lastTuning.ownershipMentalityGrade);
@@ -172,134 +180,167 @@ export default function CollaboratorHomePage(): JSX.Element {
       auxPrompt.push(lastTuning.doingMoreWithLessGrade);
       auxPrompt.push(lastTuning.outOfTheBoxThinkingExecutionGrade);
       console.log(auxPrompt);
-      
+
       setPrompt(auxPrompt);
     }
-  }, [lastTuning])
+  }, [lastTuning]);
 
   useEffect(() => {
     if (prompt !== null && aiMessage === null && user) {
       runAI(prompt, user.role).then((response) => {
         setAiMessage(response);
-      })
+      });
     }
-  }, [prompt])
+  }, [prompt]);
 
   return (
     <main className="flex justify-center h-screen max-h-screen p-6 bg-general-background text-white">
       <div className="flex">
-      <aside>
-        <Menu></Menu>
-      </aside>
+        <aside>
+          <Menu></Menu>
+        </aside>
 
-      <div className="flex-1 p-6 bg-general-background h-[920px] w-[64.25rem]">
+        <div className="flex-1 p-6 bg-general-background h-[920px] w-[64.25rem]">
+          <Header
+            userName={user?.name || ""}
+            profileImage={user?.imgUrl || ""}
+            title="Página inicial"
+          />
 
-        <Header 
-          userName={user?.name || ""} 
-          profileImage={user?.imgUrl || ""} 
-          title="Página inicial"
-        />
-        
-        <section className="flex flex-row mt-[27px] gap-x-[1rem]">
-          <div className="flex flex-col p-4 pl-5 rounded-2xl w-[45rem] bg-content-background">
-            <p className="font-bold text-28 leading-[42px] text-purple-text text-left">
-              Bem vindo de volta Pedro!
+          <section className="flex flex-row mt-[27px] gap-x-[1rem]">
+            <div className="flex flex-col p-4 pl-5 rounded-2xl w-[45rem] bg-content-background">
+              <p className="font-bold text-28 leading-[42px] text-purple-text text-left">
+                Bem vindo de volta Pedro!
+              </p>
+              <div className="flex items-start pt-8">
+                <img src={flag} alt="flag" className="pr-3" />
+                {daysToFinish > 0 ? (
+                  <p className="text-left">
+                    O ciclo atual{" "}
+                    <span className="text-purple-text">
+                      fecha em {daysToFinish} dias
+                    </span>{" "}
+                    (Data de fechamento: {endDate})
+                  </p>
+                ) : (
+                  <p className="text-left">
+                    O ciclo atual{" "}
+                    <span className="text-purple-text">fechou</span> (Data de
+                    fechamento: {endDate})
+                  </p>
+                )}
+              </div>
+
+              <div className="flex items-start pt-8">
+                <img src={flag} alt="flag" className="pr-3" />
+                <p className="text-left">
+                  Sua nota final do ciclo avaliativo de {_cycle?.cycleName} já
+                  está {/*TODO update to the last cycle, not the current*/}
+                  disponível na página Notas.
+                </p>
+              </div>
+            </div>
+
+            <div className="ml-auto bg-content-background pt-4 pl-4 pr-4 rounded-2xl w-[18.125rem] text-[12px]">
+              <h2 className="text-left text-16 mb-4">Plano de melhoria</h2>
+              <p>
+                {lastTuning
+                  ? aiMessage
+                    ? aiMessage
+                    : "Aguarde..."
+                  : "Não há equalizações encontradas"}
+              </p>
+            </div>
+          </section>
+
+          <section className="mt-[14px] bg-content-background p-4 rounded-2xl">
+            <h2 className="text-20 text-purple-text font-bold text-left mb-0">
+              Suas maiores notas
+            </h2>
+            <p className="text-16 text-text text-left mb-4 ">
+              Dados referentes ao último ciclo avaliativo realizado (...)
             </p>
-            <div className="flex items-start pt-8">
-              <img src={flag} alt="flag" className="pr-3" />
-              <p className="text-left font-normal text-[16px] leading-[24px]">
-                O ciclo atual{" "}
-                <span className="text-purple-text">fecha em {daysToFinish} dias</span>{" "}
-                (Data de fechamento: {endDate})
-              </p>
-            </div>
-
-            <div className="flex items-start pt-8">
-              <img src={flag} alt="flag" className="pr-3" />
-              <p className="text-left">
-                Sua nota final do ciclo avaliativo de {_cycle?.cycleName} já está {/*TODO update to the last cycle, not the current*/}
-                disponível na página Notas.
-              </p>
-            </div>
-          </div>
-
-          <div className="ml-auto bg-content-background pt-4 pl-4 pr-4 rounded-2xl w-[18.125rem] text-[12px]">
-            <h2 className="text-left text-16 mb-4">Plano de melhoria</h2>
-            <p>{ lastTuning ? ( aiMessage ? aiMessage : "Aguarde..." ) : "Não há equalizações encontradas" }</p>
-          </div>
-        </section>
-
-        <section className="mt-[14px] bg-content-background p-4 rounded-2xl">
-          <h2 className="text-20 text-purple-text font-bold text-left mb-0">
-            Suas maiores notas
-          </h2>
-          <p className="text-16 text-text text-left mb-4 ">
-            Dados referentes ao último ciclo avaliativo realizado (...)
-          </p>
-          <div className="flex flex-row justify-between px-28">
-            <div className="flex flex-col items-center bg-dark-zebra p-4 rounded-xl space-y-[8px] h-[220px]">
-              <div className="w-full h-[120px] flex justify-center items-center overflow-hidden">
-                <img src={GroupMeeting} alt="img" className="h-full object-cover" />
-              </div>
-              <p className="font-normal text-16 leading-[24px]">Capacidade de aprender</p>
-              {stars(2)}
-            </div>
-            <div className="flex flex-col items-center bg-dark-zebra p-4 rounded-xl space-y-[8px] h-[220px]">
-              <div className="w-full h-[120px] flex justify-center items-center overflow-hidden">
-                <img src={WorkingTogether} alt="img" className="h-full object-cover" />
-              </div>
-              <p className="font-normal text-16 leading-[24px]">Trabalho em equipe</p>
-              {stars(5)}
-            </div>
-            <div className="flex flex-col items-center bg-dark-zebra p-4 rounded-xl space-y-[8px] h-[220px]">
-              <div className="w-full h-[120px] flex justify-center items-center overflow-hidden">
-                <img src={ReadingOnTopOfPileOfBooks} alt="img" className="h-full object-cover" />
-              </div>
-              <p className="font-normal text-16 leading-[24px]">Organização no trabalho</p>
-              {stars(5)}
-            </div>
-          </div>
-        </section>
-
-        <section className="mt-[14px] bg-content-background p-4 rounded-2xl overflow-y-scroll">
-          <h2 className="text-20 text-purple-text font-bold text-left">
-            Meu desempenho{" "}
-            <span className="text-14 text-text font-normal ml-2">
-              Confira seu desempenho de médias finais no último ciclo
-            </span>
-          </h2>
-          <div className="h-64">
-            {/* Placeholder for a performance chart */}
-            <div className="flex justify-center items-center h-full text-gray-500 ">
-              <ResponsiveContainer width="100%" height={200}>
-                <AreaChart
-                  data={data}
-                  margin={{
-                    top: 10,
-                    right: 30,
-                    left: 0,
-                    bottom: 0,
-                  }}
-                >
-                  <CartesianGrid stroke="#ccc" />
-                  <XAxis dataKey="name" />
-                  <YAxis domain={[1, 0.5, 5]} />
-                  <Tooltip />
-                  <Area
-                    type="monotone"
-                    dataKey="uv"
-                    stroke="#8884d8"
-                    fill="#A28BFE"
-                    dot={<CustomDot />}
+            <div className="flex flex-row justify-between px-28">
+              <div className="flex flex-col items-center bg-dark-zebra p-4 rounded-xl space-y-[8px] h-[220px]">
+                <div className="w-full h-[120px] flex justify-center items-center overflow-hidden">
+                  <img
+                    src={GroupMeeting}
+                    alt="img"
+                    className="h-full object-cover"
                   />
-                </AreaChart>
-              </ResponsiveContainer>
+                </div>
+                <p className="font-normal text-16 leading-[24px]">
+                  Capacidade de aprender
+                </p>
+                {stars(2)}
+              </div>
+              <div className="flex flex-col items-center bg-dark-zebra p-4 rounded-xl space-y-[8px] h-[220px]">
+                <div className="w-full h-[120px] flex justify-center items-center overflow-hidden">
+                  <img
+                    src={WorkingTogether}
+                    alt="img"
+                    className="h-full object-cover"
+                  />
+                </div>
+                <p className="font-normal text-16 leading-[24px]">
+                  Trabalho em equipe
+                </p>
+                {stars(5)}
+              </div>
+              <div className="flex flex-col items-center bg-dark-zebra p-4 rounded-xl space-y-[8px] h-[220px]">
+                <div className="w-full h-[120px] flex justify-center items-center overflow-hidden">
+                  <img
+                    src={ReadingOnTopOfPileOfBooks}
+                    alt="img"
+                    className="h-full object-cover"
+                  />
+                </div>
+                <p className="font-normal text-16 leading-[24px]">
+                  Organização no trabalho
+                </p>
+                {stars(5)}
+              </div>
             </div>
-          </div>
-        </section>
+          </section>
 
-      </div>
+          <section className="mt-[14px] bg-content-background p-4 rounded-2xl h-[268px]">
+            <h2 className="text-20 text-purple-text font-bold text-left pb-2">
+              Meu desempenho{" "}
+              <span className="text-14 text-text font-normal ml-2">
+                Confira seu desempenho de médias finais no último ciclo
+              </span>
+            </h2>
+            <div className="">
+              {/* Placeholder for a performance chart */}
+              <div className="flex justify-center items-center h-full text-gray-500 ">
+                <ResponsiveContainer width="100%" height={200}>
+                  <AreaChart
+                    data={data}
+                    margin={{
+                      top: 10,
+                      right: 30,
+                      left: 0,
+                      bottom: 0,
+                    }}
+                  >
+                    <CartesianGrid stroke="#ccc" />
+                    <XAxis dataKey="name" />
+                    <YAxis domain={[1, 0.5, 5]} />
+                    <Tooltip />
+                    <Area
+                      type="monotone"
+                      dataKey="uv"
+                      stroke="#8884d8"
+                      fill="#A28BFE"
+                      dot={<CustomDot />}
+                    />
+                  </AreaChart>
+                </ResponsiveContainer>
+              </div>
+            </div>
+          </section>
+        </div>
       </div>
     </main>
   );
-};
+}

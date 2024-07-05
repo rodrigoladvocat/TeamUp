@@ -15,6 +15,7 @@ export default {
       'black': '#000',
       'general-background': '#121212',
       'content-background': '#201F1F',
+      'teste': '#1A1A1A',
       'dark-zebra': '#383446',
       'light-zebra': '#3F3F3F',
       'purple-text': '#A28BFE',
@@ -116,6 +117,7 @@ export default {
     },
     fontSize: {
       '32': '2rem',
+      '30': '1.875rem',
       '28': '1.75rem',
       '20': '1.25rem',
       '16': '1rem',

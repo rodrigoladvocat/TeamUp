@@ -11,51 +11,22 @@ import {
 
 import arrow from "../assets/arrow-down-circle.svg";
 
-// TODO: criar props para as notas
 interface AccordionProps {
   title: string;
+  data: {
+    cicle: string;
+    pv: number; // autoavaliação
+    uv: number; // nota do gestor
+  }[];
 }
 
-const data = [
-  {
-    // pv = autoavaliação ; uv = avaliação do gestor
-    cicle: '2020.1',
-    pv: 1,
-    uv: 5,
-  },
-  {
-    cicle: '2020.2',
-    pv: 2,
-    uv: 4,
-  },
-  {
-    cicle: '2021.1',
-    pv: 3,
-    uv: 2,
-  },
-  {
-    cicle: '2021.2',
-    pv: 4,
-    uv: 3,
-  },
-  {
-    cicle: '2022.1',
-    pv: 5,
-    uv: 1,
-  },
-  {
-    cicle: '2022.2',
-    pv: 1,
-    uv: 3,
-  },
-];
 
-const Accordion: React.FC<AccordionProps> = ({ title }) => {
+const Accordion: React.FC<AccordionProps> = ({ title, data}) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className="rounded-2xl w-[28rem] bg-content-background overflow-hidden transition-all duration-500" style={{ height: isOpen ? '296px' : '4.5rem' }}>
-      <div className="h-[4.5rem] rounded-2xl w-full bg-content-background flex flex-col">
+    <div className="rounded-2xl w-[28rem] bg-teste overflow-hidden transition-all duration-500" style={{ height: isOpen ? '296px' : '4.5rem' }}>
+      <div className="h-[4.5rem] rounded-2xl w-full bg-teste flex flex-col">
         <div className="w-full flex justify-between items-center p-4">
           <span className="text-20 text-purple-text font-bold">{title}</span>
           <img
