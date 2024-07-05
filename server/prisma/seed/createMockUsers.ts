@@ -17,7 +17,7 @@ export const users: User[] = [
         city: "Recife",
         state: "PE",
         zipCode: "12345-123",
-        bio: '',
+        bio: 'Apaixonada por criar interfaces intuitivas e esteticamente agradáveis, com foco na experiência do usuário.',
         admissionDate: new Date('2023-07-01')
     },
     {
@@ -36,7 +36,7 @@ export const users: User[] = [
         city: "Recife",
         state: "PE",
         zipCode: "12345-123",
-        bio: '',
+        bio: 'Designer de produto com 10 anos de experiência. Sou apaixonado por criar interfaces intuitivas e atraentes que facilitem a vida das pessoas.',
         admissionDate: new Date('2023-07-01')
     },
     {
@@ -55,7 +55,7 @@ export const users: User[] = [
         city: "Recife",
         state: "PE",
         zipCode: "12345-123",
-        bio: '',
+        bio: 'Desenvolvedor Fullstack experiente e apaixonado por tecnologia. Adoro criar soluções inovadoras e eficientes que tragam resultados para os negócios.',
         admissionDate: new Date('2023-07-01')
     },
     {
@@ -74,7 +74,7 @@ export const users: User[] = [
         city: "Recife",
         state: "PE",
         zipCode: "12345-123",
-        bio: '',
+        bio: 'Designer de produto criativa e inovadora com foco em experiência do usuário. Adoro trabalhar com equipes multidisciplinares para criar produtos incríveis.',
         admissionDate: new Date('2023-07-01')
     },
     {
@@ -93,7 +93,7 @@ export const users: User[] = [
         city: "Recife",
         state: "PE",
         zipCode: "12345-123",
-        bio: '',
+        bio: 'Sou Pedro Almeida, Designer de Produtos na Visagio, com mais de cinco anos de experiência. Crio soluções intuitivas e atraentes, liderando projetos do início ao fim. Sou apaixonado por novas tecnologias e tendências de design.',
         admissionDate: new Date('2023-07-01')
     },
     {
@@ -112,15 +112,15 @@ export const users: User[] = [
         city: "Recife",
         state: "PE",
         zipCode: "12345-123",
-        bio: '',
+        bio: 'Especialista em negócios com foco em estratégia e crescimento. Adoro ajudar empresas a alcançar seus objetivos e alcançar o sucesso.',
         admissionDate: new Date('2023-07-01')
     },
     {
         id: 7,
-        name: "Manager de Teste",
+        name: "Henruique Diaz",
         email: "manager@gmail.com",
         password: "12345678",
-        imgUrl: "https://avatars.githubusercontent.com/u/51039620?s…00&u=d7e9365da48a5874e02bd4bb68a7223e17379df7&v=4",
+        imgUrl: "https://s3-alpha-sig.figma.com/img/f10f/f2ba/190f25a6e4ed4e3bcf8ef86c9f874d55?Expires=1721001600&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=V1YCSMZxMiVYx11nM00lHp1huxAxn6BjCLEU2CC6-g2wQ4yBi3j9KINtOCuC5VvI7IKd8w30ECOFXReZDCYLwyeCTmDj2k-9754A~D38690399ahSoFQQCT5q7dtvsbF5rORbUvblhyBNzGeRemn36xRspeWvHq02pIgJyguzjQVvRO2PRkTO-rqjQdggKw4qnviyeq~nbHtTcaB0HvN9Oko4e3ET4O8Nd6qTni~6EfQ~XnYeBAfn4DTq7ZHI0RwlzoYBb-SEuHarq9ApRaNmGX2VkkGJ4Qdlq3ZoProYvu2HFMmEoZ~QDyasZcdcJydf9Vla01CUNmqE5hIa~jrqA__",
         isManager: true,
         role: "Sócio",
         age: 30,
@@ -131,7 +131,7 @@ export const users: User[] = [
         city: "Recife",
         state: "PE",
         zipCode: "12345-123",
-        bio: '',
+        bio: 'Adoro construir times de alta performance e criar produtos inovadores que impactam o mundo.',
         admissionDate: new Date('2023-07-01')
     },
     {
@@ -150,7 +150,7 @@ export const users: User[] = [
         city: "Recife",
         state: "PE",
         zipCode: "12345-123",
-        bio: '',
+        bio: 'Quero garantir que os produtos sejam confiáveis ​​e atendam às expectativas dos usuários.',
         admissionDate: new Date('2023-07-01')
     },
     // Adicione mais usuários conforme necessário
