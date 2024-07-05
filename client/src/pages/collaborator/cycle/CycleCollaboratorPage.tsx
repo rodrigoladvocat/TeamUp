@@ -91,7 +91,7 @@ export default function CycleCollaboratorPage(): JSX.Element {
   }
 
   return (
-      <div className="flex justify-center w-full p-6 min-h-screen text-white">
+      <div className="flex justify-center h-screen w-full p-6 min-h-screen text-white">
         <div className="flex">
           <aside>
             <Menu></Menu>
