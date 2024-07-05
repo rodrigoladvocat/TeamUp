@@ -38,6 +38,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
           <Route path="/login" element={<LoginPage />} />
           <Route path="/profile" element={<UserProfile/>}/>
           <Route path="/grades/collaborator/:id" element={<CollaboratorProfile/>}/>
+          <Route path="/grades/collaborator/:id/grades" element={<ErrorPage/>}/>
           <Route path="/about" element={<AboutPage/>}/>
           <Route path="/dev" element={<VisualizeComponent />} />
 

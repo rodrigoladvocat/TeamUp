@@ -5,6 +5,7 @@ import { Link, useParams } from "react-router-dom";
 import arrowBack from "../assets/arrow-back-circle.svg";
 import { AuthContext } from "@/context/AuthContext";
 import defaultProfileImage from "@/assets/default_profile_image.png";
+import { useMenu } from "@/context/MenuContext";
 
 interface CollaboratorProps {
   name: string;
@@ -22,6 +23,8 @@ interface CollaboratorProps {
 }
 
 const Profile = () => {
+  const { setMenu } = useMenu();
+  setMenu(1);
   const { id } = useParams<{ id?: string }>();
   const [user, setUser] = useState<CollaboratorProps | null>(null);
   const auth = useContext(AuthContext);
@@ -123,9 +126,11 @@ const Profile = () => {
                     <div className="py-3 text-[12px] ">Ativo</div>
                   </div>
                 </div>
-                <button className="bg-primary text-[#263238] text-16 font-medium">
-                  Visualizar notas
-                </button>
+                <Link to={`/grades/collaborator/${id}/grades`}>
+                  <button className="bg-primary text-[#263238] text-16 font-medium">
+                    Visualizar notas
+                  </button>
+                </Link>
               </div>
 
               <div className="w-[384px]">
