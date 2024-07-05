@@ -7,6 +7,9 @@ import { GetOthersEvalByUserCycleIdsDto } from "@/dto/GetOthersEvalByUserCycleId
 import { GetSelffEvalByUserCycleIdsDto } from "@/dto/GetSelfEvalByUserCycleIdsDto";
 import { stage } from "@/utils/types/stageType";
 import calculateDaysBetween from "@/utils/dateTime/calculateDaysBetween";
+import { updateEmailSent } from "@/utils/updateEmailSent";
+import { sendCustomEmail } from "@/../emailSender/email";
+import { getCollaboratorsByName } from "@/utils/getCollaboratorsByName";
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -117,6 +120,7 @@ const defaultOthersEvalInfo: OthersEvalInfo = {
 
 export const CycleProvider: React.FC<Props> = ({ children }) => {
   const [ _cycle, setCycle ] = useState<GetLatestCycleResponseDto | null>(null);
+  const [ collaborators , setCollaborators ] = useState<any[]>([]);
   const [ parsedCycleInfo, setParsedCycleInfo ] = useState<ParsedCycleInfo>(defaultParsedCycleInfo);
   const [ selfEvalInfo, setAutoEvalInfo ] = useState<SelfEvalInfo>(defaultAutoEvalInfo);
   const [ othersEvalInfo, setOthersEvalInfo ] = useState<OthersEvalInfo>(defaultOthersEvalInfo);
@@ -129,6 +133,7 @@ export const CycleProvider: React.FC<Props> = ({ children }) => {
       const endDate = parseDate(cycleData.finalDate, 'YYYY-MM-DD', 'DD/MM/YYYY');
       const daysToFinish = calculateDaysBetween(startDate, endDate);
       const tunningEndDate = new Date(endDate);
+      
       const parsedData: ParsedCycleInfo = {
         startDate: startDate,
         endDate: endDate,
@@ -152,7 +157,53 @@ export const CycleProvider: React.FC<Props> = ({ children }) => {
       setOthersEvalInfo(othersEvalData);
     }
 
+    getCollaboratorsByName("")
+    .then((response) => {
+      setCollaborators(response);
+    })
+
   }, []);
+
+  function delay(ms: number) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+
+  const sendEmailsSequentially = async () => {
+    for (const collaborator of collaborators) {
+      try{
+        await sendCustomEmail(collaborator.email, collaborator.name);
+        await delay(5000);
+      }
+      catch(e) {
+        console.error(e)
+      }
+    }
+  }
+
+  const sendEmailIfNeeded = async (cycle: GetLatestCycleResponseDto) => {
+    if (!cycle.emailSent && new Date(cycle.finalDate) < new Date() && collaborators.length > 0) {
+      // send emails and update sentEmail to true => updates the emailSent field in the database
+      try{
+        await updateEmailSent(cycle.id)
+        await sendEmailsSequentially();
+        localStorage.setItem(`sentEmail_${cycle.id}`, "true");
+      }
+      catch(e) {
+        console.error(e)
+      }
+      
+    }
+  };
+
+  useEffect(() => {
+    if (_cycle) {
+      const sentEmail = localStorage.getItem(`sentEmail_${_cycle.id}`);
+      console.log(sentEmail)
+      if (sentEmail === "false") {
+        sendEmailIfNeeded(_cycle);
+      }
+    }
+  }, [_cycle, collaborators]);
 
   const UpdateLatestCycle = useCallback(async (forceUpdate = false) => {
 
@@ -179,6 +230,8 @@ export const CycleProvider: React.FC<Props> = ({ children }) => {
       };
 
       localStorage.setItem('@Cycle.Data', JSON.stringify(res.data));
+      console.log(res.data.emailSent)
+      localStorage.setItem(`sentEmail_${res.data.id}`, res.data.emailSent.toString());
 
       setCycle(res.data);
       setParsedCycleInfo(parsedData);
