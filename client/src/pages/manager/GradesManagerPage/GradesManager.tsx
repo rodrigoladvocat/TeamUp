@@ -74,7 +74,7 @@ export default function GradesManagerContent(): JSX.Element {
             return (
               <div
                 key={collaborator.email}
-                onClick={() => { navigate(`/profile/${collaborator.id}`); }}
+                onClick={() => { navigate(`/grades/collaborator/${collaborator.id}`); }}
                 /* Colocar max-w-[256px] nessa div faz os cards ficarem desalinhados */
                 className=" min-h-[310px] rounded-[16px] shadow-xl bg-gray overflow-hidden cursor-pointer"
               >

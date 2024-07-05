@@ -128,7 +128,7 @@ const Profile = () => {
                     <div className="py-3 text-[12px] ">Ativo</div>
                   </div>
                 </div>
-                <button className="bg-primary text-[#263238] text-16 font-medium" onClick={() => navigate(`/profile/grades/${id}`)}>
+                <button className="bg-primary text-[#263238] text-16 font-medium" onClick={() => navigate(`/grades/collaborator/${id}/grades`)}>
                   Visualizar notas
                 </button>
               </div>
