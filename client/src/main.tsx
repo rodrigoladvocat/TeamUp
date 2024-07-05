@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import LoginPage from './pages/LoginPage';
 import CollaboratorHomePage from "./pages/collaborator/homepage/CollaboratorHomePage";
+import GradesCollaboratorPage from "./pages/collaborator/GradesPage/GradesPage";
 import ManagerHomePage from "./pages/manager/homepage/HomePage";
 import AboutPage from "./pages/AboutPage";
 import ErrorPage from './pages/ErrorPage';
@@ -51,7 +52,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
           <Route path="/grades" element={
             <RedirectByUserType
             managerPage={GradesManagerPage}
-            collaboratorPage={ErrorPage} // TODO substituir por GradesCollaboratorPage
+            collaboratorPage={GradesCollaboratorPage} // TODO substituir por GradesCollaboratorPage
             />
           } />
           <Route path="/evaluations" element={

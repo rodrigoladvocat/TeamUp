@@ -4,7 +4,7 @@ import { Menu } from "../../../components/Menu";
 import { useEffect, useState } from "react";
 import { getCollaboratorsByName } from "@/utils/getCollaboratorsByName";
 import Card from "@/components/Card";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useSearchBar } from "@/context/SearchBarContext";
 import { useMenu } from "@/context/MenuContext";
 import { useAuth } from "@/hooks/AuthUser";
@@ -19,15 +19,19 @@ interface CollaboratorProps {
 
 export default function GradesManagerContent(): JSX.Element {
   const [ collaborators, setCollaborators ] = useState<CollaboratorProps[]>([]);
+  const { user, isAuthenticated } = useAuth();
   const { setMenu } = useMenu();
   const { search } = useSearchBar();
-  const { user } = useAuth();
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    setMenu(1);
-  }, [])
+      if (!isAuthenticated) {
+        navigate('/login');
+      }
+
+      setMenu(1);
+    }, [])
 
   useEffect(() => {
     let append_array: CollaboratorProps[] = [];
