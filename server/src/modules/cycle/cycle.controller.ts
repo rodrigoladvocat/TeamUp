@@ -1,4 +1,4 @@
-import { Body, Controller, Get, HttpStatus, Param, ParseIntPipe, Post, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Get, HttpStatus, Param, ParseIntPipe, Patch, Post, ValidationPipe } from '@nestjs/common';
 import { CycleService } from './cycle.service';
 import { Cycle } from '@prisma/client';
 import { CreateCycleDto } from './dto/create-cycle.dto';
@@ -20,7 +20,6 @@ export class CycleController {
     async create(@Body(applyBodyValidation) createCycleDto: CreateCycleDto): Promise<Cycle> {
         return await this.cycleService.create(createCycleDto);
     }
-
 
     @Get('latest')
     @ApiOperation({ summary: 'Get latest cycle' })
@@ -52,6 +51,13 @@ export class CycleController {
     @ApiResponse({ status: 200, description: 'Return cycle by id.' })
     async getById(@Param('id', applyIdValidation) id: number): Promise<Cycle> {
         return await this.cycleService.getById(+id);
+    }
+
+    @Patch('emailSent/:id')
+    @ApiOperation({ summary: 'Update email sent' })
+    @ApiResponse({ status: 200, description: 'Email sent updated.' })
+    async updateEmailSent(@Param('id', applyIdValidation) id: number): Promise<Cycle> {
+        return await this.cycleService.updateEmailSent(+id);
     }
 
     // are there any features left?

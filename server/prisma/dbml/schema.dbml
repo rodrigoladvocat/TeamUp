@@ -20,15 +20,11 @@ Table User {
   zipCode String [not null]
   bio String [not null, default: 'Just a TeamUp user']
   admissionDate DateTime [default: `now()`, not null]
-<<<<<<<<< Temporary merge branch 1
-=========
   othersEvaluated OthersEvaluation [not null]
   othersEvaluator OthersEvaluation [not null]
   selfEvaluation SelfEvaluation [not null]
-  othersEvaluator OthersEvaluation [not null]
-  othersEvaluated OthersEvaluation [not null]
-  tuningEvaluator Tuning [not null]
   tuningEvaluated Tuning [not null]
+  tuningEvaluator Tuning [not null]
 }
 
 Table Cycle {
@@ -37,6 +33,7 @@ Table Cycle {
   initialDate DateTime [default: `now()`, not null]
   finalDate DateTime [not null]
   lastUpdated DateTime [not null]
+  emailSent Boolean [not null, default: false]
   othersEvaluation OthersEvaluation [not null]
   selfEvaluation SelfEvaluation [not null]
   tuning Tuning [not null]
