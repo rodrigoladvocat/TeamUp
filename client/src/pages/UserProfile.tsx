@@ -25,7 +25,7 @@ const UserProfile = () => {
   }
 
   return (
-    <div className="flex flex-1 p-6 min-h-screen bg-gray-900 text-white">
+    <div className="flex flex-1 p-6 min-h-screen text-white">
       <div className="flex flex-1">
         <aside>
           <div>

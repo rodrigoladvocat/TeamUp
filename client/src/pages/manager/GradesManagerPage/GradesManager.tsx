@@ -4,9 +4,10 @@ import { Menu } from "../../../components/Menu";
 import { useEffect, useState } from "react";
 import { getCollaboratorsByName } from "@/utils/getCollaboratorsByName";
 import Card from "@/components/Card";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useSearchBar } from "@/context/SearchBarContext";
 import { useMenu } from "@/context/MenuContext";
+import { useAuth } from "@/hooks/AuthUser";
 
 interface CollaboratorProps {
   name: string;
@@ -16,14 +17,17 @@ interface CollaboratorProps {
   id: number;
 }
 
-const About = () => {
+export default function GradesManagerContent(): JSX.Element {
+  const [ collaborators, setCollaborators ] = useState<CollaboratorProps[]>([]);
   const { setMenu } = useMenu();
-  const [collaborators, setCollaborators] = useState<CollaboratorProps[]>([]);
   const { search } = useSearchBar();
+  const { user } = useAuth();
 
-    useEffect(() => {
-        setMenu(1);
-    }, [])
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    setMenu(1);
+  }, [])
 
   useEffect(() => {
     let append_array: CollaboratorProps[] = [];
@@ -45,49 +49,41 @@ const About = () => {
   }, [search]);
 
   return (
-    <div className="flex justify-center p-6 min-h-screen bg-general-background text-white">
-      <div className="flex">
-        <aside>
-          <div>
-            <Menu></Menu>
-          </div>
-        </aside>
+    <div className="flex flex-row w-[1440px] justify-center h-screen text-white p-6">
+      <aside>
+        <Menu></Menu>
+      </aside>
 
-        <main className="flex-1 w-[64.25rem] p-6 bg-general-background">
-          <Header
-            userName="Pedro Almeida"
-            subtitle="Selecione o colaborador que deseja visualizar informações sobre"
-            profileImage="/profile.jpg"
-            title="Sobre a Plataforma"
-          />
+      <main className="flex flex-col w-full ml-[16px] bg-general-background">
+        <Header
+          userName={user?.name || "Error"}
+          subtitle="Selecione o colaborador que deseja visualizar informações sobre"
+          profileImage={user?.imgUrl || "Error"}
+          title="Sobre a Plataforma"
+        />
 
-          <SearchBar />
+        <SearchBar />
 
-          <div className="flex flex-1 bg-content-background h-[750px] rounded-xl mt-4 overflow-y-auto">
-            <div className="flex flex-wrap flex-1 justify-center gap-x-[52px] gap-y-[1rem] pt-10 pb-8">
-              {collaborators.map((collaborator) => {
-                return (
-                  <Link to={`/profile/${collaborator.id}`}>
-                    <div
-                      key={collaborator.email}
-                      className="w-[256px] h-[310px]"
-                    >
-                      <Card
-                        imageSrc={collaborator.imageSrc}
-                        name={collaborator.name}
-                        role={collaborator.role}
-                        email={collaborator.email}
-                      />
-                    </div>
-                  </Link>
-                );
-              })}
-            </div>
-          </div>
-        </main>
-      </div>
+        <div className="bg-content-background grid grid-cols-3 mt-4 pt-8 px-4 pb-6 gap-x-[52px] gap-y-[24px] h-full max-h-screen rounded-2xl overflow-y-scroll">
+          {collaborators.map((collaborator) => {
+            return (
+              <div
+                key={collaborator.email}
+                onClick={() => { navigate(`/profile/${collaborator.id}`); }}
+                /* Colocar max-w-[256px] nessa div faz os cards ficarem desalinhados */
+                className=" min-h-[310px] rounded-[16px] shadow-xl bg-gray overflow-hidden cursor-pointer"
+              >
+                <Card
+                  imageSrc={collaborator.imageSrc}
+                  name={collaborator.name}
+                  role={collaborator.role}
+                  email={collaborator.email}
+                />
+              </div>
+            );
+          })}
+        </div>
+      </main>
     </div>
   );
 };
-
-export default About;

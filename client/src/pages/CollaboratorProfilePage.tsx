@@ -18,7 +18,7 @@ interface CollaboratorProps {
   state: string;
   cpf: string;
   bio: string;
-  admissionDate: Date;
+  admissionDate: string;
 }
 
 const Profile = () => {
@@ -57,7 +57,7 @@ const Profile = () => {
   }
   console.log(user.imgUrl);
   return (
-    <div className="flex flex-1 p-6 min-h-screen bg-gray-900 text-white">
+    <div className="flex flex-1 p-6 min-h-screen text-white">
       <div className="flex flex-1">
         <aside>
           <div>
@@ -65,7 +65,7 @@ const Profile = () => {
           </div>
         </aside>
 
-        <main className="flex-1 p-6 bg-general-background">
+        <main className="flex-1 p-6">
           <header className="flex justify-between items-center mb-3">
             <h1 className="text-32 text-left text-purple-text font-bold">
               <div className="flex flex-row">
@@ -114,7 +114,7 @@ const Profile = () => {
                   <span className="text-primary text-16">
                     Data de admissão:{" "}
                   </span>
-                  <span>{user.admissionDate.toLocaleDateString()}</span>
+                  <span>{user.admissionDate}</span>
                 </div>
                 <div className="pt-24 text-primary text-16">
                   Status do colaborador:

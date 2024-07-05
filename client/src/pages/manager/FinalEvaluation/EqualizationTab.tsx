@@ -1,5 +1,13 @@
-import GradePicker from "@/components/GradePicker";
 import { useState } from "react";
+import { AxiosError, AxiosResponse } from "axios";
+import checkmark from "@/assets/checkmark.svg";
+import GradePicker from "@/components/GradePicker";
+import { Button } from "@/components/ui/button";
+import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { ErrorResponseDto } from "@/dto/ErrorResponseDto";
+import { api } from "@/services/apiService";
+import { useNavigate } from "react-router-dom";
 
 interface Props {
   index: number;
@@ -7,7 +15,7 @@ interface Props {
   subtitle: string;
   tip: string;
   gradeInitialOption: number;
-  onGradeChange: (valueIndex: number) => void;
+  onGradeChange: (valueIndex: Grade) => void;
 }
 
 function EqualizationFormPart({
@@ -37,7 +45,7 @@ function EqualizationFormPart({
             onChange={onGradeChange}
             gradeOptions={gradeOptions}
             namedOptions={namedOptions}
-            initialValueIndex={gradeOptions.indexOf(gradeInitialOption)}
+            initialValueIndex={gradeOptions.indexOf(gradeInitialOption) as Grade}
           />
         </div>
       </div>
@@ -45,96 +53,102 @@ function EqualizationFormPart({
   );
 }
 
-const EqualizationTab = () => {
-  function onGradeChange(index: number, value: number): void {
-    const newGrades = [...behaviourGrades];
-    newGrades[index] = value + 1;
-    setBehaviourGrades(newGrades);
+interface TabProps {
+  behaviourGrades: Grade[];
+  executionGrades: Grade[];
+  handleBehaviourGradeChange: (index: number, value: Grade) => void;
+  handleExecutionGradeChange: (index: number, value: Grade) => void;
+  isFinalized: boolean;
+  isFormIncomplete: boolean;
+  userId: number;
+  collabId: number;
+  cycleId: number;
+  isSubmitted: boolean;
+  setIsSubmitted: (isSubmitted: boolean) => void;
+}
+
+const EqualizationTab = ({
+    behaviourGrades, 
+    executionGrades, 
+    handleBehaviourGradeChange, 
+    handleExecutionGradeChange, 
+    isFinalized, 
+    isFormIncomplete,
+    isSubmitted,
+    setIsSubmitted,
+    userId, 
+    collabId, 
+    cycleId,
+  }: TabProps) => {
+  const [ isLoading, setIsLoading ] = useState<boolean>(false);
+
+  const navigate = useNavigate();
+
+  async function handleSubmitForm() {
+    if ( isLoading ) { return; }
+
+    const parsedBehaviourGrades = behaviourGrades.map((grade) => grade === -1 ? 0 : grade);
+    const parsedExecutionGrades = executionGrades.map((grade) => grade === -1 ? 0 : grade);
+
+    const body: {
+      collaboratorUserId: number
+      managerUserId: number
+      cycleId: number
+      ownershipMentalityGrade: number
+      learningAgilityGrade: number
+      resilienceAdversityGrade: number
+      teamworkGrade: number
+      outOfTheBoxThinkingBehavioralGrade: number
+      deliveringQualityGrade: number
+      meetingDeadlinesGrade: number
+      doingMoreWithLessGrade: number
+      outOfTheBoxThinkingExecutionGrade: number
+    } = {
+      collaboratorUserId: collabId,
+      managerUserId: userId,
+      cycleId: cycleId,
+
+      ownershipMentalityGrade: parsedBehaviourGrades[0],
+      learningAgilityGrade: parsedBehaviourGrades[1],
+      resilienceAdversityGrade: parsedBehaviourGrades[2],
+      teamworkGrade: parsedBehaviourGrades[3],
+      outOfTheBoxThinkingBehavioralGrade: parsedBehaviourGrades[4],
+
+      deliveringQualityGrade: parsedExecutionGrades[0],
+      meetingDeadlinesGrade: parsedExecutionGrades[1],
+      doingMoreWithLessGrade: parsedExecutionGrades[2],
+      outOfTheBoxThinkingExecutionGrade: parsedExecutionGrades[3],
+    };
+
+    setIsLoading(true);
+    setIsSubmitted(true);
+    setTimeout(() => {
+      api
+      .post("/tuning", body)
+      .then((res: AxiosResponse) => {
+        console.log("==============");
+        console.log(behaviourGrades);
+        console.log(executionGrades);
+        console.log(body);
+        console.log("==============");
+        console.log(res);
+        console.log("--------------");
+        console.log(res.data);
+        console.log("==============");
+
+        setIsLoading(false);
+        navigate("/evaluations");
+      })
+      .catch((e: AxiosError<ErrorResponseDto>) => {
+        setIsLoading(false);
+        setIsSubmitted(true);
+        console.log(behaviourGrades);
+        console.log(executionGrades);
+        console.log(body);
+        console.log(e);
+      });
+    }, 1500);
   }
-
-  const [behaviourGrades, setBehaviourGrades] = useState<number[]>(
-    Array(5).fill(-1)
-  );
-
-  // function isFormIncomplete(): boolean {
-  //   // Check if the form is completed filled
-  //   const hasEmptyString = (someArray: string[]) =>
-  //     someArray.some((x) => x === "");
-  //   const hasNegativeOne = (someArray: number[]) =>
-  //     someArray.some((x) => x === -1);
-
-  //   if (
-  //     hasNegativeOne(behaviourGrades) ||
-  //     hasEmptyString(behaviourComments) ||
-  //     hasNegativeOne(executionGrades) ||
-  //     hasEmptyString(executionComments)
-  //   ) {
-  //     return true;
-  //   }
-  //   return false;
-  // }
-
-  // async function handleSubmitForm(option: "save" | "finish") {
-  //   // if ( isFormIncomplete() ) {return;}
-
-  //   const parsedBehaviourGrades = behaviourGrades.map((grade) =>
-  //     grade === -1 ? 0 : grade
-  //   );
-  //   const parsedExecutionGrades = executionGrades.map((grade) =>
-  //     grade === -1 ? 0 : grade
-  //   );
-
-  //   const body = {
-  //     userId: user?.id,
-  //     cycleId: _cycle?.id,
-
-  //     ownershipMentalityGrade: parsedBehaviourGrades[0],
-  //     ownershipMentalityComment: behaviourComments[0],
-  //     learningAgilityGrade: parsedBehaviourGrades[1],
-  //     learningAgilityComment: behaviourComments[1],
-  //     resilienceAdversityGrade: parsedBehaviourGrades[2],
-  //     resilienceAdversityComment: behaviourComments[2],
-  //     teamworkGrade: parsedBehaviourGrades[3],
-  //     teamworkComment: behaviourComments[3],
-  //     outOfTheBoxThinkingBehavioralGrade: parsedBehaviourGrades[4],
-  //     outOfTheBoxThinkingBehavioralComment: behaviourComments[4],
-
-  //     deliveringQualityGrade: parsedExecutionGrades[0],
-  //     deliveringQualityComment: executionComments[0],
-  //     meetingDeadlinesGrade: parsedExecutionGrades[1],
-  //     meetingDeadlinesComment: executionComments[1],
-  //     doingMoreWithLessGrade: parsedExecutionGrades[2],
-  //     doingMoreWithLessComment: executionComments[2],
-  //     outOfTheBoxThinkingExecutionGrade: parsedExecutionGrades[3],
-  //     outOfTheBoxThinkingExecutionComment: executionComments[3],
-
-  //     isFinalized: option === "finish" ? true : false,
-  //   };
-
-  //   // api.post("", body).then(() => {}).catch(() => {});
-  //   // api.patch("", body).then(() => {}).catch(() => {});
-  //   if (option === "finish" || option === "save") {
-  //     await api
-  //       .post("/self-evaluation", body)
-  //       .then((res: AxiosResponse) => {
-  //         console.log("==============");
-  //         console.log(behaviourGrades);
-  //         console.log(executionGrades);
-  //         console.log(body);
-  //         console.log("==============");
-  //         console.log(res);
-  //         console.log("--------------");
-  //         console.log(res.data);
-  //         console.log("==============");
-  //       })
-  //       .catch((e: AxiosError<ErrorResponse>) => {
-  //         console.log(behaviourGrades);
-  //         console.log(executionGrades);
-  //         console.log(body);
-  //         console.log(e);
-  //       });
-  //   }
-  // }
 
   const comportamentalFormInfo = {
     titles: [
@@ -185,8 +199,8 @@ const EqualizationTab = () => {
           title={title}
           subtitle={"Como você avaliaria sua performance nesse critério?"}
           tip={comportamentalFormInfo.tips[index]}
-          gradeInitialOption={-1}
-          onGradeChange={(value) => onGradeChange(index, value)}
+          gradeInitialOption={behaviourGrades[index]}
+          onGradeChange={(value) => handleBehaviourGradeChange(index, value)}
         />
       ))}
       <div className="text-primary font-bold text-[24px] text-left">
@@ -199,105 +213,89 @@ const EqualizationTab = () => {
           title={title}
           subtitle={"Como você avaliaria sua performance nesse critério?"}
           tip={comportamentalFormInfo.tips[index]}
-          gradeInitialOption={behaviourGrades[index]}
-          onGradeChange={(value) => onGradeChange(index, value)}
+          gradeInitialOption={executionGrades[index]}
+          onGradeChange={(value) => handleExecutionGradeChange(index, value)}
         />
       ))}
 
-      {/* <section className="flex flex-col mt-14 mb-14">
-        <p className="font-normal text-[16px] leading-[24px] text-white text-wrap text-left w-[55%]">
-          Depois que você enviar não será mais possível editar, se você ainda
-          não terminou ou quiser fazer edições futuras salve e continue a
-          utilizar a plataforma.
-        </p>
-        <div className="flex flex-row justify-between items-center mt-[60px] px-[15%]">
-          <Button
-            variant="ghost"
-            size="default"
-            className="bg-transparent w-[168px] h-[48px] border-solid border-1 border-white"
-            onClick={() => {
-              handleSubmitForm("save");
-            }}
-            disabled={false}
-            // disabled={autoEvalInfo.isFinalized || true ? true : false }
-          >
-            Salvar e continuar
-          </Button>
+      
 
-          <Dialog>
-            <DialogTrigger asChild className="w-[812px]">
-              {isFormIncomplete() ? (
-                <TooltipProvider>
-                  <Tooltip delayDuration={100}>
-                    <TooltipTrigger asChild>
-                      <div className="bg-hover-bg w-[168px] h-[48px] flex flex-row items-center justify-center rounded-md">
-                        <p>Enviar</p>
-                      </div>
-                    </TooltipTrigger>
-                    <TooltipContent
-                      align="center"
-                      side="top"
-                      className="bg-white rounded-2xl p-2 ml-2 border-0 border-none"
-                    >
-                      <p className="font-normal text-[18px] leading-[24px] text-black">
-                        {selfEvalInfo.isFinalized
-                          ? "Formulário Entregue. Não pode mais modificar."
-                          : "Formulário incompleto. Preencha completamente antes de enviar."}
-                      </p>
-                    </TooltipContent>
-                  </Tooltip>
-                </TooltipProvider>
-              ) : (
+      <section className="flex flex-col items-end mt-[40px] mb-14">
+        <Dialog>
+          <DialogTrigger asChild className="w-[812px]">
+            {isFormIncomplete || isFinalized ? (
+              <TooltipProvider>
+                <Tooltip delayDuration={100}>
+                  <TooltipTrigger asChild>
+                    <div className="bg-hover-bg w-[168px] h-[48px] flex flex-row items-center justify-center rounded-md">
+                      <p>Enviar</p>
+                    </div>
+                  </TooltipTrigger>
+                  <TooltipContent
+                    align="center"
+                    side="top"
+                    className="bg-white rounded-2xl p-2 ml-2 border-0 border-none"
+                  >
+                    <p className="font-normal text-[18px] leading-[24px] text-black">
+                      {isFinalized 
+                      ? "Formulário finalizado. Não pode mais enviar."
+                      : "Formulário incompleto. Preencha completamente antes de enviar."
+                      }
+                    </p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+            ) : (
+              <Button
+                variant="default"
+                size="default"
+                className="bg-primary w-[168px] h-[48px]"
+                disabled={isFinalized}
+              >
+                Enviar
+              </Button>
+            )}
+          </DialogTrigger>
+          <DialogContent
+            className={`bg-purple-200 w-[812px] flex flex-col border-solid border-2 border-purple-500 ${isSubmitted ? 'items-center justify-center': ''}`}
+            hasClose={false}
+          >
+          { isSubmitted 
+          ? 
+            <>
+              <img src={checkmark} className=""/>
+              <p className="font-semibold text-[32px] leading-[48px] text-black">Avaliação Enviada!</p>
+            </>
+          :
+            <>
+            <DialogHeader className="flex flex-col items-center">
+              <DialogTitle className="font-bold text-[32px] leading-[48px] text-black">
+                Tem certeza que deseja enviar a avaliação?
+              </DialogTitle>
+              <DialogDescription className="font-normal text-[20px] leading-[30px] text-center text-black">
+                Após o envio não é possível realizar alterações.
+              </DialogDescription>
+            </DialogHeader>
+            <DialogFooter className="">
+              <div className="flex flex-row justify-between items-center w-full mt-8">
+                <DialogClose className="w-[168px] h-[48px] py-[8.5px] px-[68.5px] text-black bg-purple-200 border-solid border-1 border-content-background">
+                  Não
+                </DialogClose>
+
                 <Button
                   variant="default"
-                  size="default"
-                  className="bg-primary w-[168px] h-[48px]"
-                  disabled={selfEvalInfo.isFinalized ? true : false}
+                  onClick={handleSubmitForm}
+                  className="w-[168px] h-[48px] py-[12px] px-[68.5px] text-black bg-primary border-none"
                 >
-                  Enviar
+                  Sim
                 </Button>
-              )}
-            </DialogTrigger>
-            <DialogContent
-              className="bg-[#D9D9D9] w-[812px] flex flex-col"
-              hasClose={false}
-            >
-              <DialogHeader className="flex flex-col items-center">
-                <DialogTitle className="font-bold text-[32px] leading-[48px] text-black">
-                  Tem certeza que deseja enviar a avaliação?
-                </DialogTitle>
-                <DialogDescription className="font-normal text-[20px] leading-[30px] text-center text-black">
-                  Após o envio não é possível realizar alterações, você pode
-                  salvar e terminar até o último dia do ciclo avaliativo atual.
-                </DialogDescription>
-              </DialogHeader>
-
-              <DialogFooter className="">
-                <div className="flex flex-row justify-between items-center w-full mt-8">
-                  {/* <Button variant="ghost"
-                        className="py-[12px] px-[68.5px] text-black bg-primary border-none selection:border-none"
-                        onClick={(e) => {e.preventDefault();}}
-                        >
-                        Não
-                        </Button> 
-                  <DialogClose className="py-[8.5px] px-[68.5px] text-black bg-primary border-none">
-                    Não
-                  </DialogClose>
-                  <Button
-                    variant="default"
-                    onClick={() => {
-                      handleSubmitForm("finish");
-                    }}
-                    className="py-[12px] px-[68.5px] text-black bg-primary border-none"
-                  >
-                    Sim
-                  </Button>
-                </div>
-              </DialogFooter>
-            </DialogContent>
-          </Dialog>
-        </div>
-      </section> */}
+              </div>
+            </DialogFooter>
+            </>
+          }
+          </DialogContent>
+        </Dialog>
+      </section>
     </>
   );
 };

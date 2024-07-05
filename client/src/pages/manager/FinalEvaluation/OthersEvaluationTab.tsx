@@ -30,7 +30,7 @@ function RoundEvalFormPart({ grade, profileUrl, name, role, text }: Props) {
 const OtherEvaluationTab = () => {
   const { id } = useParams(); // Extract the id parameter from the URL
   const collabId = Number(id);
-  const [autoEval, setAutoEval] = useState<Array | null>(null);
+  const [autoEval, setAutoEval] = useState<Array<any> | null>(null);
   const [additionalData, setAdditionalData] = useState<Array<any> | null>(null);
 
   useEffect(() => {

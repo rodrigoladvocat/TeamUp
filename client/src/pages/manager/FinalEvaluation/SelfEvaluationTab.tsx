@@ -116,21 +116,18 @@ function SelfEvalFormPart({
         {subtitle}
       </p>
 
-      <div className="flex flex-col items-center bg-[#252525] w-full h-[146px] rounded-xl mb-6 p-3 overflow-x-auto overflow-y-hidden">
-        {/* This part might need adjustment based on your implementation */}
+      <div className="flex flex-col justify-center items-center bg-[#252525] w-full h-[146px] rounded-xl mb-6 p-3 overflow-x-auto overflow-y-hidden">
         <CardeDeNota
           isManager={true}
           grade={gradeInitialOption - 1}
         ></CardeDeNota>
       </div>
 
-      <textarea
-        rows={5}
-        className="h-40 w-full bg-white rounded-2xl text-wrap text-[#868686] p-3 font-normal resize-none"
-        placeholder={commentInitialValue}
-        value={commentInitialValue}
-        readOnly
-      ></textarea>
+      <div
+        className="h-[112px] w-full bg-white rounded-2xl text-wrap p-3 font-normal resize-none text-left text-black"
+      >
+        {commentInitialValue}
+      </div>
     </div>
   );
 }
