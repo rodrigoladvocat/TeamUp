@@ -38,7 +38,7 @@ import {
 
 const GradesPage: React.FC = () => {
   const { setMenu } = useMenu();
-  setMenu(0);
+  setMenu(1);
 
   const tabLabels = ["Análise", "Histórico"];
   const [selectedTabIndex, setSelectedTabIndex] = useState(0);
@@ -108,6 +108,63 @@ const GradesPage: React.FC = () => {
     }
   }, [user, selectedCycleId]);
 
+  const ownershipMentalityData = cycles.map(cycle => ({
+    cicle: cycle.cycleName,
+    pv: autoEvalData ? autoEvalData.ownershipMentalityGrade : 0,
+    uv: tuningData ? tuningData.ownershipMentalityGrade : 0
+  }));
+
+  const learningAgilityData = cycles.map(cycle => ({
+    cicle: cycle.cycleName,
+    pv: autoEvalData ? autoEvalData.learningAgilityGrade : 0,
+    uv: tuningData ? tuningData.learningAgilityGrade : 0
+  }));
+
+  const resilienceAdversityData = cycles.map(cycle => ({
+    cicle: cycle.cycleName,
+    pv: autoEvalData ? autoEvalData.resilienceAdversityGrade : 0,
+    uv: tuningData ? tuningData.resilienceAdversityGrade : 0
+  }));
+
+  const teamworkData = cycles.map(cycle => ({
+    cicle: cycle.cycleName,
+    pv: autoEvalData ? autoEvalData.teamworkGrade : 0,
+    uv: tuningData ? tuningData.teamworkGrade : 0
+  }));
+  
+  const outOfTheBoxThinkingBehavioralData = cycles.map(cycle => ({
+    cicle: cycle.cycleName,
+    pv: autoEvalData ? autoEvalData.outOfTheBoxThinkingBehavioralGrade : 0,
+    uv: tuningData ? tuningData.outOfTheBoxThinkingBehavioralGrade : 0
+  }));
+
+  const deliveringQualityData = cycles.map(cycle => ({
+    cicle: cycle.cycleName,
+    pv: autoEvalData ? autoEvalData.deliveringQualityGrade : 0,
+    uv: tuningData ? tuningData.deliveringQualityGrade : 0
+  }));
+
+  const meetingDeadlinesData = cycles.map(cycle => ({
+    cicle: cycle.cycleName,
+    pv: autoEvalData ? autoEvalData.meetingDeadlinesGrade : 0,
+    uv: tuningData ? tuningData.meetingDeadlinesGrade : 0
+  }));
+
+  const doingMoreWithLessData = cycles.map(cycle => ({
+    cicle: cycle.cycleName,
+    pv: autoEvalData ? autoEvalData.doingMoreWithLessGrade : 0,
+    uv: tuningData ? tuningData.doingMoreWithLessGrade : 0
+  }));
+
+  const outOfTheBoxThinkingExecutionData = cycles.map(cycle => ({
+    cicle: cycle.cycleName,
+    pv: autoEvalData ? autoEvalData.outOfTheBoxThinkingExecutionGrade : 0,
+    uv: tuningData ? tuningData.outOfTheBoxThinkingExecutionGrade : 0
+  }));
+
+
+    
+
   return (
     <div className="flex w-full p-6 min-h-screen bg-general-background text-white">
       <div className="flex">
@@ -133,20 +190,20 @@ const GradesPage: React.FC = () => {
                     Critérios comportamentais
                   </p>
                   <div className="grid grid-cols-2 gap-x-[4.563rem] gap-y-[2rem] pl-[10px] pt-[2.375rem]">
-                    <Accordion title="1. Sentimento de dono" />
-                    <Accordion title="4. Capacidade de aprender" />
-                    <Accordion title="2. Resiliência nas adversidades" />
-                    <Accordion title="5. Trabalho em equipe" />
-                    <Accordion title="3. Organização no trabalho" />
+                    <Accordion title="1. Sentimento de dono" data={ownershipMentalityData}/>
+                    <Accordion title="4. Capacidade de aprender" data={learningAgilityData} />
+                    <Accordion title="2. Resiliência nas adversidades" data={resilienceAdversityData} />
+                    <Accordion title="5. Trabalho em equipe" data={teamworkData} />
+                    <Accordion title="3. Organização no trabalho" data={outOfTheBoxThinkingBehavioralData} />
                   </div>
                   <p className="text-28 text-white font-bold text-left mb-0 pl-[10px] pt-[2.438rem]">
                     Critérios de execução
                   </p>
                   <div className="grid grid-cols-2 gap-x-[4.563rem] gap-y-[2rem] pl-[10px] pt-[2.375rem]">
-                    <Accordion title="1. Entregar com qualidade" />
-                    <Accordion title="4. Pensar fora da caixa" />
-                    <Accordion title="2. Atender aos prazos" />
-                    <Accordion title="3. Fazer mais com menos" />
+                    <Accordion title="1. Entregar com qualidade" data={deliveringQualityData} />
+                    <Accordion title="4. Pensar fora da caixa "data={outOfTheBoxThinkingExecutionData} />
+                    <Accordion title="2. Atender aos prazos" data={meetingDeadlinesData} />
+                    <Accordion title="3. Fazer mais com menos"data={doingMoreWithLessData} />
                   </div>
                 </>
               )}
