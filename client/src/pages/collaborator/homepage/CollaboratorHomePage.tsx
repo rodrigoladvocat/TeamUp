@@ -25,6 +25,9 @@ import { getLastCycle } from "@/utils/getLastCycle";
 import { getTuningByUserAndCycleId } from "@/utils/getTuningByUserAndCycleId";
 
 import runAI from "../../../../gemini_api/index";
+import { getTuningByCycleId } from "@/utils/getTuningByCycleId";
+import { average } from "@/utils/average";
+import { GetTunningByCycleDto } from "@/dto/GetTunningByCycleDto";
 
 function stars(fill: 1 | 2 | 3 | 4 | 5) {
   const starArray = new Array(5).fill(null);
@@ -118,6 +121,14 @@ const CustomDot = (props: any) => {
   return <circle cx={cx} cy={cy} r={5} stroke="none" fill="#CCBFFF" />;
 };
 
+
+class Title_Grade {
+  constructor(public title: string, public grade: number) {
+    this.title = title;
+    this.grade = grade;
+  }
+}
+
 export default function CollaboratorHomePage(): JSX.Element {
   const { user, isAuthenticated, aiMessage, setAiMessage } = useAuth();
   const {
@@ -129,7 +140,10 @@ export default function CollaboratorHomePage(): JSX.Element {
     callAllUpdates,
     selfEvalInfo,
   } = useCycle();
-  const [lastCycleId, setLastCycleId] = useState(null);
+  const [ cycleId, setCycleId ] = useState<number | null>(null);
+  const [ cycle, setCycle ] = useState<any>(null);
+  const [ tuningData, setTuningData ] = useState<GetTunningByCycleDto[]>([]);
+  const [ bestGrades, setBestGrades ] = useState<Title_Grade[]>([]); // 3 items
   const [lastTuning, setLastTuning] = useState<any>(null);
 
   const [prompt, setPrompt] = useState<number[] | null>(null); // array of grades or null if there is no tuning
@@ -148,22 +162,111 @@ export default function CollaboratorHomePage(): JSX.Element {
   }, []);
 
   useEffect(() => {
-    if (user) {
-      getLastCycle().then((cycle) => {
-        if (cycle) {
-          setLastCycleId(cycle.id);
+    // setMenu(0);
+    
+    getLastCycle().then((_cycle) => {
+      setCycle(_cycle)
+      if (_cycle !== null) {
+        setCycleId(_cycle.id);
+      }
+      else {
+        setCycleId(null);
+      }
+    });
+    
+  }, []); // runs once when the component is mounted
+
+
+  useEffect(() => {
+    if (cycleId !== null) { // if a cycleId was found
+      getTuningByCycleId(cycleId).then((data) => {
+        if (data) {
+          setTuningData(data);
         }
       });
     }
-  }, [user]);
+    else {
+      setTuningData([]);
+    }
+  }, [cycleId]); // runs when cycleId changes => guarantees that this happens after the first useEffect
 
   useEffect(() => {
-    if (lastCycleId && user) {
-      getTuningByUserAndCycleId(user.id, lastCycleId).then((tuning) => {
-        setLastTuning(tuning);
+    if (cycleId !== null) { // if a cycleId was found
+      getTuningByCycleId(cycleId-1).then((data) => {
+        if (data) {
+          setTuningData(data);
+        }
       });
     }
-  }, [lastCycleId]);
+    else {
+      setTuningData([]);
+    }
+  }, [cycleId]); // runs when cycleId changes => guarantees that this happens after the first useEffect
+
+
+  useEffect(() => { 
+    let ownerShipMentalityGrades: number[] = [];
+    let learningAgilityGrades: number[] = [];
+    let resilienceAdversityGrades: number[] = [];
+    let teamworkGrades: number[] = [];
+    let outOfTheBoxThinkingBehavioralGrades: number[] = [];
+    let deliveringQualityGrades: number[] = [];
+    let meetingDeadlinesGrades: number[] = [];
+    let doingMoreWithLessGrades: number[] = [];
+    let outOfTheBoxThinkingExecutionGrades: number[] = [];
+
+    // averages
+    let ownerShipMentalityAverage: number = 0;
+    let learningAgilityAverage: number = 0;
+    let resilienceAdversityAverage: number = 0;
+    let teamworkAverage: number = 0;
+    let outOfTheBoxThinkingBehavioralAverage: number = 0;
+    let deliveringQualityAverage: number = 0;
+    let meetingDeadlinesAverage: number = 0;
+    let doingMoreWithLessAverage: number = 0;
+    let outOfTheBoxThinkingExecutionAverage: number = 0;
+
+    tuningData.forEach((tuning: any) => {
+      ownerShipMentalityGrades.push(tuning.ownershipMentalityGrade);
+      learningAgilityGrades.push(tuning.learningAgilityGrade);
+      resilienceAdversityGrades.push(tuning.resilienceAdversityGrade);
+      teamworkGrades.push(tuning.teamworkGrade);
+      outOfTheBoxThinkingBehavioralGrades.push(tuning.outOfTheBoxThinkingBehavioralGrade);
+      deliveringQualityGrades.push(tuning.deliveringQualityGrade);
+      meetingDeadlinesGrades.push(tuning.meetingDeadlinesGrade);
+      doingMoreWithLessGrades.push(tuning.doingMoreWithLessGrade);
+      outOfTheBoxThinkingExecutionGrades.push(tuning.outOfTheBoxThinkingExecutionGrade);
+    });
+
+    // setting the averages for each criteria (returns 0 if there are no tunings)
+    ownerShipMentalityAverage = average(ownerShipMentalityGrades);
+    learningAgilityAverage = average(learningAgilityGrades);
+    resilienceAdversityAverage = average(resilienceAdversityGrades);
+    teamworkAverage = average(teamworkGrades);
+    outOfTheBoxThinkingBehavioralAverage = average(outOfTheBoxThinkingBehavioralGrades);
+    deliveringQualityAverage = average(deliveringQualityGrades);
+    meetingDeadlinesAverage = average(meetingDeadlinesGrades);
+    doingMoreWithLessAverage = average(doingMoreWithLessGrades);
+    outOfTheBoxThinkingExecutionAverage = average(outOfTheBoxThinkingExecutionGrades);
+
+    let averagesList: Title_Grade[] = [
+      new Title_Grade("Sentimento de dono", ownerShipMentalityAverage),
+      new Title_Grade("Learning Agility", learningAgilityAverage),
+      new Title_Grade("Resilience Adversity", resilienceAdversityAverage),
+      new Title_Grade("Teamwork", teamworkAverage),
+      new Title_Grade("Out Of The Box Thinking Behavioral", outOfTheBoxThinkingBehavioralAverage),
+      new Title_Grade("Delivering Quality", deliveringQualityAverage),
+      new Title_Grade("Meeting Deadlines", meetingDeadlinesAverage),
+      new Title_Grade("Doing More With Less", doingMoreWithLessAverage),
+      new Title_Grade("Out Of The Box Thinking Execution", outOfTheBoxThinkingExecutionAverage)
+    ];
+
+    // sorting the averagesList in asc order
+    averagesList.sort((a, b) => b.grade - a.grade);
+
+    setBestGrades(averagesList.slice(0, 3)); // getting the 3 best grades
+
+  }, [tuningData])
 
   useEffect(() => {
     if (lastTuning && aiMessage === null) {
@@ -194,152 +297,150 @@ export default function CollaboratorHomePage(): JSX.Element {
   }, [prompt]);
 
   return (
-    <main className="flex justify-center w-[1440px] h-screen max-h-screen p-6 bg-general-background text-white">
-      <div className="flex">
-        <aside>
-          <Menu></Menu>
-        </aside>
+    <main className="flex flex-row justify-center w-[1440px] h-screen max-h-screen p-6 bg-general-background text-white">
+      <aside>
+        <Menu></Menu>
+      </aside>
 
-        <div className="flex-1 p-6 bg-general-background h-[920px] w-[64.25rem]">
-          <Header
-            userName={user?.name || ""}
-            profileImage={user?.imgUrl || ""}
-            title="Página inicial"
-          />
+      <div className="flex-1 p-6 bg-general-background h-[920px] w-[64.25rem]">
+        <Header
+          userName={user?.name || ""}
+          profileImage={user?.imgUrl || ""}
+          title="Página inicial"
+        />
 
-          <section className="flex flex-row mt-[27px] gap-x-[1rem]">
-            <div className="flex flex-col p-4 pl-5 rounded-2xl w-[45rem] bg-content-background">
-              <p className="font-bold text-28 leading-[42px] text-purple-text text-left">
-                Bem vindo de volta Pedro!
-              </p>
-              <div className="flex items-start pt-8">
-                <img src={flag} alt="flag" className="pr-3" />
-                {daysToFinish > 0 ? (
-                  <p className="text-left">
-                    O ciclo atual{" "}
-                    <span className="text-purple-text">
-                      fecha em {daysToFinish} dias
-                    </span>{" "}
-                    (Data de fechamento: {endDate})
-                  </p>
-                ) : (
-                  <p className="text-left">
-                    O ciclo atual{" "}
-                    <span className="text-purple-text">fechou</span> (Data de
-                    fechamento: {endDate})
-                  </p>
-                )}
-              </div>
-
-              <div className="flex items-start pt-8">
-                <img src={flag} alt="flag" className="pr-3" />
-                <p className="text-left">
-                  Sua nota final do ciclo avaliativo de {_cycle?.cycleName} já
-                  está {/*TODO update to the last cycle, not the current*/}
-                  disponível na página Notas.
-                </p>
-              </div>
-            </div>
-
-            <div className="ml-auto bg-content-background pt-4 pl-4 pr-4 rounded-2xl w-[18.125rem] text-[12px]">
-              <h2 className="text-left text-16 mb-4">Plano de melhoria</h2>
-              <p>
-                {lastTuning
-                  ? aiMessage
-                    ? aiMessage
-                    : "Aguarde..."
-                  : "Não há equalizações encontradas"}
-              </p>
-            </div>
-          </section>
-
-          <section className="mt-[14px] bg-content-background p-4 rounded-2xl">
-            <h2 className="text-20 text-purple-text font-bold text-left mb-0">
-              Suas maiores notas
-            </h2>
-            <p className="text-16 text-text text-left mb-4 ">
-              Dados referentes ao último ciclo avaliativo realizado (...)
+        <section className="flex flex-row mt-[27px] gap-x-[1rem]">
+          <div className="flex flex-col p-4 pl-5 rounded-2xl w-[45rem] bg-content-background">
+            <p className="font-bold text-28 leading-[42px] text-purple-text text-left">
+              Bem vindo de volta Pedro!
             </p>
-            <div className="flex flex-row justify-between px-28">
-              <div className="flex flex-col items-center bg-dark-zebra p-4 rounded-xl space-y-[8px] h-[220px]">
-                <div className="w-full h-[120px] flex justify-center items-center overflow-hidden">
-                  <img
-                    src={GroupMeeting}
-                    alt="img"
-                    className="h-full object-cover"
-                  />
-                </div>
-                <p className="font-normal text-16 leading-[24px]">
-                  Capacidade de aprender
+            <div className="flex items-start pt-8">
+              <img src={flag} alt="flag" className="pr-3" />
+              {daysToFinish > 0 ? (
+                <p className="text-left">
+                  O ciclo atual{" "}
+                  <span className="text-purple-text">
+                    fecha em {daysToFinish} dias
+                  </span>{" "}
+                  (Data de fechamento: {endDate})
                 </p>
-                {stars(2)}
-              </div>
-              <div className="flex flex-col items-center bg-dark-zebra p-4 rounded-xl space-y-[8px] h-[220px]">
-                <div className="w-full h-[120px] flex justify-center items-center overflow-hidden">
-                  <img
-                    src={WorkingTogether}
-                    alt="img"
-                    className="h-full object-cover"
-                  />
-                </div>
-                <p className="font-normal text-16 leading-[24px]">
-                  Trabalho em equipe
+              ) : (
+                <p className="text-left">
+                  O ciclo atual{" "}
+                  <span className="text-purple-text">fechou</span> (Data de
+                  fechamento: {endDate})
                 </p>
-                {stars(5)}
-              </div>
-              <div className="flex flex-col items-center bg-dark-zebra p-4 rounded-xl space-y-[8px] h-[220px]">
-                <div className="w-full h-[120px] flex justify-center items-center overflow-hidden">
-                  <img
-                    src={ReadingOnTopOfPileOfBooks}
-                    alt="img"
-                    className="h-full object-cover"
-                  />
-                </div>
-                <p className="font-normal text-16 leading-[24px]">
-                  Organização no trabalho
-                </p>
-                {stars(5)}
-              </div>
+              )}
             </div>
-          </section>
 
-          <section className="mt-[14px] bg-content-background p-4 rounded-2xl h-[268px]">
-            <h2 className="text-20 text-purple-text font-bold text-left pb-2">
-              Meu desempenho{" "}
-              <span className="text-14 text-text font-normal ml-2">
-                Confira seu desempenho de médias finais no último ciclo
-              </span>
-            </h2>
-            <div className="">
-              {/* Placeholder for a performance chart */}
-              <div className="flex justify-center items-center h-full text-gray-500 ">
-                <ResponsiveContainer width="100%" height={200}>
-                  <AreaChart
-                    data={data}
-                    margin={{
-                      top: 10,
-                      right: 30,
-                      left: 0,
-                      bottom: 0,
-                    }}
-                  >
-                    <CartesianGrid stroke="#ccc" />
-                    <XAxis dataKey="name" />
-                    <YAxis domain={[1, 0.5, 5]} />
-                    <Tooltip />
-                    <Area
-                      type="monotone"
-                      dataKey="uv"
-                      stroke="#8884d8"
-                      fill="#A28BFE"
-                      dot={<CustomDot />}
-                    />
-                  </AreaChart>
-                </ResponsiveContainer>
-              </div>
+            <div className="flex items-start pt-8">
+              <img src={flag} alt="flag" className="pr-3" />
+              <p className="text-left">
+                Sua nota final do ciclo avaliativo de {_cycle?.cycleName} já
+                está {/*TODO update to the last cycle, not the current*/}
+                disponível na página Notas.
+              </p>
             </div>
-          </section>
-        </div>
+          </div>
+
+          <div className="ml-auto bg-content-background pt-4 pl-4 pr-4 rounded-2xl w-[18.125rem] text-[12px]">
+            <h2 className="text-left text-16 mb-4">Plano de melhoria</h2>
+            <p>
+              {lastTuning
+                ? aiMessage
+                  ? aiMessage
+                  : "Aguarde..."
+                : "Não há equalizações encontradas"}
+            </p>
+          </div>
+        </section>
+
+        <section className="mt-[14px] bg-content-background p-4 rounded-2xl">
+          <h2 className="text-20 text-purple-text font-bold text-left mb-0">
+            Suas maiores notas
+          </h2>
+          <p className="text-16 text-text text-left mb-4 ">
+            Dados referentes ao último ciclo avaliativo realizado (...)
+          </p>
+          <div className="flex flex-row justify-between px-28">
+            <div className="flex flex-col items-center bg-dark-zebra p-4 rounded-xl space-y-[8px] h-[220px]">
+              <div className="w-full h-[120px] flex justify-center items-center overflow-hidden">
+                <img
+                  src={GroupMeeting}
+                  alt="img"
+                  className="h-full object-cover"
+                />
+              </div>
+              <p className="font-normal text-16 leading-[24px]">
+                Capacidade de aprender
+              </p>
+              {stars(2)}
+            </div>
+            <div className="flex flex-col items-center bg-dark-zebra p-4 rounded-xl space-y-[8px] h-[220px]">
+              <div className="w-full h-[120px] flex justify-center items-center overflow-hidden">
+                <img
+                  src={WorkingTogether}
+                  alt="img"
+                  className="h-full object-cover"
+                />
+              </div>
+              <p className="font-normal text-16 leading-[24px]">
+                Trabalho em equipe
+              </p>
+              {stars(5)}
+            </div>
+            <div className="flex flex-col items-center bg-dark-zebra p-4 rounded-xl space-y-[8px] h-[220px]">
+              <div className="w-full h-[120px] flex justify-center items-center overflow-hidden">
+                <img
+                  src={ReadingOnTopOfPileOfBooks}
+                  alt="img"
+                  className="h-full object-cover"
+                />
+              </div>
+              <p className="font-normal text-16 leading-[24px]">
+                Organização no trabalho
+              </p>
+              {stars(5)}
+            </div>
+          </div>
+        </section>
+
+        <section className="mt-[14px] bg-content-background p-4 rounded-2xl h-[268px]">
+          <h2 className="text-20 text-purple-text font-bold text-left pb-2">
+            Meu desempenho{" "}
+            <span className="text-14 text-text font-normal ml-2">
+              Confira seu desempenho de médias finais no último ciclo
+            </span>
+          </h2>
+          <div className="">
+            {/* Placeholder for a performance chart */}
+            <div className="flex justify-center items-center h-full text-gray-500 ">
+              <ResponsiveContainer width="100%" height={200}>
+                <AreaChart
+                  data={data}
+                  margin={{
+                    top: 10,
+                    right: 30,
+                    left: 0,
+                    bottom: 0,
+                  }}
+                >
+                  <CartesianGrid stroke="#ccc" />
+                  <XAxis dataKey="name" />
+                  <YAxis domain={[1, 0.5, 5]} />
+                  <Tooltip />
+                  <Area
+                    type="monotone"
+                    dataKey="uv"
+                    stroke="#8884d8"
+                    fill="#A28BFE"
+                    dot={<CustomDot />}
+                  />
+                </AreaChart>
+              </ResponsiveContainer>
+            </div>
+          </div>
+        </section>
       </div>
     </main>
   );

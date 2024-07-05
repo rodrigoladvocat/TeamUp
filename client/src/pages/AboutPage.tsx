@@ -17,19 +17,18 @@ export default function AboutPage(): JSX.Element {
   }, []);
 
   return (
-    <div className="flex flex-row h-screen justify-center max-h-screen p-6 bg-general-background text-white flex-1">
-      <div className="flex">
+    <div className="flex flex-row w-[1440px] justify-center h-screen max-h-screen p-6 bg-general-background text-white">
         <aside>
           <Menu></Menu>
         </aside>
 
-        <main className="flex-1 p-6 bg-general-background h-[920px] w-[64.25rem] ">
+        <main className="p-6 bg-general-background">
           <Header
             userName={user?.name || ""}
             profileImage={user?.imgUrl || ""}
             title="Sobre a Plataforma"
           />
-          <div className="overflow-y-scroll h-[820px] mt-8">
+          <div className="overflow-y-scroll h-[813px] mt-8">
             <div className="flex-1 bg-content-background h-[820px] max-w-[64.25rem]">
               <div className="flex-1 bg-content-background p-8 pt-4 pb-2 ">
                 <div className="text-left text-32 text-purple-text font-poppins font-bold">
@@ -252,11 +251,11 @@ export default function AboutPage(): JSX.Element {
                   <div className="flex justify-between items-start">
                     <div className="w-1/2 text-right pr-11 flex flex-col items-end">
                       <h3 className="text-20 text-primary font-bold pb-2">
-                        Equalização
+                        Avaliação Final
                       </h3>
                       <p className="text-16 w-[373px]">
                         Com todas as notas e dados qualitativos extraídos das
-                        avaliações é realizado um processo de equalização que
+                        avaliações é realizado um processo de avaliação final que
                         gera uma nota final condizente com toda a informação
                         obtida a respeito de cada colaborador.
                       </p>
@@ -323,7 +322,6 @@ export default function AboutPage(): JSX.Element {
             </div>
           </div>
         </main>
-      </div>
     </div>
   );
 }

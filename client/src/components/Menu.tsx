@@ -73,7 +73,7 @@ export function Menu() {
         </li>
         <div className="flex flex-col justify-center items-center">
           <img src={traco} />
-          <div className="text-[20px] p-8">Versão 2.2.2</div>
+          <div className="text-[20px] p-8">Versão 1.0.0</div>
         </div>
       </div>
     </div>

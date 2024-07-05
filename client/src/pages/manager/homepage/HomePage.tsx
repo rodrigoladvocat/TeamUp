@@ -19,7 +19,7 @@ import { useMenu } from "@/context/MenuContext";
 import { useAuth } from "@/hooks/AuthUser";
 import { useNavigate } from "react-router-dom";
 import { useCycle } from "@/hooks/useCycle";
-import calculateDaysBetween from "@/utils/dateTime/calculateDaysBetween";
+import { GetTunningByCycleDto } from "@/dto/GetTunningByCycleDto";
 
 class Title_Grade {
   constructor(public title: string, public grade: number) {
@@ -35,7 +35,7 @@ export default function ManagerHomePage(): JSX.Element {
     const {user, isAuthenticated} = useAuth();
     const [ cycleId, setCycleId ] = useState<number | null>(null);
     const [ cycle, setCycle ] = useState<any>(null);
-    const [ tuningData, setTuningData ] = useState<string[]>([]);
+    const [ tuningData, setTuningData ] = useState<GetTunningByCycleDto[]>([]);
     const [ picturesArrayExcepcional, setPicturesArrayExcepcional ] = useState<string[]>([]);
     const [ picturesArrayMuitoBom, setPicturesArrayMuitoBom ] = useState<string[]>([]);
     const [ picturesArrayFezOBasico, setPicturesArrayFezOBasico ] = useState<string[]>([]);
@@ -43,7 +43,7 @@ export default function ManagerHomePage(): JSX.Element {
     const [ bestGrades, setBestGrades ] = useState<any[]>([]); // 4 items
     const [ worstGrades, setWorstGrades ] = useState<any[]>([]); // 4 items
 
-    const {_cycle, endDate, daysToFinish, callAllUpdates} = useCycle();
+    const { endDate, daysToFinish, callAllUpdates} = useCycle();
 
     const navigate = useNavigate();
 
@@ -76,7 +76,9 @@ export default function ManagerHomePage(): JSX.Element {
     useEffect(() => {
       if (cycleId !== null) { // if a cycleId was found
         getTuningByCycleId(cycleId).then((data) => {
-          setTuningData(data);
+          if (data) {
+            setTuningData(data);
+          }
         });
       }
       else {
@@ -181,15 +183,18 @@ export default function ManagerHomePage(): JSX.Element {
     }, [tuningData])
 
     return (
-      <div className="flex justify-center w-screen h-screen min-h-screen p-6 bg-general-background text-white">
-        <div className="flex"> {/*div added to centralize the page content*/}
+      <div className="flex flex-row justify-center w-[1440px] h-screen min-h-screen p-6 bg-general-background text-white">
         <aside>
           <Menu></Menu>
         </aside>
 
-        <main className="flex-1 p-6 bg-general-background h-[920px] w-[64.25rem]">
+        <main className="flex-1 p-6 bg-general-background h-[920px]">
 
-          <Header userName={user ? user.name : "null"} profileImage={user ? user.imgUrl : ""} title="Página inicial"/>
+          <Header 
+            userName={user ? user.name : "null"} 
+            profileImage={user ? user.imgUrl : ""} 
+            title="Página inicial"
+          />
           
           <div className="flex flex-row gap-x-[1rem] max-w-[64.25rem] mb-6">
             <div className="flex-1 col-span-2 bg-content-background p-4 pl-5 rounded-2xl w-[45rem]">
@@ -344,7 +349,6 @@ export default function ManagerHomePage(): JSX.Element {
               </div>  
             </div>
         </main>
-        </div>
     </div>
     );
 }

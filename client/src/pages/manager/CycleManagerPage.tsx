@@ -66,14 +66,17 @@ export default function CycleManagerPage(): JSX.Element {
             </span>
           </div>
 
-          <span className="flex flex-row items-center ml-[32px]">
+          <span 
+            className="flex flex-row items-center ml-[32px] cursor-pointer"
+            onClick={() => {navigate("/profile")}}
+          >
             <img
               src={user?.imgUrl || ""}
               onError={(e) => { e.currentTarget.src = defaultProfileImage; }}
               className={"size-[54px] rounded-full"}
               alt="Profile Image"
             />
-            <p className="ml-2 font-normal text-[20px] leading-[30px]">{user?.name || "Erro carregando nome"}</p>
+            <p className="ml-2 font-normal text-[20px] leading-[30px] hover:text-primary">{user?.name || "Erro carregando nome"}</p>
           </span>
         </header>
 
