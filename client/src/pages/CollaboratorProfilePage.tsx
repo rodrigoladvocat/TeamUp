@@ -5,6 +5,7 @@ import { Link, useParams } from "react-router-dom";
 import arrowBack from "../assets/arrow-back-circle.svg";
 import { AuthContext } from "@/context/AuthContext";
 import defaultProfileImage from "@/assets/default_profile_image.png";
+import { useNavigate } from "react-router-dom";
 
 interface CollaboratorProps {
   name: string;
@@ -24,7 +25,10 @@ interface CollaboratorProps {
 const Profile = () => {
   const { id } = useParams<{ id?: string }>();
   const [user, setUser] = useState<CollaboratorProps | null>(null);
+  const [collaborator, setCollaborator] = useState<CollaboratorProps | null>(null); // [1
   const auth = useContext(AuthContext);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -69,7 +73,7 @@ const Profile = () => {
           <header className="flex justify-between items-center mb-3">
             <h1 className="text-32 text-left text-purple-text font-bold">
               <div className="flex flex-row">
-                <Link to={"/dev"}>
+                <Link to={"/grades"}>
                   <div className="pr-2 pt-1">
                     <img src={arrowBack} alt="Arrow Back" />
                   </div>
@@ -124,7 +128,7 @@ const Profile = () => {
                     <div className="py-3 text-[12px] ">Ativo</div>
                   </div>
                 </div>
-                <button className="bg-primary text-[#263238] text-16 font-medium">
+                <button className="bg-primary text-[#263238] text-16 font-medium" onClick={() => navigate(`/profile/grades/${id}`)}>
                   Visualizar notas
                 </button>
               </div>
