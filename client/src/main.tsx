@@ -54,7 +54,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
           <Route path="/grades" element={
             <RedirectByUserType
             managerPage={GradesManagerPage}
-            collaboratorPage={GradesCollaboratorPage} // TODO substituir por GradesCollaboratorPage
+            collaboratorPage={GradesCollaboratorPage}
             />
           } />
           <Route path="/evaluations" element={

@@ -48,7 +48,7 @@ export default function GradePicker({
                   border-[1px] border-solid 
                   p-[20px]
                   rounded-xl
-                  w-[185px] h-[114px]
+                  w-[178px] h-[114px]
                   hover:bg-[#9D85FF66] hover:border-[#A28BFE] hover:text-hover-text
                   group
                   ${selectedGradeIndex !== -1 && gradeOptions[selectedGradeIndex] === gradeOption

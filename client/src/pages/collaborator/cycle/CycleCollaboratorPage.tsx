@@ -96,114 +96,113 @@ export default function CycleCollaboratorPage(): JSX.Element {
   }
 
   return (
-      <div className="flex justify-center h-screen w-full p-6 min-h-screen text-white">
-        <div className="flex">
-          <aside>
-            <Menu></Menu>
-          </aside>
+      <div className="flex flex-row justify-center w-[1440px] h-screen p-6 min-h-screen text-white">
+        <aside>
+          <Menu></Menu>
+        </aside>
 
-          <main className="flex-1 p-6 text-left font-poppins w-[64.25rem]">
+        <main className="flex-1 p-6 text-left font-poppins w-[64.25rem]">
+          
+        <Header 
+          userName={user?.name || ""} 
+          subtitle={cycle === null ? "Aguarde o próximo período avaliativo" : `Período aberto em |${startDate}| e termina em |${endDate}| às |${endTime}|`} 
+          profileImage={user?.imgUrl || ""} 
+          title="Sobre a Plataforma"
+          coloredSubtitle={true}
+        />
+
+          <div className="flex flex-col flex-1 p-6 gap-[3rem]">
+              <p>
+                  Escolha o tipo de avaliação que deseja realizar, lembrando que é necessário que todos os colaboradores realizem ambas as avaliações, que ficam abertas e sujeitas a edição até o final do ciclo avaliativo.
+              </p>
+
+              <div className="flex flex-col">
+                  <div className="text-28 text-purple-text font-bold">
+                      Recomendações 
+                  </div>
+
+                  <div className="mt-2">
+                      A sua avaliação é muito importante para nós, então reserve um tempo para respondê-la para que o ciclo consiga ser o mais proveitoso possível e também deixamos aqui algumas recomendações:
+                  </div>
+
+                  <div className="mt-4">
+                      <span className="text-purple-text text-20">Seja Objetivo e Honesto:</span>
+                      <span> Ao avaliar, seja claro e específico em suas observações, destacando fatos e exemplos concretos. A honestidade é crucial para identificar pontos fortes e áreas de melhoria.</span>
+                  </div>
+
+                  <div className="mt-4">
+                      <span className="text-purple-text text-20">Equilíbrio:</span>
+                      <span> Balanceie os feedbacks positivos e negativos. Reconhecer realizações e esforços é tão importante quanto identificar áreas de melhoria.</span>
+                  </div>
+
+                  <div className="mt-4">
+                      <span className="text-purple-text text-20">Feedback Construtivo:</span>
+                      <span> Ao apontar áreas de melhoria, forneça sugestões práticas e construtivas para o desenvolvimento do colaborador. O objetivo é ajudar na evolução profissional e pessoal.</span>
+                  </div>
+              </div>
+            {
+            cycle ?
             
-          <Header 
-            userName={user?.name || ""} 
-            subtitle={cycle === null ? "Aguarde o próximo período avaliativo" : `Período aberto em ${startDate} e termina em ${endDate} às ${endTime}`} 
-            profileImage={user?.imgUrl || ""} 
-            title="Sobre a Plataforma"
-          />
-
-            <div className="flex flex-col flex-1 p-6 gap-[3rem]">
-                <p>
-                    Escolha o tipo de avaliação que deseja realizar, lembrando que é necessário que todos os colaboradores realizem ambas as avaliações, que ficam abertas e sujeitas a edição até o final do ciclo avaliativo.
-                </p>
-
-                <div className="flex flex-col">
-                    <div className="text-28 text-purple-text font-bold">
-                        Recomendações 
-                    </div>
-
-                    <div className="mt-2">
-                        A sua avaliação é muito importante para nós, então reserve um tempo para respondê-la para que o ciclo consiga ser o mais proveitoso possível e também deixamos aqui algumas recomendações:
-                    </div>
-
-                    <div className="mt-4">
-                        <span className="text-purple-text text-20">Seja Objetivo e Honesto:</span>
-                        <span> Ao avaliar, seja claro e específico em suas observações, destacando fatos e exemplos concretos. A honestidade é crucial para identificar pontos fortes e áreas de melhoria.</span>
-                    </div>
-
-                    <div className="mt-4">
-                        <span className="text-purple-text text-20">Equilíbrio:</span>
-                        <span> Balanceie os feedbacks positivos e negativos. Reconhecer realizações e esforços é tão importante quanto identificar áreas de melhoria.</span>
-                    </div>
-
-                    <div className="mt-4">
-                        <span className="text-purple-text text-20">Feedback Construtivo:</span>
-                        <span> Ao apontar áreas de melhoria, forneça sugestões práticas e construtivas para o desenvolvimento do colaborador. O objetivo é ajudar na evolução profissional e pessoal.</span>
-                    </div>
+              <div className="p-6 rounded-xl border border-purple-text mt-5">
+                <div className="text-purple-text text-[20px] font-bold ml-[3.8rem]">
+                  Ciclo avaliativo {cycle ? cycle.cycleName : "cycle not found"}
                 </div>
-              {
-              cycle ?
-              
-                <div className="p-6 rounded-xl border border-purple-text mt-5">
-                  <div className="text-purple-text text-[20px] font-bold ml-[3.8rem]">
-                    Ciclo avaliativo {cycle ? cycle.cycleName : "cycle not found"}
-                  </div>
-                  <div className="flex flex-col space-y-9 mt-7">
-                    <div className="flex items-center justify-between">
+                <div className="flex flex-col space-y-9 mt-7">
+                  <div className="flex items-center justify-between">
+                  <div className="flex-1 flex items-center justify-center">
+                      <span className="text-purple-text">Tipo de avaliação:</span>
+                      </div>
                     <div className="flex-1 flex items-center justify-center">
-                        <span className="text-purple-text">Tipo de avaliação:</span>
-                        </div>
-                      <div className="flex-1 flex items-center justify-center">
-                        <span className="text-purple-text">Última atualização:</span>
-                      </div>
-                      <div className="flex-1 flex items-center justify-center">
-                        <span className="text-purple-text">Status:</span>
-                      </div>
+                      <span className="text-purple-text">Última atualização:</span>
                     </div>
-                    <div className="flex items-center justify-between">
-                      <div className="flex-1 flex items-center justify-center">
-                        <Button variant="default" size="default" 
-                          className="text-black w-[168px] h-[48px]" 
-                          onClick={() => {navigate("/self-evaluation")}}
-                        >
-                          Autoavaliação
-                        </Button>
-                      </div>
-                      <div className="flex-1 flex items-center justify-center text-[#D3C8FF]">
-                        <p>{selfEvalInfo.selfLastUpdated && selfEvalInfo.selfLastUpdatedTime ? <span>{selfEvalInfo.selfLastUpdated} às {selfEvalInfo.selfLastUpdatedTime}</span> : "----"}</p>
-                      </div>
-                      <div className="flex-1 flex items-center justify-center">
-                        <TagStage stage={selfEvalInfo.selfEvalStage}/>
-                      </div>
+                    <div className="flex-1 flex items-center justify-center">
+                      <span className="text-purple-text">Status:</span>
                     </div>
-                    <div className="flex items-center justify-between">
-                      <div className="flex-1 flex items-center justify-center">
-                        <Button variant="default" size="default" 
-                          className="text-black w-[168px] h-[48px]" 
-                          onClick={() => {navigate("/others-evaluation")}}
-                        >
-                          Avaliação 360°
-                        </Button>
-                      </div>
-                      <div className="flex-1 flex items-center justify-center text-[#D3C8FF]">
-                        <p>{othersLastUpdated && othersLastUpdatedTime ? <span>{othersLastUpdated} às {othersLastUpdatedTime}</span> : "----"}</p>
-                      </div>
-                      <div className="flex-1 flex items-center justify-center">
-                        <TagStage stage={calculateOthersStage(othersEvalInfo.othersEvalStage)}/>
-                      </div>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <div className="flex-1 flex items-center justify-center">
+                      <Button variant="default" size="default" 
+                        className="text-black w-[168px] h-[48px]" 
+                        onClick={() => {navigate("/self-evaluation")}}
+                      >
+                        Autoavaliação
+                      </Button>
+                    </div>
+                    <div className="flex-1 flex items-center justify-center text-[#D3C8FF]">
+                      <p>{selfEvalInfo.selfLastUpdated && selfEvalInfo.selfLastUpdatedTime ? <span>{selfEvalInfo.selfLastUpdated} às {selfEvalInfo.selfLastUpdatedTime}</span> : "----"}</p>
+                    </div>
+                    <div className="flex-1 flex items-center justify-center">
+                      <TagStage stage={selfEvalInfo.selfEvalStage}/>
+                    </div>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <div className="flex-1 flex items-center justify-center">
+                      <Button variant="default" size="default" 
+                        className="text-black w-[168px] h-[48px]" 
+                        onClick={() => {navigate("/others-evaluation")}}
+                      >
+                        Avaliação 360°
+                      </Button>
+                    </div>
+                    <div className="flex-1 flex items-center justify-center text-[#D3C8FF]">
+                      <p>{othersLastUpdated && othersLastUpdatedTime ? <span>{othersLastUpdated} às {othersLastUpdatedTime}</span> : "----"}</p>
+                    </div>
+                    <div className="flex-1 flex items-center justify-center">
+                      <TagStage stage={calculateOthersStage(othersEvalInfo.othersEvalStage)}/>
                     </div>
                   </div>
                 </div>
+              </div>
 
-                :
-                <div className="flex flex-col justify-center p-6 rounded-xl border border-purple-text h-[18rem]">
-                  <div className="text-purple-text text-center text-32 font-bold">
-                    Ciclo avaliativo finalizado.
-                  </div>
+              :
+              <div className="flex flex-col justify-center p-6 rounded-xl border border-purple-text h-[18rem]">
+                <div className="text-purple-text text-center text-32 font-bold">
+                  Ciclo avaliativo finalizado.
                 </div>
-              }
-            </div>
-          </main>
-        </div>
+              </div>
+            }
+          </div>
+        </main>
       </div>
   );
 };
