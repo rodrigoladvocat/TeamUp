@@ -95,16 +95,16 @@ export default function ManagerHomePage(): JSX.Element {
       let _picturesArrayPrecisoMelhorar: any[] = [];
 
       tuningData.forEach((tuning: any) => {
-        if (tuning.grade >= 4) {
+        if (tuning.grade >= 4 && _picturesArrayExcepcional.length <= 3) {
           _picturesArrayExcepcional.push(tuning.evaluated.imgUrl);
         }
-        else if (tuning.grade > 3) {
+        else if (tuning.grade > 3 && _picturesArrayMuitoBom.length <= 3) {
           _picturesArrayMuitoBom.push(tuning.evaluated.imgUrl);
         }
-        else if (tuning.grade > 2) {
+        else if (tuning.grade > 2 && _picturesArrayFezOBasico.length <= 3) {
           _picturesArrayFezOBasico.push(tuning.evaluated.imgUrl);
         }
-        else {
+        else if ( _picturesArrayPrecisoMelhorar.length <= 3){
           _picturesArrayPrecisoMelhorar.push(tuning.evaluated.imgUrl);
       }})
 
