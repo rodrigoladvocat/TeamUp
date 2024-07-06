@@ -108,7 +108,11 @@ export default function CycleManagerPage(): JSX.Element {
           <div className="flex flex-row justify-between">
             <p className="font-normal text-16 leading-[24px]">
               {isOngoingOrEnded === "Em andamento"
-                ? `O ciclo atual fecha em ${daysToFinish} dias (${endDate})`
+                ? <div className="flex flex-row">
+                    <p>{`O ciclo atual fecha em ${daysToFinish} dias (`}</p>
+                    <p className="text-primary">{endDate}</p>
+                    {")"}
+                  </div>
                 : `O ciclo atual fechou`}
             </p>
             {isOngoingOrEnded === "Em andamento" ? (
@@ -150,9 +154,7 @@ export default function CycleManagerPage(): JSX.Element {
                       className="w-full h-full object-cover object-top"
                       src={collaborator.imgUrl}
                       alt="Profile picture"
-                      onError={(e) => {
-                        e.currentTarget.src = defaultProfileImage;
-                      }}
+                      onError={(e) => { e.currentTarget.src = defaultProfileImage; }}
                     />
                   </div>
                   <p className="font-bold text-20 leading-[30px] text-left flex items-center">

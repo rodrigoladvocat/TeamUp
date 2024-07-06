@@ -137,7 +137,7 @@ export const CycleProvider: React.FC<Props> = ({ children }) => {
       const startDate = parseDate(cycleData.initialDate, 'YYYY-MM-DD', 'DD/MM/YYYY');
       const endDate = parseDate(cycleData.finalDate, 'YYYY-MM-DD', 'DD/MM/YYYY');
       const daysToFinish = calculateDaysBetween(curr_date, endDate);
-      const tunningEndDate = new Date(endDate);
+      const tunningEndDate = new Date(cycleData.finalDate);
       
       const parsedData: ParsedCycleInfo = {
         startDate: startDate,
@@ -226,7 +226,8 @@ export const CycleProvider: React.FC<Props> = ({ children }) => {
       const startDate = parseDate(res.data.initialDate, 'YYYY-MM-DD', 'DD/MM/YYYY');
       const endDate = parseDate(res.data.finalDate, 'YYYY-MM-DD', 'DD/MM/YYYY');
       const daysToFinish = calculateDaysBetween(curr_date, endDate);
-      const tunningEndDate = new Date(endDate);
+      const tunningEndDate = new Date(res.data.finalDate);
+
       const parsedData: ParsedCycleInfo = {
         startDate: startDate,
         endDate: endDate,

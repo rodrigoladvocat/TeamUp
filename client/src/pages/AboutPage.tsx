@@ -167,10 +167,10 @@ export default function AboutPage(): JSX.Element {
                       </div>
                     </div>
                     <div className="w-1/2 pl-11 text-left">
-                      <h3 className="text-20 text-primary font-bold pb-2">
+                      <h3 className="auto-blur text-20 text-primary font-bold pb-2">
                         Início
                       </h3>
-                      <p className="text-16 w-[247px]">
+                      <p className="auto-show text-16 w-[247px]">
                         O ciclo avaliativo começa e todos os colaboradores são
                         sinalizados da data de início e fim do ciclo.
                       </p>
@@ -180,10 +180,10 @@ export default function AboutPage(): JSX.Element {
                 <div className="mb-[118px]">
                   <div className="flex justify-between items-start">
                     <div className="w-1/2 text-right pr-11 flex flex-col items-end">
-                      <h3 className="text-20 text-primary font-bold pb-2">
+                      <h3 className="auto-blur text-20 text-primary font-bold pb-2">
                         Avaliações
                       </h3>
-                      <p className="text-16 w-[373px]">
+                      <p className="auto-show text-16 w-[373px]">
                         O colaborador recebe dois tipos de avaliações para
                         preenchimento. A autoavaliação e a avaliação 360º para
                         avaliar seus companheiros de trabalho.
@@ -236,10 +236,10 @@ export default function AboutPage(): JSX.Element {
                       </div>
                     </div>
                     <div className="w-1/2 pl-11 text-left">
-                      <h3 className="text-20 text-primary font-bold pb-2">
+                      <h3 className="auto-blur text-20 text-primary font-bold pb-2">
                         Gestor
                       </h3>
-                      <p className="text-16 w-[247px]">
+                      <p className="auto-show text-16 w-[247px]">
                         Após o final do ciclo avaliativo, as avaliações são
                         enviadas para os gestores para que agora eles avaliem os
                         colaboradores.
@@ -250,10 +250,10 @@ export default function AboutPage(): JSX.Element {
                 <div className="mb-[73px]">
                   <div className="flex justify-between items-start">
                     <div className="w-1/2 text-right pr-11 flex flex-col items-end">
-                      <h3 className="text-20 text-primary font-bold pb-2">
+                      <h3 className="auto-blur text-20 text-primary font-bold pb-2">
                         Avaliação Final
                       </h3>
-                      <p className="text-16 w-[373px]">
+                      <p className="auto-show text-16 w-[373px]">
                         Com todas as notas e dados qualitativos extraídos das
                         avaliações é realizado um processo de avaliação final que
                         gera uma nota final condizente com toda a informação
@@ -307,15 +307,16 @@ export default function AboutPage(): JSX.Element {
                       </div>
                     </div>
                     <div className="w-1/2 pl-11 text-left">
-                      <h3 className="text-20 text-primary font-bold pb-2">
+                      <h3 className="auto-blur text-20 text-primary font-bold pb-2">
                         Gestor
                       </h3>
-                      <p className="text-16 w-[247px]">
+                      <p className="auto-show text-16 w-[247px]">
                         Após o final do ciclo avaliativo, as avaliações são
                         enviadas para os gestores para que agora eles avaliem os
                         colaboradores.
                       </p>
                     </div>
+                    <div className="h-16"></div>
                   </div>
                 </div>
               </div>

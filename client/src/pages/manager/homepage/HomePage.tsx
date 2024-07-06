@@ -209,7 +209,8 @@ export default function ManagerHomePage(): JSX.Element {
                   daysToFinish > 0 ? <p className="text-left">
                     O ciclo atual{" "}
                     <span className="text-purple-text">fecha em {daysToFinish} dias</span>{" "}
-                    (Data de fechamento: {endDate})
+                    {"(Data de fechamento: "}
+                    <span className="text-purple-text">{endDate}</span>{")"}
                   </p>
                   :
                   <p className="text-left">

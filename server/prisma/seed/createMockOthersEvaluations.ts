@@ -7,7 +7,7 @@ export const othersEvaluations: OthersEvaluation[] = [
     evaluatedUserId: 2,
     cycleId: 1,
     grade: 4,
-    comment: "Strong performance overall",
+    comment: "Desempenho geral forte",
     lastUpdated: new Date(),
     isFinalized: false
   },
@@ -17,7 +17,7 @@ export const othersEvaluations: OthersEvaluation[] = [
     evaluatedUserId: 1,
     cycleId: 1,
     grade: 4,
-    comment: "Strong performance overall",
+    comment: "Desempenho geral forte",
     lastUpdated: new Date(),
     isFinalized: false
   },
@@ -27,7 +27,7 @@ export const othersEvaluations: OthersEvaluation[] = [
     evaluatedUserId: 2,
     cycleId: 2,
     grade: 3,
-    comment: "Met expectations",
+    comment: "Atendeu às expectativas",
     lastUpdated: new Date(),
     isFinalized: false
   },
@@ -37,7 +37,7 @@ export const othersEvaluations: OthersEvaluation[] = [
     evaluatedUserId: 3,
     cycleId: 3,
     grade: 5,
-    comment: "Outstanding work",
+    comment: "Trabalho excepcional",
     lastUpdated: new Date(),
     isFinalized: false
   },
@@ -47,7 +47,7 @@ export const othersEvaluations: OthersEvaluation[] = [
     evaluatedUserId: 4,
     cycleId: 4,
     grade: 2,
-    comment: "Needs improvement in some areas",
+    comment: "Precisa de melhorias em algumas áreas",
     lastUpdated: new Date(),
     isFinalized: false
   },
@@ -57,7 +57,7 @@ export const othersEvaluations: OthersEvaluation[] = [
     evaluatedUserId: 5,
     cycleId: 1,
     grade: 4,
-    comment: "Consistently good performance",
+    comment: "Desempenho consistentemente bom",
     lastUpdated: new Date(),
     isFinalized: false
   },
@@ -67,7 +67,7 @@ export const othersEvaluations: OthersEvaluation[] = [
     evaluatedUserId: 6,
     cycleId: 2,
     grade: 3,
-    comment: "Shows potential for growth",
+    comment: "Mostra potencial para crescimento",
     lastUpdated: new Date(),
     isFinalized: false
   },
@@ -77,7 +77,7 @@ export const othersEvaluations: OthersEvaluation[] = [
     evaluatedUserId: 9,
     cycleId: 3,
     grade: 5,
-    comment: "Exceptional skills demonstrated",
+    comment: "Habilidades excepcionais demonstradas",
     lastUpdated: new Date(),
     isFinalized: false
   },
@@ -87,7 +87,7 @@ export const othersEvaluations: OthersEvaluation[] = [
     evaluatedUserId: 10,
     cycleId: 4,
     grade: 2,
-    comment: "Needs more focus on quality",
+    comment: "Precisa de mais foco na qualidade",
     lastUpdated: new Date(),
     isFinalized: false
   },
@@ -97,7 +97,7 @@ export const othersEvaluations: OthersEvaluation[] = [
     evaluatedUserId: 11,
     cycleId: 1,
     grade: 4,
-    comment: "Impressive performance",
+    comment: "Desempenho impressionante",
     lastUpdated: new Date(),
     isFinalized: false
   },
@@ -107,7 +107,7 @@ export const othersEvaluations: OthersEvaluation[] = [
     evaluatedUserId: 12,
     cycleId: 2,
     grade: 3,
-    comment: "Meeting expectations consistently",
+    comment: "Atendendo às expectativas de forma consistente",
     lastUpdated: new Date(),
     isFinalized: false
   },
@@ -117,7 +117,7 @@ export const othersEvaluations: OthersEvaluation[] = [
     evaluatedUserId: 13,
     cycleId: 3,
     grade: 5,
-    comment: "Exceptional contribution",
+    comment: "Contribuição excepcional",
     lastUpdated: new Date(),
     isFinalized: false
   },
@@ -127,7 +127,7 @@ export const othersEvaluations: OthersEvaluation[] = [
     evaluatedUserId: 14,
     cycleId: 4,
     grade: 2,
-    comment: "Needs improvement in communication",
+    comment: "Precisa de melhorias na comunicação",
     lastUpdated: new Date(),
     isFinalized: false
   },
@@ -137,7 +137,7 @@ export const othersEvaluations: OthersEvaluation[] = [
     evaluatedUserId: 15,
     cycleId: 1,
     grade: 4,
-    comment: "Consistently high quality work",
+    comment: "Trabalho de alta qualidade consistente",
     lastUpdated: new Date(),
     isFinalized: false
   },
@@ -147,7 +147,7 @@ export const othersEvaluations: OthersEvaluation[] = [
     evaluatedUserId: 16,
     cycleId: 2,
     grade: 3,
-    comment: "Shows improvement over time",
+    comment: "Mostra melhoria ao longo do tempo",
     lastUpdated: new Date(),
     isFinalized: false
   },
@@ -157,7 +157,7 @@ export const othersEvaluations: OthersEvaluation[] = [
     evaluatedUserId: 17,
     cycleId: 3,
     grade: 5,
-    comment: "Exceeds expectations consistently",
+    comment: "Excede as expectativas de forma consistente",
     lastUpdated: new Date(),
     isFinalized: false
   },
@@ -167,7 +167,7 @@ export const othersEvaluations: OthersEvaluation[] = [
     evaluatedUserId: 18,
     cycleId: 4,
     grade: 2,
-    comment: "Needs more attention to detail",
+    comment: "Precisa de mais atenção aos detalhes",
     lastUpdated: new Date(),
     isFinalized: false
   },
@@ -177,7 +177,7 @@ export const othersEvaluations: OthersEvaluation[] = [
     evaluatedUserId: 19,
     cycleId: 1,
     grade: 4,
-    comment: "Strong performer in the team",
+    comment: "Forte desempenho na equipe",
     lastUpdated: new Date(),
     isFinalized: false
   },
@@ -186,8 +186,8 @@ export const othersEvaluations: OthersEvaluation[] = [
     evaluatorUserId: 3,
     evaluatedUserId: 8,
     cycleId: 5,
-    grade: 3,
-    comment: "Avarage performance",
+    grade: 4,
+    comment: "Desempenho médio. Entregas atrasadas constantemente, mas com qualidade sempre surpreendente. ☕☕☕",
     lastUpdated: new Date(),
     isFinalized: false
   },
@@ -196,12 +196,12 @@ export const othersEvaluations: OthersEvaluation[] = [
     evaluatorUserId: 1,
     evaluatedUserId: 8,
     cycleId: 5,
-    grade: 5,
-    comment: "Perfect",
+    grade: 4,
+    comment: "Perfeito. Trabalho em equipe bastante satisfatório. Poderia melhorar na comunicação. ✨✨✨",
     lastUpdated: new Date(),
     isFinalized: false
   },
-  
+
 
   // Adicione mais avaliações conforme necessário
 ];
