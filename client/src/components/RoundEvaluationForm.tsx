@@ -21,7 +21,7 @@ export default function GradeForm({
   const gradeOptions = [1, 2, 3, 4, 5];
 
   return (
-    <div className="flex flex-col min-w-fit pb-8 py-8">
+    <div className="flex flex-col min-w-fit w-full pb-8 py-8">
       <div className="h-[89px] min-w-fit flex flex-row justify-between items-center space-x-[4.625rem] bg-black p-3 rounded-t-2xl">
         <img
           className="w-16 h-16 object-cover rounded-full"
@@ -53,9 +53,7 @@ export default function GradeForm({
         </div>
       </div>
 
-      <div
-        className="h-[180px] w-full bg-white rounded-b-2xl text-wrap p-3 font-normal resize-none text-left text-black"
-      >
+      <div className="h-[180px] w-full bg-white rounded-b-2xl text-wrap p-3 font-normal resize-none text-left text-black">
         {text}
       </div>
     </div>
