@@ -26,7 +26,7 @@ async function resetNextIdToBe1() {
 
 async function main() {
 
-  const deleteBeforeSeed = false; // [Warning] remember to keep false after use.
+  const deleteBeforeSeed = true; // [Warning] remember to keep false after use.
   if (deleteBeforeSeed) {
     await deleteData();
     await resetNextIdToBe1();

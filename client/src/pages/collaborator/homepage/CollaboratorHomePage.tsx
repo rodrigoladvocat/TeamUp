@@ -355,7 +355,7 @@ export default function CollaboratorHomePage(): JSX.Element {
           </div>
         </section>
 
-        <section className="mt-[14px] bg-content-background p-4 rounded-2xl">
+        {/* <section className="mt-[14px] bg-content-background p-4 rounded-2xl">
           <h2 className="text-20 text-purple-text font-bold text-left mb-0">
             Suas maiores notas
           </h2>
@@ -385,7 +385,7 @@ export default function CollaboratorHomePage(): JSX.Element {
             <img src={flag} alt="flag" className="pr-3" />
             <p className="text-left">
               Sua nota final do ciclo avaliativo de {_cycle?.cycleName} já
-              está {/*TODO update to the last cycle, not the current*/}
+              está
               disponível na página Notas.
             </p>
           </div>
@@ -400,7 +400,7 @@ export default function CollaboratorHomePage(): JSX.Element {
                 : "Não há equalizações encontradas"}
             </p>
           </div>
-        </section>
+        </section> */}
 
         <section className="mt-[14px] bg-content-background p-4 rounded-2xl">
           <h2 className="text-20 text-purple-text font-bold text-left mb-0">
