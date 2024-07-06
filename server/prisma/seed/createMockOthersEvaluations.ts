@@ -61,6 +61,36 @@ export const othersEvaluations: OthersEvaluation[] = [
     lastUpdated: new Date(),
     isFinalized: false
   },
+  {
+    id: 7,
+    evaluatorUserId: 2,
+    evaluatedUserId: 8,
+    cycleId: 3,
+    grade: 4,
+    comment: "Good.",
+    lastUpdated: new Date(),
+    isFinalized: false
+  },
+  {
+    id: 8,
+    evaluatorUserId: 3,
+    evaluatedUserId: 8,
+    cycleId: 3,
+    grade: 5,
+    comment: "Excellent.",
+    lastUpdated: new Date(),
+    isFinalized: false
+  },
+  {
+    id: 9,
+    evaluatorUserId: 4,
+    evaluatedUserId: 8,
+    cycleId: 3,
+    grade: 3,
+    comment: "Could be better.",
+    lastUpdated: new Date(),
+    isFinalized: false
+  },
 
   // Adicione mais avaliações conforme necessário
 ];
