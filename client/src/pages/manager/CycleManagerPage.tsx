@@ -63,7 +63,7 @@ export default function CycleManagerPage(): JSX.Element {
       </aside>
 
       <main className="flex-1 p-6 bg-general-background h-[920px]">
-        <header className="flex flex-row justify-between">
+        <header className="flex flex-row justify-between items-start">
           <div className="flex flex-row">
             <span className="flex flex-col text-left ml-[8px]">
               <h1 className="text-primary font-bold text-[32px] leading[48px]">
@@ -86,7 +86,7 @@ export default function CycleManagerPage(): JSX.Element {
               onError={(e) => {
                 e.currentTarget.src = defaultProfileImage;
               }}
-              className={"size-[54px] rounded-full"}
+              className={"size-[52px] rounded-full"}
               alt="Profile Image"
             />
             <p className="ml-2 font-normal text-[20px] leading-[30px] hover:text-primary">
