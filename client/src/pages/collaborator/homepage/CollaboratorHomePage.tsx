@@ -144,6 +144,8 @@ export default function CollaboratorHomePage(): JSX.Element {
   const [ cycle, setCycle ] = useState<any>(null);
   const [ tuningData, setTuningData ] = useState<GetTunningByCycleDto[]>([]);
   const [ bestGrades, setBestGrades ] = useState<Title_Grade[]>([]); // 3 items
+
+  const [ lastCycleId, setLastCycleId ] = useState(null);
   const [lastTuning, setLastTuning] = useState<any>(null);
 
   const [prompt, setPrompt] = useState<number[] | null>(null); // array of grades or null if there is no tuning
@@ -267,6 +269,25 @@ export default function CollaboratorHomePage(): JSX.Element {
     setBestGrades(averagesList.slice(0, 3)); // getting the 3 best grades
 
   }, [tuningData])
+
+  useEffect(() => {
+    if (user) {
+      getLastCycle().then((cycle) => {
+        if (cycle) {
+          setLastCycleId(cycle.id);
+        }
+      })
+    }
+  }, [user])
+
+  useEffect(() => {
+    if (lastCycleId && user) {
+      getTuningByUserAndCycleId(user.id, lastCycleId)
+      .then((tuning) => {
+        setLastTuning(tuning);
+      })
+    }
+  }, [lastCycleId])
 
   useEffect(() => {
     if (lastTuning && aiMessage === null) {
