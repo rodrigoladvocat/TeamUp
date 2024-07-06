@@ -365,8 +365,8 @@ export default function CollaboratorHomePage(): JSX.Element {
           </div>
 
           <div className="ml-auto bg-content-background pt-4 pl-4 pr-4 rounded-2xl w-[18.125rem] text-[12px]">
-            <h2 className="text-left text-16 mb-4">Plano de melhoria</h2>
-            <p>
+            <h2 className="text-center text-16 font-bold mb-4">Plano de melhoria</h2>
+            <p className="pb-3">
               {lastTuning
                 ? aiMessage
                   ? aiMessage
