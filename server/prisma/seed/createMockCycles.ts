@@ -23,7 +23,7 @@ export const cycles: Cycle[] = [
     initialDate: new Date("2025-01-01"),
     finalDate: new Date("2025-04-01"),
     lastUpdated: new Date("2024-06-30"),
-    emailSent: true
+    emailSent: false
   },
 
 ];
