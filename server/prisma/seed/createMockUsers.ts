@@ -136,7 +136,7 @@ export const users: User[] = [
     },
     {
         id: 8,
-        name: "Dev de Teste",
+        name: "Arnaldo Fontes",
         email: "dev@gmail.com",
         password: "12345678",
         imgUrl: "https://avatars.githubusercontent.com/u/51039620?s…00&u=d7e9365da48a5874e02bd4bb68a7223e17379df7&v=4",
