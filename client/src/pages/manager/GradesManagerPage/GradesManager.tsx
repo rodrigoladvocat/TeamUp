@@ -18,7 +18,7 @@ interface CollaboratorProps {
 }
 
 export default function GradesManagerContent(): JSX.Element {
-  const [ collaborators, setCollaborators ] = useState<CollaboratorProps[]>([]);
+  const [collaborators, setCollaborators] = useState<CollaboratorProps[]>([]);
   const { user, isAuthenticated } = useAuth();
   const { setMenu } = useMenu();
   const { search } = useSearchBar();
@@ -26,12 +26,12 @@ export default function GradesManagerContent(): JSX.Element {
   const navigate = useNavigate();
 
   useEffect(() => {
-      if (!isAuthenticated) {
-        navigate('/login');
-      }
+    if (!isAuthenticated) {
+      navigate("/login");
+    }
 
-      setMenu(1);
-    }, [])
+    setMenu(1);
+  }, []);
 
   useEffect(() => {
     let append_array: CollaboratorProps[] = [];
@@ -53,13 +53,12 @@ export default function GradesManagerContent(): JSX.Element {
   }, [search]);
 
   return (
-    <div className="flex flex-row w-[1440px] justify-center h-screen text-white p-6">
-      <div className="flex">
+    <div className="flex flex-row justify-center w-[1440px] h-screen min-h-screen p-6 bg-general-background text-white">
       <aside>
         <Menu></Menu>
       </aside>
 
-      <main className="flex-1 p-6 bg-general-background w-[64.25rem]">
+      <main className="flex-1 p-6 bg-general-background h-[920px]">
         <Header
           userName={user?.name || "Error"}
           subtitle="Selecione o colaborador que deseja visualizar informações sobre"
@@ -74,7 +73,9 @@ export default function GradesManagerContent(): JSX.Element {
             return (
               <div
                 key={collaborator.email}
-                onClick={() => { navigate(`/grades/collaborator/${collaborator.id}`); }}
+                onClick={() => {
+                  navigate(`/grades/collaborator/${collaborator.id}`);
+                }}
                 /* Colocar max-w-[256px] nessa div faz os cards ficarem desalinhados */
                 className=" h-[310px] rounded-[16px] shadow-xl bg-gray overflow-hidden cursor-pointer"
               >
@@ -89,7 +90,6 @@ export default function GradesManagerContent(): JSX.Element {
           })}
         </div>
       </main>
-      </div>
     </div>
   );
-};
+}
