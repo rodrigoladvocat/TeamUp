@@ -145,7 +145,7 @@ const GradesPage: React.FC = () => {
         <Menu />
       </aside>
 
-      <main className="flex flex-col p-6 bg-general-background h-full">
+      <main className="flex flex-col flex-grow p-6 bg-general-background h-full">
         <Header 
           userName={user ? user.name : "null"} 
           profileImage={user ? user.imgUrl : "null"} 
@@ -156,7 +156,7 @@ const GradesPage: React.FC = () => {
           
           <Tabs type="default" tabs={tabLabels} onChange={handleChangeTab} />
           
-          <div className="h-[51.5rem] bg-content-background p-4 rounded-2xl mb-4 overflow-y-auto">
+          <div className="h-[48.2rem] bg-content-background p-4 rounded-b-2xl mb-4 overflow-y-auto">
             {selectedTabIndex === 0 && (
               <>
                 <p className="text-30 text-purple-text font-bold text-left pl-[10px] mb-0">
