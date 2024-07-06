@@ -16,6 +16,7 @@ import { AuthProvider } from './context/AuthContext';
 import { CycleProvider } from './context/CycleContext';
 import GradesManagerPage from './pages/manager/GradesManagerPage/GradesManagerPage';
 import CollaboratorProfile from './pages/CollaboratorProfilePage';
+import CollaboratorsGradesPageForManager from './pages/manager/GradesPage'
 import UserProfile from './pages/UserProfile';
 import FinalEvaluationManagerPage from './pages/manager/FinalEvaluation/FinalEvaluationManager';
 import CycleManagerPage from './pages/manager/CycleManagerPage';
@@ -37,7 +38,8 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
           <Route path="/" element={<LoginPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/profile" element={<UserProfile/>}/>
-          <Route path="/profile/:id" element={<CollaboratorProfile/>}/>
+          <Route path="/grades/collaborator/:id" element={<CollaboratorProfile/>}/>
+          <Route path="/grades/collaborator/:id/grades" element={<CollaboratorsGradesPageForManager/>}/>
           <Route path="/about" element={<AboutPage/>}/>
           <Route path="/dev" element={<VisualizeComponent />} />
 

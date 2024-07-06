@@ -65,6 +65,12 @@ export class OthersEvaluationController {
         return this.othersevaluationService.findUserEvalInTheLatestCycle(+userId);
     }
 
+    @Get(':evaluatorId')
+    @ApiOperation({ summary: 'Get all evaluations made by an evaluator.' })
+    async evaluatorGetsAllEval(@Param('evaluatorId', applyIdValidation) evaluatorId: number): Promise<OthersEvaluation[]> {
+        return await this.othersevaluationService.evaluatorGetsAllEval(+evaluatorId)
+        };
+
 
     @Get(':evaluatorId/:evaluatedId/:cycleId')
     @ApiOperation({ summary: 'Get a tuning-evaluations by (evaluatorId, evaluatedId, cycleId).' })

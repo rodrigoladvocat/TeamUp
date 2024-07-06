@@ -199,7 +199,7 @@ export default function ManagerHomePage(): JSX.Element {
           <div className="flex flex-row gap-x-[1rem] max-w-[64.25rem] mb-6">
             <div className="flex-1 col-span-2 bg-content-background p-4 pl-5 rounded-2xl w-[45rem]">
               <p className="text-28 text-purple-text font-bold text-left">
-                Bem vindo de volta Pedro!
+                Bem vindo de volta, {user ? user.name : "usuario"}!
               </p>
               <div className="flex items-start pt-8">
                 <img src={flag} alt="flag" className="pr-3" />

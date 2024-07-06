@@ -312,7 +312,7 @@ export default function CollaboratorHomePage(): JSX.Element {
         <section className="flex flex-row mt-[27px] gap-x-[1rem]">
           <div className="flex flex-col p-4 pl-5 rounded-2xl w-[45rem] bg-content-background">
             <p className="font-bold text-28 leading-[42px] text-purple-text text-left">
-              Bem vindo de volta Pedro!
+              Bem vindo de volta, {user ? user.name : "Usuário"}!
             </p>
             <div className="flex items-start pt-8">
               <img src={flag} alt="flag" className="pr-3" />
@@ -341,6 +341,53 @@ export default function CollaboratorHomePage(): JSX.Element {
                 disponível na página Notas.
               </p>
             </div>
+          </div>
+
+          <div className="ml-auto bg-content-background pt-4 pl-4 pr-4 rounded-2xl w-[18.125rem] text-[12px]">
+            <h2 className="text-left text-16 mb-4">Plano de melhoria</h2>
+            <p>
+              {lastTuning
+                ? aiMessage
+                  ? aiMessage
+                  : "Aguarde..."
+                : "Não há equalizações encontradas"}
+            </p>
+          </div>
+        </section>
+
+        <section className="mt-[14px] bg-content-background p-4 rounded-2xl">
+          <h2 className="text-20 text-purple-text font-bold text-left mb-0">
+            Suas maiores notas
+          </h2>
+          <p className="text-16 text-text text-left mb-4 ">
+            Dados referentes ao último ciclo avaliativo realizado (...)
+          </p>
+          <div className="flex items-start pt-8">
+            <img src={flag} alt="flag" className="pr-3" />
+            {daysToFinish > 0 ? (
+              <p className="text-left">
+                O ciclo atual{" "}
+                <span className="text-purple-text">
+                  fecha em {daysToFinish} dias
+                </span>{" "}
+                (Data de fechamento: {endDate})
+              </p>
+            ) : (
+              <p className="text-left">
+                O ciclo atual{" "}
+                <span className="text-purple-text">fechou</span> (Data de
+                fechamento: {endDate})
+              </p>
+            )}
+          </div>
+
+          <div className="flex items-start pt-8">
+            <img src={flag} alt="flag" className="pr-3" />
+            <p className="text-left">
+              Sua nota final do ciclo avaliativo de {_cycle?.cycleName} já
+              está {/*TODO update to the last cycle, not the current*/}
+              disponível na página Notas.
+            </p>
           </div>
 
           <div className="ml-auto bg-content-background pt-4 pl-4 pr-4 rounded-2xl w-[18.125rem] text-[12px]">

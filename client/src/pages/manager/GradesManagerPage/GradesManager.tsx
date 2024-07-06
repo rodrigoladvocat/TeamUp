@@ -54,11 +54,12 @@ export default function GradesManagerContent(): JSX.Element {
 
   return (
     <div className="flex flex-row w-[1440px] justify-center h-screen text-white p-6">
+      <div className="flex">
       <aside>
         <Menu></Menu>
       </aside>
 
-      <main className="flex flex-col w-full ml-[16px] bg-general-background">
+      <main className="flex-1 p-6 bg-general-background w-[64.25rem]">
         <Header
           userName={user?.name || "Error"}
           subtitle="Selecione o colaborador que deseja visualizar informações sobre"
@@ -68,12 +69,12 @@ export default function GradesManagerContent(): JSX.Element {
 
         <SearchBar />
 
-        <div className="bg-content-background grid grid-cols-3 mt-4 pt-8 px-4 pb-6 gap-x-[52px] gap-y-[24px] h-full max-h-screen rounded-2xl overflow-y-scroll">
+        <div className="bg-content-background grid grid-cols-3 mt-4 pt-8 px-4 pb-6 gap-x-[25px] gap-y-[24px] h-[47rem] rounded-2xl overflow-y-scroll">
           {collaborators.map((collaborator) => {
             return (
               <div
                 key={collaborator.email}
-                onClick={() => { navigate(`/profile/${collaborator.id}`); }}
+                onClick={() => { navigate(`/grades/collaborator/${collaborator.id}`); }}
                 /* Colocar max-w-[256px] nessa div faz os cards ficarem desalinhados */
                 className=" h-[310px] rounded-[16px] shadow-xl bg-gray overflow-hidden cursor-pointer"
               >
@@ -88,6 +89,7 @@ export default function GradesManagerContent(): JSX.Element {
           })}
         </div>
       </main>
+      </div>
     </div>
   );
 };

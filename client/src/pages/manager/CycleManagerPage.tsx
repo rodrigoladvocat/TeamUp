@@ -48,13 +48,13 @@ export default function CycleManagerPage(): JSX.Element {
 
 
   return(
-    <main className="flex flex-row w-[1440px] h-screen max-h-screen p-6">
-
+    <main className="flex justify-center w-screen h-screen min-h-screen p-6 bg-general-background text-white">
+      <div className="flex">
       <aside>
         <Menu></Menu>
       </aside>
 
-      <div className="flex flex-col w-full ml-[16px]">
+      <div className="flex-1 p-6 bg-general-background h-[920px] w-[64.25rem]">
 
         <header className="flex flex-row justify-between">
           <div className="flex flex-row">
@@ -104,7 +104,7 @@ export default function CycleManagerPage(): JSX.Element {
 
         </section>
 
-        <section className="bg-[#212121] w-full h-full max-h-screen overflow-y-auto p-8 mt-8 rounded-2xl">
+        <section className="bg-[#212121] h-[45rem] overflow-y-auto p-8 mt-8 rounded-2xl">
           <div className="bg-black rounded-2xl h-fit py-[12px] px-[20px]">
             {collaborators.map((collaborator, i) => {
               return (
@@ -136,6 +136,7 @@ export default function CycleManagerPage(): JSX.Element {
             })}
           </div>
         </section>
+      </div>
       </div>
     </main>
   );
