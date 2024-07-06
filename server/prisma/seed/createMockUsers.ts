@@ -117,7 +117,7 @@ export const users: User[] = [
     },
     {
         id: 7,
-        name: "Henruique Diaz",
+        name: "Henrique Diaz",
         email: "manager@gmail.com",
         password: "12345678",
         imgUrl: "https://s3-alpha-sig.figma.com/img/f10f/f2ba/190f25a6e4ed4e3bcf8ef86c9f874d55?Expires=1721001600&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=V1YCSMZxMiVYx11nM00lHp1huxAxn6BjCLEU2CC6-g2wQ4yBi3j9KINtOCuC5VvI7IKd8w30ECOFXReZDCYLwyeCTmDj2k-9754A~D38690399ahSoFQQCT5q7dtvsbF5rORbUvblhyBNzGeRemn36xRspeWvHq02pIgJyguzjQVvRO2PRkTO-rqjQdggKw4qnviyeq~nbHtTcaB0HvN9Oko4e3ET4O8Nd6qTni~6EfQ~XnYeBAfn4DTq7ZHI0RwlzoYBb-SEuHarq9ApRaNmGX2VkkGJ4Qdlq3ZoProYvu2HFMmEoZ~QDyasZcdcJydf9Vla01CUNmqE5hIa~jrqA__",

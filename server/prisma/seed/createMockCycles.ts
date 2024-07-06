@@ -7,7 +7,7 @@ export const cycles: Cycle[] = [
     initialDate: new Date("2024-01-01"),
     finalDate: new Date("2024-04-30"),
     lastUpdated: new Date("2024-04-30"),
-    emailSent: false
+    emailSent: true
   },
   {
     id: 2,
@@ -15,6 +15,15 @@ export const cycles: Cycle[] = [
     initialDate: new Date("2024-05-01"),
     finalDate: new Date("2024-07-07"),
     lastUpdated: new Date("2024-06-30"),
-    emailSent: false
-  }
+    emailSent: true
+  },
+  {
+    id: 3,
+    cycleName: "2025.1",
+    initialDate: new Date("2025-01-01"),
+    finalDate: new Date("2025-04-01"),
+    lastUpdated: new Date("2024-06-30"),
+    emailSent: true
+  },
+
 ];

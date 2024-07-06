@@ -20,6 +20,47 @@ export const othersEvaluations: OthersEvaluation[] = [
     comment: "Excellent work!",
     lastUpdated: new Date(),
     isFinalized: false
-  }
+  },
+  {
+    id: 3,
+    evaluatorUserId: 8,
+    evaluatedUserId: 4,
+    cycleId: 1,
+    grade: 3,
+    comment: "Could be better.",
+    lastUpdated: new Date(),
+    isFinalized: false
+  },
+  {
+    id: 4,
+    evaluatorUserId: 8,
+    evaluatedUserId: 2,
+    cycleId: 2,
+    grade: 5,
+    comment: "Excellent!",
+    lastUpdated: new Date(),
+    isFinalized: true
+  },
+  {
+    id: 5,
+    evaluatorUserId: 2,
+    evaluatedUserId: 1,
+    cycleId: 1,
+    grade: 5,
+    comment: "Excellent work!",
+    lastUpdated: new Date(),
+    isFinalized: false
+  },
+  {
+    id: 6,
+    evaluatorUserId: 8,
+    evaluatedUserId: 4,
+    cycleId: 1,
+    grade: 2,
+    comment: "Could be better.",
+    lastUpdated: new Date(),
+    isFinalized: false
+  },
+
   // Adicione mais avaliações conforme necessário
 ];
