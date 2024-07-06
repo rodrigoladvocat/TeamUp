@@ -153,10 +153,10 @@ export default function ManagerHomePage(): JSX.Element {
 
       // setting the averages for each criteria (returns 0 if there are no tunings)
       ownerShipMentalityAverage = average(ownerShipMentalityGrades);
-      learningAgilityAverage = average(learningAgilityGrades);
       resilienceAdversityAverage = average(resilienceAdversityGrades);
-      teamworkAverage = average(teamworkGrades);
       outOfTheBoxThinkingBehavioralAverage = average(outOfTheBoxThinkingBehavioralGrades);
+      learningAgilityAverage = average(learningAgilityGrades);
+      teamworkAverage = average(teamworkGrades);
       deliveringQualityAverage = average(deliveringQualityGrades);
       meetingDeadlinesAverage = average(meetingDeadlinesGrades);
       doingMoreWithLessAverage = average(doingMoreWithLessGrades);
@@ -164,19 +164,21 @@ export default function ManagerHomePage(): JSX.Element {
 
       let averagesList: Title_Grade[] = [
         new Title_Grade("Sentimento de dono", ownerShipMentalityAverage),
-        new Title_Grade("Learning Agility", learningAgilityAverage),
-        new Title_Grade("Resilience Adversity", resilienceAdversityAverage),
-        new Title_Grade("Teamwork", teamworkAverage),
-        new Title_Grade("Out Of The Box Thinking Behavioral", outOfTheBoxThinkingBehavioralAverage),
-        new Title_Grade("Delivering Quality", deliveringQualityAverage),
-        new Title_Grade("Meeting Deadlines", meetingDeadlinesAverage),
-        new Title_Grade("Doing More With Less", doingMoreWithLessAverage),
-        new Title_Grade("Out Of The Box Thinking Execution", outOfTheBoxThinkingExecutionAverage)
+        new Title_Grade("Capacidade de aprender", learningAgilityAverage),
+        new Title_Grade("Resiliência nas adversidades", resilienceAdversityAverage), 
+        new Title_Grade("Organização no trabalho", outOfTheBoxThinkingBehavioralAverage),// Organização no trabalho
+        new Title_Grade("Trabalho em equipe", teamworkAverage),
+
+        new Title_Grade("Entregar com qualidade", deliveringQualityAverage),
+        new Title_Grade("Fazer mais com menos", doingMoreWithLessAverage),
+        new Title_Grade("Atender aos prazos", meetingDeadlinesAverage),
+        new Title_Grade("Pensar fora da caixa", outOfTheBoxThinkingExecutionAverage)
       ];
 
       // sorting the averagesList in asc order
       averagesList.sort((a, b) => b.grade - a.grade);
-
+      console.log(">@>", tuningData);//Organização no trabalho
+      console.log(">>> ", averagesList.slice(0, 3));
       setBestGrades(averagesList.slice(0, 4)); // getting the 4 best grades
       setWorstGrades(averagesList.slice(averagesList.length - 4, averagesList.length)); // getting the 4 worst grades 
 

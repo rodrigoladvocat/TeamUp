@@ -1,4 +1,4 @@
-export interface GetCollaboratorTuningDto {
+export interface GetAllCollaboratorsTuningDto {
   id: number
   collaboratorUserId: number
   managerUserId: number
@@ -16,7 +16,6 @@ export interface GetCollaboratorTuningDto {
   lastUpdated: string
   evaluator: Evaluator
   evaluated: Evaluated
-  cycle: Cycle
 }
 
 export interface Evaluator {
@@ -57,13 +56,4 @@ export interface Evaluated {
   zipCode: string
   bio: string
   admissionDate: string
-}
-
-export interface Cycle {
-  id: number
-  cycleName: string
-  initialDate: string
-  finalDate: string
-  lastUpdated: string
-  emailSent: boolean
 }

@@ -1,4 +1,4 @@
-export interface GetCollaboratorTuningDto {
+export interface GetTuningsByUserDto {
   id: number
   collaboratorUserId: number
   managerUserId: number
@@ -58,6 +58,7 @@ export interface Evaluated {
   bio: string
   admissionDate: string
 }
+
 
 export interface Cycle {
   id: number

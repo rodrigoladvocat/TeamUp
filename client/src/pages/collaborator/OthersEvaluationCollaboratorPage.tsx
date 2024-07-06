@@ -208,7 +208,7 @@ export default function OthersEvaluationCollaboratorPage(): JSX.Element {
         </header>
 
         <section className="flex flex-col justify-start space-y-[32px] mt-[20px] mb-[24px]">
-          <p className="text-normal text-16 leading-[24px]">
+          <p className="text-normal text-16 leading-[24px] text-left">
             Escolha alguns colaboradores que deseja avaliar e avalie eles com uma nota de 1 a 5 escrevendo também um comentário sobre sua experiência de trabalho com os mesmos. Sendo 1 para colaboradores que no seu ponto de vista precisam melhorar e 5 para aqueles que você tem ótimos feedbacks sobre seu trabalho.
           </p>
           <div className="relative w-[500px]">

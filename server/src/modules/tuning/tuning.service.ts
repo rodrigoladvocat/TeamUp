@@ -122,7 +122,7 @@ export class TuningService {
     async findOne(userId: number, cycleId: number) {
         return await this.prisma.tuning.findFirst({
             where: { collaboratorUserId: userId, cycleId: cycleId },
-            include: { evaluator: true, evaluated: true }
+            include: { evaluator: true, evaluated: true, cycle: true }
         });
     }
 
@@ -130,7 +130,7 @@ export class TuningService {
     async findByUser(userId: number) {
         return await this.prisma.tuning.findMany({
             where: { collaboratorUserId: userId },
-            include: { evaluator: true, evaluated: true }
+            include: { evaluator: true, evaluated: true, cycle: true }
         });
     }
 

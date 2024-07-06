@@ -134,8 +134,11 @@ export default function CycleManagerPage(): JSX.Element {
           </div>
         </section>
 
-        <section className="bg-[#212121] h-[45rem] overflow-y-auto p-8 mt-4 rounded-2xl">
-          <div className="bg-black rounded-2xl h-fit py-[12px] px-[20px]">
+        <section className="bg-[#212121] p-8 mt-8 rounded-2xl">
+          <div className="bg-black rounded-2xl py-[12px] px-[20px] h-[650px] overflow-y-auto">
+          {/* <section className="bg-[#212121] h-[45rem] overflow-y-auto p-8 mt-4 rounded-2xl">
+          <div className="bg-black rounded-2xl h-fit py-[12px] px-[20px]"> */}
+          {/* AQUI VERIFICAR */}
             {collaborators.map((collaborator, i) => {
               return (
                 <div
