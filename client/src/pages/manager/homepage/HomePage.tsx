@@ -32,7 +32,7 @@ export default function ManagerHomePage(): JSX.Element {
 
     // const { setMenu } = useMenu();
 
-    const {user, isAuthenticated} = useAuth();
+    const { user, isAuthenticated, token } = useAuth();
     const [ cycleId, setCycleId ] = useState<number | null>(null);
     const [ cycle, setCycle ] = useState<any>(null);
     const [ tuningData, setTuningData ] = useState<GetTunningByCycleDto[]>([]);
@@ -54,28 +54,29 @@ export default function ManagerHomePage(): JSX.Element {
       }
   
       if (user) { // user is always (should be) defined when isAuthenticated (true)
-        callAllUpdates(user.id, true);
+        callAllUpdates(user.id, token, true);
       }
     }, []);
 
     useEffect(() => {
       // setMenu(0);
+      if (token) {
+        getLastCycle(token).then((_cycle) => {
+          setCycle(_cycle)
+          if (_cycle !== null) {
+            setCycleId(_cycle.id);
+          }
+          else {
+            setCycleId(null);
+          }
+        });
+      }
       
-      getLastCycle().then((_cycle) => {
-        setCycle(_cycle)
-        if (_cycle !== null) {
-          setCycleId(_cycle.id);
-        }
-        else {
-          setCycleId(null);
-        }
-      });
-      
-    }, []); // runs once when the component is mounted
+    }, [token]); // runs once when the component is mounted
     
     useEffect(() => {
       if (cycleId !== null) { // if a cycleId was found
-        getTuningByCycleId(cycleId).then((data) => {
+        getTuningByCycleId(cycleId, token).then((data) => {
           if (data) {
             setTuningData(data);
           }

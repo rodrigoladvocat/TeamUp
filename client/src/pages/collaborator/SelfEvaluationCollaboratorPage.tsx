@@ -186,7 +186,7 @@ export default function SelfEvaluationCollaboratorPage(): JSX.Element {
   const [ behaviourComments, setBehaviourComments ] = useState<string[]>(Array(5).fill(""));
   const [ executionGrades, setExecutionGrades ] = useState<number[]>(Array(4).fill(-1));
   const [ executionComments, setExecutionComments ] = useState<string[]>(Array(4).fill(""));
-  const { isAuthenticated, user } = useAuth();
+  const { isAuthenticated, user, token } = useAuth();
   const { _cycle, endDate, endTime, startDate, callAllUpdates, selfEvalInfo } = useCycle();
 
 
@@ -198,7 +198,7 @@ export default function SelfEvaluationCollaboratorPage(): JSX.Element {
     }
 
     if (user) { // user is always (should be) defined when isAuthenticated (true)
-      callAllUpdates(user.id, false);
+      callAllUpdates(user.id, token, false);
     }
   }, []);
 
@@ -320,7 +320,10 @@ export default function SelfEvaluationCollaboratorPage(): JSX.Element {
     setIsLoading(true);
     setIsSubmitted(true);
     setTimeout(() => {
-      api.post("/self-evaluation", body).then((res: AxiosResponse) => {
+      api.post(
+        "/self-evaluation", body,
+        { headers: { 'jwt': token } }
+      ).then((res: AxiosResponse) => {
         console.log("Deu tudo certo.");
         console.log("==============");
         console.log(behaviourGrades);

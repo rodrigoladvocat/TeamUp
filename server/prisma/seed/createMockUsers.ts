@@ -4,7 +4,7 @@ export const users: User[] = [
     {
         id: 1,
         name: "Maria Bea Santos",
-        email: "magodevelop@gmail.com",
+        email: "dontsend_magodevelop@gmail.com",
         password: "12345678",
         imgUrl: "https://s3-alpha-sig.figma.com/img/ddaf/d214/680dadd2835dc69a669d8ce023421b1c?Expires=1720396800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=WXu-EW~Uae8rPDAaUK19ZVVRz823xraFRDASL-uT99M92CrFBQIIapC3f24rNXcwixMUxInM-X-6Tr500zLi8TRTLkCUv83H9AWfs1xx5GghBPCA4cni9JapTMGo5u131YExoNE5FXX~nae-QYqQzHo6cEunv7KoRp4FQLoQjbCAWtuvRHGJ3CclJEhdB4XXO~IWtY6Z2Mb4dVIvhjhNX5zeu337ZIhOzafWz1yt25FGaodtbGUnhSE7i7FNy4rIrIhAoal07CsE2IBmkBv0RkDclqQRY5A5DpRaa69ZlvHq1Da2mi-4wWx~cZwcPlsBJB-eOSUY1p7BTHZuRWsNHQ__",
         isManager: false,

@@ -100,6 +100,21 @@ export class UserService {
     }
 
 
+    async getAllCollaboratorsEmails(): Promise<{ email: string }[]> {
+        const found = this.prisma.user.findMany({
+            where: {
+                isManager: false
+            },
+            select: {
+                email: true,
+                name: true
+            }
+        });
+
+        return found;
+    }
+
+
     async login({ email, password }: LoginUserDto): Promise<{ user: User; token: string }> {
 
         const found = await this.prisma.user.findUnique({

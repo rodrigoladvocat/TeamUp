@@ -3,6 +3,7 @@ import { getCollaboratorsById } from "@/utils/getCollaboratorsById";
 import { Menu } from "@/components/Menu";
 import { Link, useParams } from "react-router-dom";
 import arrowBack from "../assets/arrow-back-circle.svg";
+import { useAuth } from "@/hooks/AuthUser";
 
 interface CollaboratorProps {
   name: string;
@@ -20,13 +21,15 @@ interface CollaboratorProps {
 }
 
 const Profile = () => {
+  
+  const { token } = useAuth();
   const { id } = useParams<{ id?: string }>();
   const [user, setUser] = useState<CollaboratorProps | null>(null);
 
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const userData = await getCollaboratorsById(id as string);
+        const userData = await getCollaboratorsById(id as string, token);
         const formattedDate = new Date(
           userData.admissionDate
         ).toLocaleDateString("pt-BR");

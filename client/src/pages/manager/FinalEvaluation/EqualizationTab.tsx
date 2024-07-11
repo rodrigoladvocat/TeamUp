@@ -60,11 +60,12 @@ interface TabProps {
   handleExecutionGradeChange: (index: number, value: Grade) => void;
   isFinalized: boolean;
   isFormIncomplete: boolean;
+  isSubmitted: boolean;
+  setIsSubmitted: (isSubmitted: boolean) => void;
   userId: number;
   collabId: number;
   cycleId: number;
-  isSubmitted: boolean;
-  setIsSubmitted: (isSubmitted: boolean) => void;
+  token: string;
 }
 
 const EqualizationTab = ({
@@ -79,6 +80,7 @@ const EqualizationTab = ({
     userId, 
     collabId, 
     cycleId,
+    token,
   }: TabProps) => {
   const [ isLoading, setIsLoading ] = useState<boolean>(false);
 
@@ -124,7 +126,7 @@ const EqualizationTab = ({
     setIsSubmitted(true);
     setTimeout(() => {
       api
-      .post("/tuning", body)
+      .post("/tuning", body, { headers: { 'jwt': token } })
       .then((res: AxiosResponse) => {
         console.log("==============");
         console.log(behaviourGrades);

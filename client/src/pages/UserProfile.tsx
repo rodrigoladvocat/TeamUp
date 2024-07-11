@@ -11,8 +11,8 @@ const UserProfile = () => {
     setMenu(-1);
   }, []);
 
-  const auth = useContext(AuthContext);
-  const user = auth.user;
+  const { user, token } = useContext(AuthContext);
+
   const formattedDate = user?.admissionDate
     ? new Date(user.admissionDate).toLocaleDateString("pt-BR")
     : "Invalid date";

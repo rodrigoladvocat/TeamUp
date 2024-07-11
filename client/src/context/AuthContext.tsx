@@ -42,11 +42,14 @@ export const AuthProvider: React.FC<Props> = ({ children }) => {
     
     await api.post(
       "/user/login", 
-      body
+      body,
+      { headers: { 'jwt': token } }
     ).then((res: AxiosResponse<{user: UserDto, token: string}>) => {
       setUser(res.data.user);
       setToken(res.data.token);
       setIsAuthenticated(true);
+      
+      localStorage.setItem('token', JSON.stringify(res.data.token));
     }).catch((e: AxiosError<ErrorResponseDto>) => {
       throw e;
     });

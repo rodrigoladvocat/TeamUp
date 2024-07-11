@@ -64,7 +64,7 @@ class Title_Grade {
 }
 
 export default function CollaboratorHomePage(): JSX.Element {
-  const { user, isAuthenticated, aiMessage, setAiMessage } = useAuth();
+  const { user, isAuthenticated, aiMessage, setAiMessage, token } = useAuth();
   const {
     _cycle,
     endDate,
@@ -93,14 +93,14 @@ export default function CollaboratorHomePage(): JSX.Element {
 
     if (user) {
       // user is always (should be) defined when isAuthenticated (true)
-      callAllUpdates(user.id, true);
+      callAllUpdates(user.id, token, true);
     }
   }, []);
 
   useEffect(() => {
     // setMenu(0);
     
-    getLastCycle().then((cycle_res) => {
+    getLastCycle(token).then((cycle_res) => {
       setCycleId(cycle_res)
       if (cycle_res !== null) {
         setCycleId(cycle_res.id);
@@ -115,7 +115,7 @@ export default function CollaboratorHomePage(): JSX.Element {
 
   useEffect(() => {
     if (user?.id && cycleId !== null) { // if a cycleId was found
-      getTuningByUserAndCycleId(user.id, cycleId).then((data) => {
+      getTuningByUserAndCycleId(user.id, cycleId, token).then((data) => {
         setTuningData(data);
       });
     }
@@ -127,7 +127,7 @@ export default function CollaboratorHomePage(): JSX.Element {
   
   useEffect(() => {
     if (user) {
-      getLastCycle().then((cycle) => {
+      getLastCycle(token).then((cycle) => {
         if (cycle) {
           setLastCycleId(cycle.id);
         }
@@ -137,7 +137,7 @@ export default function CollaboratorHomePage(): JSX.Element {
 
   useEffect(() => {
     if (lastCycleId && user) {
-      getTuningByUserAndCycleId(user.id, lastCycleId)
+      getTuningByUserAndCycleId(user.id, lastCycleId, token)
       .then((tuning) => {
         setLastTuning(tuning);
       })
@@ -209,7 +209,7 @@ export default function CollaboratorHomePage(): JSX.Element {
 
   useEffect(() => {
     if (user?.id) {
-      getTuningsByUserId(user.id).then((tunings) => {
+      getTuningsByUserId(user.id, token).then((tunings) => {
         if (tunings) {
           let aux: GetTuningsByUserDto[] = [];
           for (let i = 0; i < tunings.length - 1; i++) { // ignores the current cycle

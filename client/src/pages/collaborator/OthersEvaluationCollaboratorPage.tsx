@@ -30,7 +30,7 @@ export default function OthersEvaluationCollaboratorPage(): JSX.Element {
   const [ isSubmitted, setIsSubmitted ] = useState(false);
   const [ dummyState, forceUpdate ] = useState(0);
   const [ search, setSearch ] = useState("");
-  const { isAuthenticated, user } = useAuth();
+  const { isAuthenticated, user, token } = useAuth();
   const { _cycle, endDate, endTime, startDate, callAllUpdates, othersEvalInfo } = useCycle();
 
   const navigate = useNavigate();
@@ -44,10 +44,13 @@ export default function OthersEvaluationCollaboratorPage(): JSX.Element {
     }
 
     if (user) { // user is always (should be) defined when isAuthenticated (true)
-      callAllUpdates(user.id, false);
+      callAllUpdates(user.id, token, false);
     }
 
-    api.get("/user/collaborators/find").then((res: AxiosResponse<UserDto[]>) => {
+    api.get(
+      "/user/collaborators/find",
+      { headers: { 'jwt': token } }
+    ).then((res: AxiosResponse<UserDto[]>) => {
       setCollaboratos(res.data);
     });
   }, []);
@@ -127,7 +130,8 @@ export default function OthersEvaluationCollaboratorPage(): JSX.Element {
     setTimeout(() => {
       api.post(
         `/others-evaluation/submit-evaluation/latest-cycle/${user?.id}`, 
-        body
+        body,
+        { headers: { 'jwt': token } }
       ).then((res: AxiosResponse) => {
         console.log("Deu tudo certo.");
         console.log("==============");

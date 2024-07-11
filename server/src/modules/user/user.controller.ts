@@ -47,12 +47,14 @@ export class UserController {
     return await this.userService.create(createUserDto);
   }
 
+
   @Get()
   @ApiOperation({ summary: 'Get all users' })
   @ApiResponse({ status: 200, description: 'Return all users.' })
   async findAll(): Promise<User[]> {
     return await this.userService.findAll();
   }
+
 
   @Get(':id')
   @ApiOperation({ summary: 'Get user by id' })
@@ -66,6 +68,7 @@ export class UserController {
     return await this.userService.getById(+id);
   }
 
+
   @Get('name/:name')
   @ApiOperation({ summary: 'Get user by name' })
   @ApiResponse({
@@ -75,6 +78,7 @@ export class UserController {
   async getByName(@Param('name') name: string): Promise<User[]> {
     return await this.userService.getByName(name);
   }
+
 
   @Get('role/:role')
   @ApiOperation({ summary: 'Get user by role' })
@@ -86,6 +90,7 @@ export class UserController {
     return await this.userService.getByRole(role);
   }
 
+
   @Get('collaborators/find/:name')
   @ApiOperation({ summary: 'Get collaborators by name' })
   @ApiResponse({
@@ -96,6 +101,7 @@ export class UserController {
     return await this.userService.getCollaboratorsByName(name);
   }
 
+
   @Get('collaborators/find/')
   @ApiOperation({ summary: 'Get collaborators by name' })
   @ApiResponse({
@@ -104,6 +110,17 @@ export class UserController {
   })
   async getCollaborators(): Promise<User[]> {
     return await this.userService.getCollaborators();
+  }
+
+
+  @Get('all-collaborators-emails/')
+  @ApiOperation({ summary: 'Get collaborators emails' })
+  @ApiResponse({
+    status: 200,
+    description: 'Return array of collaborators emails',
+  })
+  async getAllCollaboratorsEmails(): Promise<{ email: string }[]> {
+    return await this.userService.getAllCollaboratorsEmails();
   }
 
 

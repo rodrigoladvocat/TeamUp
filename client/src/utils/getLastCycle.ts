@@ -1,9 +1,12 @@
 import axios from "axios";
 
-export async function getLastCycle(){
+export async function getLastCycle(token: string) {
     try {
-        const response = await axios.get("http://localhost:3000/cycle/last");
-        if (typeof(response.data) === "string") { // if no cycle was found
+        const response = await axios.get(
+            "http://localhost:3000/cycle/last",
+            { headers: { 'jwt': token } }
+        );
+        if (typeof (response.data) === "string") { // if no cycle was found
             return null;
         }
         console.log(response.data);
@@ -12,5 +15,5 @@ export async function getLastCycle(){
         console.log(error);
         return null;
     }
-    
+
 }

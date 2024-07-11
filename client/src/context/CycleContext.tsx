@@ -10,6 +10,7 @@ import calculateDaysBetween from "@/utils/dateTime/calculateDaysBetween";
 import { updateEmailSent } from "@/utils/updateEmailSent";
 import { sendCustomEmail } from "@/../emailSender/email";
 import { getCollaboratorsByName } from "@/utils/getCollaboratorsByName";
+import { useAuth } from "@/hooks/AuthUser";
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -61,10 +62,10 @@ interface CycleContextModel extends ParsedCycleInfo {
   _cycle: GetLatestCycleResponseDto | null;
   selfEvalInfo: SelfEvalInfo,
   othersEvalInfo: OthersEvalInfo,
-  updateLatestCycle: (forceUpdate?: boolean) => Promise<void>;
-  updateSelfEvalInfo: (userId: number, forceUpdate?: boolean) => Promise<void>;
-  updateOthersEvalInfo: (userId: number, forceUpdate?: boolean) => Promise<void>;
-  callAllUpdates: (userId: number, forceUpdate?: boolean) => Promise<void>;
+  updateLatestCycle: (token: string, forceUpdate?: boolean) => Promise<void>;
+  updateSelfEvalInfo: (userId: number, token: string, forceUpdate?: boolean) => Promise<void>;
+  updateOthersEvalInfo: (userId: number, token: string, forceUpdate?: boolean) => Promise<void>;
+  callAllUpdates: (userId: number, token: string, forceUpdate?: boolean) => Promise<void>;
 }
 
 export const CycleContext = createContext({} as CycleContextModel);
@@ -126,6 +127,7 @@ export const CycleProvider: React.FC<Props> = ({ children }) => {
   const [ parsedCycleInfo, setParsedCycleInfo ] = useState<ParsedCycleInfo>(defaultParsedCycleInfo);
   const [ selfEvalInfo, setAutoEvalInfo ] = useState<SelfEvalInfo>(defaultAutoEvalInfo);
   const [ othersEvalInfo, setOthersEvalInfo ] = useState<OthersEvalInfo>(defaultOthersEvalInfo);
+  const { token } = useAuth();
 
   useEffect(() => {
 
@@ -162,10 +164,10 @@ export const CycleProvider: React.FC<Props> = ({ children }) => {
       setOthersEvalInfo(othersEvalData);
     }
 
-    getCollaboratorsByName("")
+    getCollaboratorsByName("", token)
     .then((response) => {
       setCollaborators(response);
-    })
+    });
 
   }, []);
 
@@ -174,6 +176,7 @@ export const CycleProvider: React.FC<Props> = ({ children }) => {
   }
 
   const sendEmailsSequentially = async () => {
+
     for (const collaborator of collaborators) {
       try{
         await sendCustomEmail(collaborator.email, collaborator.name);
@@ -210,7 +213,7 @@ export const CycleProvider: React.FC<Props> = ({ children }) => {
     }
   }, [_cycle, collaborators]);
 
-  const UpdateLatestCycle = useCallback(async (forceUpdate = false) => {
+  const UpdateLatestCycle = useCallback(async (token: string, forceUpdate = false) => {
 
     // If cycle is already defined, then do not update
     if (_cycle && !forceUpdate) {
@@ -218,7 +221,8 @@ export const CycleProvider: React.FC<Props> = ({ children }) => {
     }
     
     await api.get(
-      "/cycle/latest"
+      "/cycle/latest",
+      { headers: { 'jwt': token } }
     ).then((res: AxiosResponse<GetLatestCycleResponseDto>) => {
       const curr_date_before_formatting = (new Date()).toString();
       const curr_date = parseDate(curr_date_before_formatting, 'YYYY-MM-DD', 'DD/MM/YYYY');
@@ -250,7 +254,7 @@ export const CycleProvider: React.FC<Props> = ({ children }) => {
   }, []);
   
   
-  const UpdateSelfEvalInfo = useCallback(async (userId: number, forceUpdate = false) => {
+  const UpdateSelfEvalInfo = useCallback(async (userId: number, token: string, forceUpdate = false) => {
 
     // If autoEvalInfo.selfLastUpdated is already defined, then do not update
     if (selfEvalInfo.selfLastUpdated !== "" && !forceUpdate) {
@@ -258,7 +262,8 @@ export const CycleProvider: React.FC<Props> = ({ children }) => {
     }
     
     await api.get(
-      "/self-evaluation/latest-cycle/" + userId
+      "/self-evaluation/latest-cycle/" + userId,
+      { headers: { 'jwt': token } }
     ).then((res: AxiosResponse<GetSelffEvalByUserCycleIdsDto>) => {
       
       const parsedData: SelfEvalInfo = {
@@ -283,7 +288,7 @@ export const CycleProvider: React.FC<Props> = ({ children }) => {
   }, []);
 
 
-  const UpdateOthersEvalInfo = useCallback(async (userId: number, forceUpdate = false) => {
+  const UpdateOthersEvalInfo = useCallback(async (userId: number, token: string, forceUpdate = false) => {
 
     // If othersEvalInfo.othersLastUpdated is already defined, then do not update
     if (othersEvalInfo.othersLastUpdated.length > 0 && !forceUpdate) {
@@ -291,7 +296,8 @@ export const CycleProvider: React.FC<Props> = ({ children }) => {
     }
     
     await api.get(
-      "/others-evaluation/latest-cycle/" + userId
+      "/others-evaluation/latest-cycle/" + userId,
+      { headers: { 'jwt': token } }
     ).then((res: AxiosResponse<GetOthersEvalByUserCycleIdsDto[]>) => {
 
       const parsedData: OthersEvalInfo = {
@@ -321,10 +327,10 @@ export const CycleProvider: React.FC<Props> = ({ children }) => {
   }, []);
 
 
-  const CallAllUpdates = async (userId: number, forceUpdate = false) => {
-    await UpdateLatestCycle();
-    await UpdateSelfEvalInfo(userId, forceUpdate);
-    await UpdateOthersEvalInfo(userId, forceUpdate);
+  const CallAllUpdates = async (userId: number, token: string, forceUpdate = false) => {
+    await UpdateLatestCycle(token, forceUpdate);
+    await UpdateSelfEvalInfo(userId, token, forceUpdate);
+    await UpdateOthersEvalInfo(userId, token, forceUpdate);
   }
 
 

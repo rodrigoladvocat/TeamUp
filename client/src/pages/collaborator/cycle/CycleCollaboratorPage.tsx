@@ -18,7 +18,7 @@ import { useMenu } from "@/context/MenuContext";
 export default function CycleCollaboratorPage(): JSX.Element {
   const navigate = useNavigate();
   const { _cycle, endDate, endTime, startDate, selfEvalInfo, othersEvalInfo, callAllUpdates } = useCycle();
-  const { user, isAuthenticated } = useAuth();
+  const { user, isAuthenticated, token } = useAuth();
   const [othersLastUpdated, setOthersLastUpdated] = useState(null);
   const [ othersLastUpdatedTime, setOthersLastUpdatedTime ] = useState(null);
   const [cycle, setCycle] = useState<any>(null);
@@ -36,7 +36,7 @@ export default function CycleCollaboratorPage(): JSX.Element {
     }
 
     if (user) { // user is always (should be) defined when isAuthenticated (true)
-      callAllUpdates(user.id, false);
+      callAllUpdates(user.id, token, false);
     }
   }, []);
 
