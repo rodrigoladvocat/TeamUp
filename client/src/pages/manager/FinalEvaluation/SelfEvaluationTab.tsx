@@ -13,6 +13,7 @@ import TipSpeechBubble from "@/components/TipSpeechBubble";
 import CardeDeNota from "@/components/CardDeNota";
 import { GetSelffEvalByUserCycleIdsDto } from "@/dto/GetSelfEvalByUserCycleIdsDto";
 import Tabs from "@/components/Tabs";
+import { useAuth } from "@/hooks/AuthUser";
 
 interface SProps {
   index: number;
@@ -131,18 +132,19 @@ function SelfEvalFormPart({
 }
 
 const SelfEvaluationTab = () => {
-  const [selectedTab, setSelectedTab] = useState(0);
+  const [ selectedTab, setSelectedTab ] = useState(0);
   const { id } = useParams();
   const collabId = Number(id);
-  const [autoEval, setAutoEval] =
+  const [ autoEval, setAutoEval ] =
     useState<GetSelffEvalByUserCycleIdsDto | null>(null);
+  const { token } = useAuth();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const currCycle = await getCurrentCycle();
+        const currCycle = await getCurrentCycle(token);
         console.log(currCycle);
-        const autoEvalData = await getAutoEval(collabId, currCycle.id);
+        const autoEvalData = await getAutoEval(collabId, token, currCycle.id);
         console.log("Auto evaluation data:aaa", autoEval);
         setAutoEval(autoEvalData);
       } catch (error) {

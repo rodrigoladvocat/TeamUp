@@ -19,7 +19,7 @@ interface CollaboratorProps {
 
 export default function GradesManagerContent(): JSX.Element {
   const [collaborators, setCollaborators] = useState<CollaboratorProps[]>([]);
-  const { user, isAuthenticated } = useAuth();
+  const { user, isAuthenticated, token } = useAuth();
   const { setMenu } = useMenu();
   const { search } = useSearchBar();
 
@@ -37,7 +37,7 @@ export default function GradesManagerContent(): JSX.Element {
     let append_array: CollaboratorProps[] = [];
     let param = !search ? " " : search;
 
-    getCollaboratorsByName(param).then((data) => {
+    getCollaboratorsByName(param, token).then((data) => {
       data.forEach((collaborator: any) => {
         append_array.push({
           name: collaborator.name,

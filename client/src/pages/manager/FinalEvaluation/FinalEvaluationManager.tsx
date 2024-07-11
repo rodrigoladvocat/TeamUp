@@ -16,17 +16,17 @@ import { GetCollaboratorTuningDto } from "@/dto/GetCollaboratorTuningDto";
 
 export default function FinalEvaluationManagerPage(): JSX.Element {
   const { id } = useParams<{ id: string }>();
-  const [selectedTab, setSelectedTab] = useState(0);
-  const [isFinalized, setIsFinalized] = useState(false);
-  const [isSubmitted, setIsSubmitted] = useState(false);
-  const [isFormIncomplete, setIsFormIncomplete] = useState(true);
-  const [behaviourGrades, setBehaviourGrades] = useState<Grade[]>(
+  const [ selectedTab, setSelectedTab ] = useState(0);
+  const [ isFinalized, setIsFinalized ] = useState(false);
+  const [ isSubmitted, setIsSubmitted ] = useState(false);
+  const [ isFormIncomplete, setIsFormIncomplete ] = useState(true);
+  const [ behaviourGrades, setBehaviourGrades ] = useState<Grade[]>(
     Array(5).fill(-1)
   );
-  const [executionGrades, setExecutionGrades] = useState<Grade[]>(
+  const [ executionGrades, setExecutionGrades ] = useState<Grade[]>(
     Array(4).fill(-1)
   );
-  const { isAuthenticated, user } = useAuth();
+  const { isAuthenticated, user, token } = useAuth();
   const { _cycle, callAllUpdates } = useCycle();
   const { setMenu } = useMenu();
 
@@ -44,14 +44,17 @@ export default function FinalEvaluationManagerPage(): JSX.Element {
 
     if (user && !_cycle) {
       // user is always (should be) defined when isAuthenticated (true)
-      callAllUpdates(user.id, false);
+      callAllUpdates(user.id, token, false);
     }
   }, []);
 
   useEffect(() => {
     if (_cycle) {
       api
-        .get(`tuning/${collaboratorId}/${_cycle?.id}`)
+        .get(
+          `tuning/${collaboratorId}/${_cycle?.id}`,
+          { headers: { 'jwt': token } }
+        )
         .then((res: AxiosResponse<GetCollaboratorTuningDto>) => {
           setIsFinalized(res.data.id ? true : false);
         });
@@ -159,6 +162,7 @@ export default function FinalEvaluationManagerPage(): JSX.Element {
                       userId={user?.id || 0}
                       collabId={collaboratorId}
                       cycleId={_cycle?.id || 0}
+                      token={token}
                     />
                   ) : (
                     <p>Ciclo está nulo</p>

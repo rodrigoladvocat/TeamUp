@@ -1,11 +1,10 @@
 import { useContext, useEffect, useState } from "react";
 import { getCollaboratorsById } from "@/utils/getCollaboratorsById";
 import { Menu } from "@/components/Menu";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import arrowBack from "../assets/arrow-back-circle.svg";
 import { AuthContext } from "@/context/AuthContext";
 import defaultProfileImage from "@/assets/default_profile_image.png";
-import { useNavigate } from "react-router-dom";
 import { useMenu } from "@/context/MenuContext";
 
 interface CollaboratorProps {
@@ -27,20 +26,19 @@ const Profile = () => {
   const { setMenu } = useMenu();
   setMenu(1);
   const { id } = useParams<{ id?: string }>();
-  const [user, setUser] = useState<CollaboratorProps | null>(null);
-  const [collaborator, setCollaborator] = useState<CollaboratorProps | null>(null); // [1
-  const auth = useContext(AuthContext);
+  const [ otherUser, setOtherUser] = useState<CollaboratorProps | null>(null);
+  const { user, token } = useContext(AuthContext);
 
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const userData = await getCollaboratorsById(id || "");
+        const userData = await getCollaboratorsById(id || "", token);
         const formattedDate = new Date(
           userData.admissionDate
         ).toLocaleDateString("pt-BR");
-        setUser({ ...userData, admissionDate: formattedDate });
+        setOtherUser({ ...userData, admissionDate: formattedDate });
       } catch (error) {
         console.error("Error fetching user:", error);
       }
@@ -49,7 +47,7 @@ const Profile = () => {
     fetchUser();
   }, [id]); // Fetch data whenever id changes
 
-  if (!user) {
+  if (!otherUser) {
     return (
       <div className="flex flex-row w-screen h-screen justify-center max-h-screen p-6 bg-general-background text-white">
         <div className="flex">
@@ -83,18 +81,18 @@ const Profile = () => {
                 <p className="">Colaboradores</p>
                 <p className="mt-1 text-white text-20 font-poppins font-normal flex flex-row">
                   Perfil de colaborador
-                  <p className="text-primary">&nbsp; &gt; &nbsp;{user.name}</p>
+                  <p className="text-primary">&nbsp; &gt; &nbsp;{otherUser.name}</p>
                 </p>
               </div>
             </div>
           </h1>
           <div className="flex items-center">
             <img
-              src={auth.user?.imgUrl}
-              alt={auth.user?.name}
+              src={user?.imgUrl}
+              alt={user?.name}
               className="size-[52px] rounded-full mr-2"
             />
-            <p className="font-normal text-20 leading-[30px]">{auth.user?.name}</p>
+            <p className="font-normal text-20 leading-[30px]">{user?.name}</p>
           </div>
         </header>
 
@@ -103,21 +101,21 @@ const Profile = () => {
             <div className="w-[283px]">
               <div className="">
                 <img
-                  src={user.imgUrl}
-                  alt={user.name}
+                  src={otherUser.imgUrl}
+                  alt={otherUser.name}
                   className="w-[275px] h-[275px] object-cover rounded-full"
                   onError={(e) => { e.currentTarget.src = defaultProfileImage; }}
                 />
               </div>
               <p className="pt-10 text-[24px] font-semibold">
-                {user.name}
+                {otherUser.name}
               </p>
-              <p className="pt-3 text-primary text-16">{user.role}</p>
+              <p className="pt-3 text-primary text-16">{otherUser.role}</p>
               <span className="pt-4">
                 <p className="text-primary text-16">
                   Data de admissão:{" "}
                 </p>
-                <p>{user.admissionDate}</p>
+                <p>{otherUser.admissionDate}</p>
               </span>
               <p className="pt-16 text-primary text-16">
                 Status do colaborador:
@@ -138,7 +136,7 @@ const Profile = () => {
                 <p className="text-left text-purple-text font-bold text-20">
                   Sobre mim
                 </p>
-                <p className="text-left text-16 h-[127px]">{user.bio}</p>
+                <p className="text-left text-16 h-[127px]">{otherUser.bio}</p>
               </div>
               <div>
                 <p className="text-left text-purple-text font-bold text-20 py-3">
@@ -147,7 +145,7 @@ const Profile = () => {
                 <input
                   type="text"
                   className="w-full pl-6 pr-12 py-2 rounded-xl read-only:bg-[#333] placeholder-white border-0 outline-none"
-                  placeholder={`${user.age} anos`}
+                  placeholder={`${otherUser.age} anos`}
                   readOnly
                 />
               </div>
@@ -158,7 +156,7 @@ const Profile = () => {
                 <input
                   type="text"
                   className="w-full pl-6 pr-12 py-2 rounded-xl read-only:bg-[#333] placeholder-white border-0 outline-none"
-                  placeholder={user.id}
+                  placeholder={otherUser.id}
                   readOnly
                 />
               </div>
@@ -169,7 +167,7 @@ const Profile = () => {
                 <input
                   type="text"
                   className="w-full pl-6 pr-12 py-2 rounded-xl read-only:bg-[#333] placeholder-white border-0 outline-none"
-                  placeholder={user.telephone}
+                  placeholder={otherUser.telephone}
                   readOnly
                 />
               </div>
@@ -180,7 +178,7 @@ const Profile = () => {
                 <input
                   type="text"
                   className="w-full pl-6 pr-12 py-2 rounded-xl read-only:bg-[#333] placeholder-white border-0 outline-none"
-                  placeholder={user.email}
+                  placeholder={otherUser.email}
                   readOnly
                 />
               </div>
@@ -191,7 +189,7 @@ const Profile = () => {
                 <input
                   type="text"
                   className="w-full pl-6 pr-12 py-2 rounded-xl read-only:bg-[#333] placeholder-white border-0 outline-none"
-                  placeholder={user.street + ", " + user.state}
+                  placeholder={otherUser.street + ", " + otherUser.state}
                   readOnly
                 />
               </div>
@@ -202,7 +200,7 @@ const Profile = () => {
                 <input
                   type="text"
                   className="w-full pl-6 pr-12 py-2 rounded-xl read-only:bg-[#333] placeholder-white border-0 outline-none"
-                  placeholder={user.cpf}
+                  placeholder={otherUser.cpf}
                   readOnly
                 />
               </div>

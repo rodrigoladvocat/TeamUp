@@ -41,20 +41,20 @@ const GradesPage: React.FC = () => {
   const { setMenu } = useMenu();
   setMenu(1);
 
-  const { isAuthenticated, user } = useAuth();
+  const { isAuthenticated, user, token } = useAuth();
   const navigate = useNavigate();
   const { id } = useParams<{ id?: string }>(); // collaborator's id
   
   const tabLabels = ["Análise", "Histórico"];
-  const [selectedTabIndex, setSelectedTabIndex] = useState(0);
-  const [selectedCycleId, setSelectedCycleId] = useState<number | null>(null);
+  const [ selectedTabIndex, setSelectedTabIndex ] = useState(0);
+  const [ selectedCycleId, setSelectedCycleId ] = useState<number | null>(null);
 
-  const [tableData, setTableData] = useState<any>(null);
-  const [othersEvalData, setOthersEvalData] = useState<any[]>([]);
-  const [accordionData, setAccordionData] = useState<any>(null);
+  const [ tableData, setTableData ] = useState<any>(null);
+  const [ othersEvalData, setOthersEvalData ] = useState<any[]>([]);
+  const [ accordionData, setAccordionData ] = useState<any>(null);
   
 
-  const [cycles, setCycles] = useState<Cycle[]>([]);
+  const [ cycles, setCycles ] = useState<Cycle[]>([]);
   const [ tabCycles, setTabCycles ] = useState<Cycle[]>([]);
 
   const handleChangeTab = (newIndex: number) => {
@@ -70,7 +70,7 @@ const GradesPage: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    getCycles().then((cycles) => {
+    getCycles(token).then((cycles) => {
       let aux: Cycle[] = [];
       for (let i = 0; i < cycles.length - 1; i++) { // ignores the current cycle
         aux.push(cycles[i]);
@@ -84,8 +84,8 @@ const GradesPage: React.FC = () => {
       const fetchData = async () => {
         const data = await Promise.all(
           cycles.map(async (cycle) => {
-            const autoEval = id ? await getAutoEval(+id, cycle.id) : {};
-            const tuning = id ? await getTuningByUserAndCycleId(+id, cycle.id) : {};
+            const autoEval = id ? await getAutoEval(+id, token, cycle.id) : {};
+            const tuning = id ? await getTuningByUserAndCycleId(+id, cycle.id, token) : {};
             return {
               cycleId: cycle.id,
               cycleName: cycle.cycleName,
@@ -115,11 +115,11 @@ const GradesPage: React.FC = () => {
   useEffect(() => {
     if (user) {
       const fetchOthersEvalData = async () => {
-        const evals = id ? await getOthersEvalByUID(+id) : [];
+        const evals = id ? await getOthersEvalByUID(+id, token) : [];
         console.log(evals)
         const data = await Promise.all(
           evals.map(async (evalData: any) => {
-            const userData = await getCollaboratorsById(evalData.evaluatedUserId);
+            const userData = await getCollaboratorsById(evalData.evaluatedUserId, token);
             return {
               ...evalData,
               ...userData

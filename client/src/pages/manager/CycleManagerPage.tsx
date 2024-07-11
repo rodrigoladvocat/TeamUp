@@ -15,7 +15,7 @@ export default function CycleManagerPage(): JSX.Element {
   const [collaborators, setCollaboratos] = useState<GetCollaboratorsStageDto[]>(
     []
   );
-  const { isAuthenticated, user } = useAuth();
+  const { isAuthenticated, user, token } = useAuth();
   const {
     endDate,
     daysToFinish,
@@ -43,11 +43,14 @@ export default function CycleManagerPage(): JSX.Element {
 
     if (user) {
       // user is always (should be) defined when isAuthenticated (true)
-      callAllUpdates(user.id, false);
+      callAllUpdates(user.id, token, false);
     }
 
     api
-      .get("/tuning/collaborators-stage")
+      .get(
+        "/tuning/collaborators-stage",
+        { headers: { 'jwt': token } }
+      )
       .then((res: AxiosResponse<GetCollaboratorsStageDto[]>) => {
         setCollaboratos(res.data);
       });

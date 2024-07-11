@@ -6,6 +6,7 @@ import RoundEvaluationForm from "@/components/RoundEvaluationForm";
 import { getUserOtherAvals } from "@/utils/getUserOtherAvals";
 import { UserDto } from "@/dto/UserDto";
 import { getCollaboratorsById } from "@/utils/getCollaboratorsById";
+import { useAuth } from "@/hooks/AuthUser";
 
 interface Props {
   grade: number;
@@ -32,17 +33,18 @@ const OtherEvaluationTab = () => {
   const collabId = Number(id);
   const [autoEval, setAutoEval] = useState<Array<any> | null>(null);
   const [additionalData, setAdditionalData] = useState<Array<any> | null>(null);
+  const { token } = useAuth();
 
   useEffect(() => {
     const fetchAdditionalData = async (evaluatorUserId: string) => {
-      const data = await getCollaboratorsById(evaluatorUserId);
+      const data = await getCollaboratorsById(evaluatorUserId, token);
       return data;
     };
 
     const fetchData = async () => {
       try {
-        const currCycle = await getCurrentCycle();
-        const autoEval = await getUserOtherAvals(collabId, currCycle.id);
+        const currCycle = await getCurrentCycle(token);
+        const autoEval = await getUserOtherAvals(collabId, currCycle.id, token);
         setAutoEval(autoEval);
 
         const additionalDataPromises = autoEval.map((item: any) =>

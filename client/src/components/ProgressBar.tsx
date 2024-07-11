@@ -38,16 +38,16 @@ function App() {
     const [ totalNumberOfActivities, setTotalNumberOfActivities ] = React.useState<number>(0); // # of activities to be done
 
     const navigate = useNavigate();
-    const { user, isAuthenticated } = useAuth();
+    const { user, isAuthenticated, token } = useAuth();
     const { _cycle, callAllUpdates } = useCycle();
 
 
     React.useEffect(() => {
       
         if (user) { // user is always (should be) defined when isAuthenticated (true)
-            callAllUpdates(user.id, false);
+            callAllUpdates(user.id, token, false);
         }
-        getCollaboratorsByName(" ").then((data) => setCollaborators(data))
+        getCollaboratorsByName(" ", token).then((data) => setCollaborators(data))
     }, []);
 
     // setting the total number of activities to be done
@@ -61,7 +61,7 @@ function App() {
         if (_cycle !== null && (new Date(_cycle.finalDate) >= new Date())) {
             // counting the number of autoevals done
             collaborators.forEach((collaborator) => {
-                getAutoEval(collaborator.id, _cycle.id)
+                getAutoEval(collaborator.id, token, _cycle.id)
                 .then((autoEval) => {
                     if (autoEval !== null) {
                         if (autoEval.isFinalized) count ++;
@@ -79,7 +79,7 @@ function App() {
         let count = 0;
         if (_cycle !== null && (new Date(_cycle.finalDate) >= new Date())) {
             collaborators.forEach((collaborator) => {
-                evaluatorGetsOthersEval(collaborator.id, _cycle.id)
+                evaluatorGetsOthersEval(collaborator.id, token, _cycle.id)
                 .then((othersEvals) => {
                     if (othersEvals.length > 0) {
                         if(othersEvals[0].isFinalized) count++;    
